@@ -150,6 +150,9 @@
           <div class="detalhe-cueca"></div>
         </div>
         
+        <!-- ÓCULOS MATRIX OCULTO (Animação de olhar foto) -->
+        <div id="batataOculos" class="oculos-hacker"></div>
+
         <div class="headset">
           <div class="arco"></div>
           <div class="fone-esq"></div>
@@ -173,9 +176,25 @@
       <span id="textoDialogo"></span>
     </div>
 
-    <!-- Interface de Chat -->
-    <div id="chatInterface" style="display:none; margin-top:15px; display:flex; gap:5px;">
+    <!-- PREVISUALIZAÇÃO DE IMAGEM ENVIADA -->
+    <div id="previewUploadContainer" style="display:none; margin-bottom: 10px; background:#1a0000; border:1px solid #ff3333; padding:5px; border-radius:3px; text-align:left;">
+      <span style="font-size:11px; color:#ff3333; font-weight:bold;">🖼️ IMAGEM CARREGADA:</span>
+      <button onclick="removerImagemUpload()" style="float:right; background:none; border:none; color:#ff3333; cursor:pointer; font-weight:bold; padding:0 5px;">[X]</button>
+      <img id="imgUploadPreview" src="" style="max-height:50px; display:block; margin-top:5px; border:1px solid #ff3333;">
+    </div>
+
+    <!-- Interface de Chat Atualizada com Áudio e Upload -->
+    <div id="chatInterface" style="display:none; margin-top:15px; display:flex; gap:5px; align-items:center;">
+      <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="processarUploadImagem(this)">
+      
+      <!-- Botão de Upload -->
+      <button onclick="document.getElementById('fileInput').click()" style="background:#00ffff; color:#000; border:none; padding:10px; font-weight:bold; cursor:pointer; font-family:monospace; border-radius:3px;" title="Enviar Imagem para a Batata">📁</button>
+      
       <input type="text" id="promptIA" oninput="somDigitacaoUsuario()" placeholder="Pergunte algo ou peça um desenho..." style="flex:1; background:#000; color:#00ff00; border:1px solid #00ff00; padding:10px; font-family:monospace; outline:none; font-size:14px;">
+      
+      <!-- Botão de Gravador de Voz (Microfone) -->
+      <button id="btnAudioVoz" onclick="alternarGravacaoVoz()" style="background:#ff9800; color:#000; border:none; padding:10px; font-weight:bold; cursor:pointer; font-family:monospace; border-radius:3px;" title="Falar por Áudio">🎙️</button>
+      
       <button id="btnEnviar" onclick="processarPrompt()" style="background:#00ff00; color:#000; border:none; padding:10px 15px; font-weight:bold; cursor:pointer; font-family:monospace;">ENVIAR</button>
     </div>
 
@@ -200,6 +219,10 @@
   
   .roupa-cueca { background: #ffffff; border-top: 2px solid #dddddd; height: 16px; width: 46px; left: 10px; border-radius: 2px 2px 8px 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
   .detalhe-cueca { width: 2px; height: 100%; background: #bbbbbb; margin: 0 auto; opacity: 0.5; }
+
+  /* ÓCULOS HACKER DE AJUSTAR IMAGEM */
+  .oculos-hacker { position: absolute; top: 32px; left: 8px; width: 48px; height: 10px; background: #000; border: 2px solid #00ff00; box-shadow: 0 0 8px #00ff00; z-index: 15; border-radius: 2px; display: none; opacity: 0; }
+  .oculos-hacker::before { content: ""; position: absolute; left: 20px; top: 0; width: 4px; height: 100%; background: #00ff00; }
 
   .roupa-hacker { background: linear-gradient(to top, #111 70%, transparent); border-top: 2px solid #00ff00; }
   .roupa-cyberpunk { background: linear-gradient(to top, #ff0055 60%, transparent); border-top: 2px solid #00ffff; }
@@ -231,6 +254,11 @@
   .batata-corpo.dançando .braco-dir { transform: rotate(-120deg); top: 35px; }
 
   .batata-corpo.pulando { animation: puloRapido 0.4s infinite ease-out !important; }
+  
+  /* ANIMAÇÃO PEGANDO ÓCULOS PARA VER FOTO */
+  .batata-corpo.pegando-oculos .braco-esq { transform: rotate(110deg); left: 10px; top: 28px; z-index: 20; height: 5px; width: 16px; }
+  .batata-corpo.pegando-oculos .pupila { top: -2px; }
+
   .batata-corpo.coçando-nariz .braco-esq { transform: rotate(70deg); left: 10px; top: 38px; z-index: 5; }
 
   .batata-corpo.meme-67 { animation: desabarMeme67 2s infinite ease-in-out !important; }
@@ -262,7 +290,7 @@ var textos = {
     alertaAdmin: "[!] ALERTA: AUTENTICAÇÃO REQUERIDA", erroTitulo: "🚨 ACESSO BLOQUEADO 🚨",
     erroMsg: "VOCÊ NÃO SABE O CÓDIGO?!", configTitulo: "⚙️ PAINEL DE CONFIGURAÇÃO",
     configSub: "O sistema está conectado à API pública da Batata.", lblPersonalidade: "Personalidade da Batata:",
-    btnSalvar: "SALVAR CONFIG", btnVoltar: "VOLTAR AO CHAT", placeholder: "Mande-me criar uma imagem ou fazer perguntas! 📈🤖",
+    btnSalvar: "SALVAR CONFIG", btnVoltar: "VOLTAR AO CHAT", placeholder: "Mande-me criar uma imagem, mande fotos ou fale no mic... 📈🤖",
     btnEnviar: "ENVIAR", coreVersao: "[ BATATA_CORE_IA v12.0_GAME ]",
     logs1: ["> Iniciando bypass de segurança...", "> Inicializando kernel modular...", "> Conectando aos servidores da Batata..."],
     logs2: ["🔓 PROTOCOLO DE CONEXÃO VALIDADO.", "> Abrindo portal visual de interação..."],
@@ -279,7 +307,7 @@ var textos = {
     alertaAdmin: "[!] ALERT: AUTHENTICATION REQUIRED", erroTitulo: "🚨 ACCESS BLOCKED 🚨",
     erroMsg: "DON'T YOU KNOW THE CODE?!", configTitulo: "⚙️ CONFIGURATION PANEL",
     configSub: "The system is connected to the public Potato API.", lblPersonalidade: "Potato Personality:",
-    btnSalvar: "SAVE CONFIG", btnVoltar: "BACK TO CHAT", placeholder: "Ask anything or ask me to draw an image! 🚀🤖",
+    btnSalvar: "SAVE CONFIG", btnVoltar: "BACK TO CHAT", placeholder: "Ask anything, send images or talk into the mic... 🚀🤖",
     btnEnviar: "SEND", coreVersao: "[ POTATO_CORE_IA v12.0_GAME ]",
     logs1: ["> Initiating security bypass...", "> Initializing modular kernel...", "> Connecting to Potato servers..."],
     logs2: ["🔓 CONNECTION PROTOCOLO VALIDATED.", "> Opening interaction visual portal..."],
@@ -312,6 +340,7 @@ var emailUsuarioAtivo = "";
 var chatsContador = 0;
 var roupaEquipada = "roupa-cueca";
 var humorIA = 100; // 0 a 100
+var imagemBase64Carregada = ""; // Salva arquivo upado
 
 var roupasDisponiveis = ["roupa-hacker", "roupa-cyberpunk", "roupa-gamer", "roupa-senior", "roupa-doce"];
 var audioCtx = null;
@@ -321,11 +350,85 @@ var gainRadioNode = null;
 var tocandoRadio = false;
 var tempoRadioTimeout = null;
 
+var reconhecimentoVoz = null;
+var gravandoVoz = false;
+var intervaloDigitacaoGlobal = null;
+
 function iniciarAudio() {
   try { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
 }
 
-// SISTEMA DE SALVAMENTO POR E-MAIL CORRIGIDO
+// COLETOR E RECONHECIMENTO DE VOZ (MICROFONE)
+function alternarGravacaoVoz() {
+  iniciarAudio();
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert("Reconhecimento de voz não suportado neste navegador.");
+    return;
+  }
+
+  if (!reconhecimentoVoz) {
+    reconhecimentoVoz = new SpeechRecognition();
+    reconhecimentoVoz.continuous = false;
+    reconhecimentoVoz.lang = lang === "pt" ? "pt-BR" : "en-US";
+    
+    reconhecimentoVoz.onstart = function() {
+      gravandoVoz = true;
+      document.getElementById('btnAudioVoz').style.background = "#ff3333";
+      document.getElementById('btnAudioVoz').innerText = "🛑";
+      somBipeProgresso(600);
+    };
+    
+    reconhecimentoVoz.onresult = function(event) {
+      var resultadoText = event.results[0][0].transcript;
+      document.getElementById('promptIA').value = resultadoText;
+      somMoedaSucesso();
+    };
+    
+    reconhecimentoVoz.onerror = function() {
+      pararGravacaoVozInterface();
+    };
+    
+    reconhecimentoVoz.onend = function() {
+      pararGravacaoVozInterface();
+    };
+  }
+
+  if (gravandoVoz) {
+    reconhecimentoVoz.stop();
+  } else {
+    reconhecimentoVoz.start();
+  }
+}
+
+function pararGravacaoVozInterface() {
+  gravandoVoz = false;
+  document.getElementById('btnAudioVoz').style.background = "#ff9800";
+  document.getElementById('btnAudioVoz').innerText = "🎙️";
+}
+
+// CAPTURA E CONVERSÃO DE IMAGENS DE ARQUIVO
+function processarUploadImagem(input) {
+  if (input.files && input.files[0]) {
+    var leitor = new FileReader();
+    leitor.onload = function(e) {
+      imagemBase64Carregada = e.target.result;
+      document.getElementById('imgUploadPreview').src = imagemBase64Carregada;
+      document.getElementById('previewUploadContainer').style.display = 'block';
+      somMoedaSucesso();
+    };
+    leitor.readAsDataURL(input.files[0]);
+  }
+}
+
+function removerImagemUpload() {
+  imagemBase64Carregada = "";
+  document.getElementById('fileInput').value = "";
+  document.getElementById('previewUploadContainer').style.display = 'none';
+  somClick();
+}
+
+// SISTEMA DE SALVAMENTO POR E-MAIL
 function carregarDadosUsuario(email) {
   emailUsuarioAtivo = email.toLowerCase().trim();
   var chave = "batata_ia_" + emailUsuarioAtivo;
@@ -373,7 +476,7 @@ function conectarEmail() {
   }
 }
 
-// GERADOR DE ÁUDIO REALTIME - RÁDIO CYBERPUNK CHIPTUNE 
+// RÁDIO CYBERPUNK CHIPTUNE
 function alternarRadio() {
   iniciarAudio();
   if (!audioCtx) return;
@@ -473,7 +576,7 @@ function atualizarHumor(modificador) {
   if(corpo) corpo.style.filter = filtroCorpo;
 }
 
-// BOTÃO SECRETO DE SELF DESTRUCT
+// SELF DESTRUCT
 function acionarSelfDestruct() {
   iniciarAudio();
   var conf = confirm("🚨 ALERTA CRÍTICO: Executar encerramento forçado do kernel? Isso causará instabilidade estrutural!");
@@ -508,7 +611,7 @@ function acionarSelfDestruct() {
   }, 1000);
 }
 
-// SONS DO SISTEMA
+// FX SONOROS
 function somDigitacaoUsuario() {
   try {
     if (!audioCtx) return;
@@ -593,7 +696,7 @@ function iniciarAlarmeSirene() {
 
 function pararAlarmeSirene() { if (intervaloAlarme) { clearInterval(intervaloAlarme); intervaloAlarme = null; } }
 
-// TRANSIÇÕES E EXECUÇÕES DE FLUXO
+// TRANSIÇÕES E SELEÇÕES
 function aceitarTermos() {
   document.getElementById('telaAviso').style.setProperty('display', 'none', 'important');
   document.getElementById('telaLoginEmail').style.display = 'block';
@@ -704,8 +807,9 @@ function ativarModoTedio() {
 
 function removerTodasAnimacoes() {
   var corpo = document.getElementById('batataCorpo');
-  if(corpo) corpo.classList.remove('digitando', 'dançando', 'pulando', 'coçando-nariz', 'meme-67');
+  if(corpo) corpo.classList.remove('digitando', 'dançando', 'pulando', 'coçando-nariz', 'meme-67', 'pegando-oculos');
   var boca = document.getElementById('batataBoca'); if(boca) boca.classList.remove('falando');
+  var oculos = document.getElementById('batataOculos'); if(oculos) { oculos.style.display = 'none'; oculos.style.opacity = '0'; }
 }
 
 function autenticar1() {
@@ -727,6 +831,34 @@ function autenticarAdmin() {
 
 function abrirConfig() {
   document.getElementById('terminal').style.display = 'none'; document.getElementById('telaConfig').style.display = 'block'; somBipeProgresso(650);
+}
+
+function mostrarProgresso() {
+  var barra = document.getElementById('barraCarregamento'); barra.style.display = 'block'; var progresso = 0;
+  var intervaloBarra = setInterval(function() {
+    if(progresso <= 100) {
+      var blocos = "█".repeat(progresso / 10); var vazios = "░".repeat(10 - (progresso / 10));
+      barra.innerHTML = "SINCRO_AI: [" + blocos + vazios + "] " + progresso + "%"; somBipeProgresso(250 + (progresso * 5)); progresso += 10;
+    } else {
+      clearInterval(intervaloBarra); 
+      document.getElementById('containerBatata').style.display = 'block';
+      document.getElementById('btnConfig').style.display = 'inline-block'; 
+      document.getElementById('btnShop').style.display = 'inline-block';
+      document.getElementById('containerHumor').style.display = 'block';
+      document.getElementById('chatInterface').style.setProperty('display', 'flex', 'important');
+      atualizarHumor(0);
+      
+      document.getElementById('textoDialogo').innerHTML = textos[lang].sync;
+      setTimeout(concluirTrabalhoPC, 1500);
+    }
+  }, 80);
+}
+
+function concluirTrabalhoPC() {
+  document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
+  document.getElementById('textoDialogo').innerHTML = ""; somMoedaSucesso();
+  document.getElementById('btnCriadorSecreto').style.display = 'block';
+  digitarFalaBatata(textos[lang].boasVindas, function() { resetarTemporizadorTedio(); });
 }
 
 function fecharConfig() {
@@ -759,6 +891,7 @@ function reiniciarSistema() {
   document.getElementById('log').innerHTML = ""; document.getElementById('barraCarregamento').style.display = 'none';
   document.getElementById('textoDialogo').innerHTML = ""; document.getElementById('inputCodigo').value = ""; document.getElementById('inputAdmin').value = "";
   document.getElementById('superPC').style.display = "block";
+  removerImagemUpload();
   
   removerTodasAnimacoes(); var corpo = document.getElementById('batataCorpo'); if(corpo) { corpo.className = "batata-corpo digitando"; corpo.style.filter = "none"; }
   humorIA = 100;
@@ -777,36 +910,11 @@ function digitarLinha(listaLogs, indexLinha, callbackFinal) {
   } else if (callbackFinal) { callbackFinal(); }
 }
 
-function mostrarProgresso() {
-  var barra = document.getElementById('barraCarregamento'); barra.style.display = 'block'; var progresso = 0;
-  var intervaloBarra = setInterval(function() {
-    if(progresso <= 100) {
-      var blocos = "█".repeat(progresso / 10); var vazios = "░".repeat(10 - (progresso / 10));
-      barra.innerHTML = "SINCRO_AI: [" + blocos + vazios + "] " + progresso + "%"; somBipeProgresso(250 + (progresso * 5)); progresso += 10;
-    } else {
-      clearInterval(intervaloBarra); 
-      document.getElementById('containerBatata').style.display = 'block';
-      document.getElementById('btnConfig').style.display = 'inline-block'; 
-      document.getElementById('btnShop').style.display = 'inline-block';
-      document.getElementById('containerHumor').style.display = 'block';
-      document.getElementById('chatInterface').style.setProperty('display', 'flex', 'important');
-      atualizarHumor(0);
-      digitarFalaBatata(textos[lang].sync, function() { setTimeout(concluirTrabalhoPC, 1200); });
-    }
-  }, 80);
-}
-
-function concluirTrabalhoPC() {
-  document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-  document.getElementById('textoDialogo').innerHTML = ""; somMoedaSucesso();
-  document.getElementById('btnCriadorSecreto').style.display = 'block';
-  digitarFalaBatata(textos[lang].boasVindas, function() { resetarTemporizadorTedio(); });
-}
-
-// CORREÇÃO ESSENCIAL: "message" alterado para "mensagem" para prevenir travamentos
 function digitarFalaBatata(mensagem, callback) {
   var container = document.getElementById('textoDialogo'); var boca = document.getElementById('batataBoca');
   if(!container) { if(callback) callback(); return; }
+  
+  if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
     container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
@@ -818,15 +926,22 @@ function digitarFalaBatata(mensagem, callback) {
   if(boca) boca.classList.add('falando');
 
   var i = 0;
-  var intervalo = setInterval(function() {
-    if(i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
-    else { clearInterval(intervalo); if(boca) boca.classList.remove('falando'); if(callback) callback(); }
+  intervaloDigitacaoGlobal = setInterval(function() {
+    if(i < message.length || i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
+    else { 
+      clearInterval(intervaloDigitacaoGlobal); 
+      intervaloDigitacaoGlobal = null;
+      if(boca) boca.classList.remove('falando'); 
+      if(callback) callback(); 
+    }
   }, 16);
 }
 
 function processarPrompt() {
   var input = document.getElementById('promptIA'); if(!input) return;
-  var promptStr = input.value.trim(); if(!promptStr) return;
+  var promptStr = input.value.trim(); 
+  
+  if (!promptStr && !imagemBase64Carregada) return;
 
   if (humorIA <= 0) {
     somErroAntigo();
@@ -849,23 +964,24 @@ function processarPrompt() {
     atualizarHumor(-25);
   }
 
-  if(pLower === "dançar" || pLower === "dance") {
+  // ANIMAÇÃO DE PEGAR ÓCULOS SE TIVER IMAGEM NO UPLOAD
+  if (imagemBase64Carregada) {
     document.getElementById('superPC').style.display = "none";
-    var corpo = document.getElementById('batataCorpo'); if(corpo) corpo.classList.add('dançando');
-    somBipeProgresso(550); digitarFalaBatata(prefixoOpa + "Olha os meus passos de dança na Matrix! 🕺🎶");
-    input.value = ""; return;
+    removerTodasAnimacoes();
+    
+    var corpo = document.getElementById('batataCorpo');
+    var oculos = document.getElementById('batataOculos');
+    if (corpo) corpo.classList.add('pegando-oculos');
+    if (oculos) { oculos.style.display = 'block'; oculos.style.opacity = '1'; }
+    
+    somBipeProgresso(400);
+    digitarFalaBatata("*Ajustando meus óculos hackers para analisar sua imagem quântica...⚙️👁️*");
+  } else {
+    document.getElementById('superPC').style.display = "block";
+    document.getElementById('codeTxt').innerHTML = "THIN<br>KING";
+    var corpoIA = document.getElementById('batataCorpo'); if(corpoIA) corpoIA.classList.add('digitando');
+    digitarFalaBatata(textos[lang].proc);
   }
-  if(pLower === "pular" || pLower === "jump") {
-    document.getElementById('superPC').style.display = "none";
-    var corpo = document.getElementById('batataCorpo'); if(corpo) corpo.classList.add('pulando');
-    somBipeProgresso(650); digitarFalaBatata(prefixoOpa + "Pulando pelas camadas do código fonte! ⚡🥔");
-    input.value = ""; return;
-  }
-
-  document.getElementById('superPC').style.display = "block";
-  document.getElementById('codeTxt').innerHTML = "THIN<br>KING";
-  var corpoIA = document.getElementById('batataCorpo'); if(corpoIA) corpoIA.classList.add('digitando');
-  digitarFalaBatata(textos[lang].proc);
 
   const proibidas = ["18+", "sexo", "porno", "nude", "adulto"];
   if (proibidas.some(function(p) { return pLower.includes(p); })) {
@@ -876,7 +992,7 @@ function processarPrompt() {
     input.value = ""; return;
   }
 
-  if (pLower.includes("desenhe") || pLower.includes("crie uma imagem") || pLower.includes("draw") || pLower.includes("image")) {
+  if ((pLower.includes("desenhe") || pLower.includes("crie uma imagem") || pLower.includes("draw") || pLower.includes("image")) && !imagemBase64Carregada) {
     var termoBusca = promptStr.replace(/(desenhe|crie uma imagem|draw|image)/gi, "").trim();
     if(!termoBusca) termoBusca = "funny hacker potato inside a database matrix matrix";
     
@@ -900,13 +1016,26 @@ function processarPrompt() {
        var rAleatoria = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
        digitarFalaBatata(prefixoOpa + rAleatoria);
     }
-  }, 10000); // Reduzido para 10 segundos para não dar falsa sensação de travamento eterno
+  }, 10000);
 
   var instrucaoSistema = "Atue como Batata_IA, uma batata hacker zoeira de cuequinha. Responda em português com muito humor e emojis. Seja curto.";
+  
+  // ESTRUTURAÇÃO DO CONTEÚDO (SUPORTANDO TEXTO OU IMAGEM MULTIMODAL)
+  var arrayConteudos = [];
+  if (promptStr) {
+    arrayConteudos.push({ type: "text", text: promptStr });
+  } else if (imagemBase64Carregada) {
+    arrayConteudos.push({ type: "text", text: "Analise esta imagem que eu te enviei agora." });
+  }
+  
+  if (imagemBase64Carregada) {
+    arrayConteudos.push({ type: "image_url", image_url: { url: imagemBase64Carregada } });
+  }
+
   var payload = {
     messages: [
       { role: "system", content: instrucaoSistema },
-      { role: "user", content: promptStr }
+      { role: "user", content: arrayConteudos }
     ],
     model: "openai"
   };
@@ -920,6 +1049,7 @@ function processarPrompt() {
   .then(function(data) {
     apiFuncionou = true; clearTimeout(timeoutFallback);
     document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
+    removerImagemUpload();
     if(!data || data.trim().length < 2) {
        data = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
     }
@@ -928,6 +1058,7 @@ function processarPrompt() {
   .catch(function(err) {
     apiFuncionou = true; clearTimeout(timeoutFallback);
     document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
+    removerImagemUpload();
     var rAleatoria = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
     digitarFalaBatata(prefixoOpa + rAleatoria);
   });
@@ -939,11 +1070,13 @@ window.aceitarTermos = aceitarTermos; window.abrirShop = abrirShop; window.fecha
 window.comprarRoupa = comprarRoupa; window.mudarIdioma = mudarIdioma; window.autenticar1 = autenticar1;
 window.autenticarAdmin = autenticarAdmin; window.abrirConfig = abrirConfig; window.fecharConfig = fecharConfig;
 window.salvarConfig = salvarConfig; window.reiniciarSistema = reiniciarSistema; window.processarPrompt = processarPrompt;
-window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = ativarModoCriador;
+window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = activarModoCriador;
 window.conectarEmail = conectarEmail; window.alternarRadio = alternarRadio; window.acionarSelfDestruct = acionarSelfDestruct;
+window.alternarGravacaoVoz = alternarGravacaoVoz; window.processarUploadImagem = processarUploadImagem; window.removerImagemUpload = removerImagemUpload;
 
 document.getElementById('promptIA').addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); processarPrompt(); } });
 </script>
 
 </body>
 </html>
+
