@@ -32,6 +32,18 @@
   <button onclick="conectarEmail()" style="width:100%; background:#00ff00; color:#000; padding:12px; border:none; font-weight:bold; font-size:14px; cursor:pointer; font-family:monospace;">[ SYNC DATABASE PROFILE ]</button>
 </div>
 
+<div id="seguranca1" style="display:none; margin-top: 12vh;">
+  <div style="margin-bottom: 25px;">
+    <button onclick="mudarIdioma('pt')" style="background:#111; border:2px solid #00ff00; cursor:pointer; padding:5px 10px; font-size:20px; border-radius:5px; margin-right:10px; box-shadow:0 0 5px #00ff00;">🇧🇷 PT</button>
+    <button onclick="mudarIdioma('en')" style="background:#111; border:2px solid #00ff00; cursor:pointer; padding:5px 10px; font-size:20px; border-radius:5px; box-shadow:0 0 5px #00ff00;">🇺🇸 EN</button>
+  </div>
+
+  <h1 id="txtRestrito" style="letter-spacing: 3px; font-size: 24px;">⚠️ ACCESS RESTRICTED</h1>
+  <p id="txtCredencial" style="color:#00aa00;">INSIRA A CREDENCIAL DE ACESSO (1234):</p>
+  <input type="password" id="inputCodigo" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="0000" style="background:#050505; color:#00ff00; border:2px solid #00ff00; padding:12px; text-align:center; font-size:24px; width:140px; outline:none; font-weight:bold; box-shadow: 0 0 10px #00ff00; border-radius:5px;"><br><br>
+  <button id="btnInject" onclick="autenticar1()" style="background:#00ff00; color:#000; border:none; padding:12px 25px; font-weight:bold; font-size:16px; cursor:pointer; box-shadow: 0 0 15px #00ff00; border-radius:5px;">INJECT PAYLOAD</button>
+</div>
+
 <div id="telaErro" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(15,0,0,0.98); z-index:9999; justify-content:center; align-items:center; flex-direction:column; color:#ff3333;">
   <h1 id="txtErroTitulo" style="font-size:32px; animation: tremer 0.1s infinite; letter-spacing: 2px;">🚨 ACESSO BLOQUEADO 🚨</h1>
   <div id="mensagensErro" style="width:100%; height:70%; position:relative;"></div>
@@ -78,18 +90,6 @@
   </button>
 </div>
 
-<div id="seguranca1" style="display:none; margin-top: 12vh;">
-  <div style="margin-bottom: 25px;">
-    <button onclick="mudarIdioma('pt')" style="background:#111; border:2px solid #00ff00; cursor:pointer; padding:5px 10px; font-size:20px; border-radius:5px; margin-right:10px; box-shadow:0 0 5px #00ff00;">🇧🇷 PT</button>
-    <button onclick="mudarIdioma('en')" style="background:#111; border:2px solid #00ff00; cursor:pointer; padding:5px 10px; font-size:20px; border-radius:5px; box-shadow:0 0 5px #00ff00;">🇺🇸 EN</button>
-  </div>
-
-  <h1 id="txtRestrito" style="letter-spacing: 3px; font-size: 24px;">⚠️ ACCESS RESTRICTED</h1>
-  <p id="txtCredencial" style="color:#00aa00;">INSIRA A CREDENCIAL DE ACESSO:</p>
-  <input type="password" id="inputCodigo" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="0000" style="background:#050505; color:#00ff00; border:2px solid #00ff00; padding:12px; text-align:center; font-size:24px; width:140px; outline:none; font-weight:bold; box-shadow: 0 0 10px #00ff00; border-radius:5px;"><br><br>
-  <button id="btnInject" onclick="autenticar1()" style="background:#00ff00; color:#000; border:none; padding:12px 25px; font-weight:bold; font-size:16px; cursor:pointer; box-shadow: 0 0 15px #00ff00; border-radius:5px;">INJECT PAYLOAD</button>
-</div>
-
 <div id="terminal" style="display:none; text-align:left; max-width:500px; margin: 10px auto; background:#050505; border: 1px solid #00ff00; padding: 15px; border-radius: 5px; box-shadow: 0 0 20px rgba(0,25,0,0.2); min-height: 200px; box-sizing: border-box; position:relative;">
   
   <div style="position:absolute; top:10px; right:10px; display:flex; gap:10px; z-index:10;">
@@ -112,7 +112,7 @@
   
   <div id="seguranca2" style="display:none; margin-top:20px; border-top: 1px dashed #00ff00; padding-top:15px;">
     <p id="txtAlertaAdmin" style="color: #ff3333; font-weight:bold; animation: blink 1s infinite; font-size:13px;">[!] ALERTA: AUTENTICAÇÃO REQUERIDA</p>
-    <label>COD_ADMIN: </label>
+    <label>COD_ADMIN (1234): </label>
     <input type="password" id="inputAdmin" inputmode="numeric" pattern="[0-9]*" maxlength="5" style="background:#000; color:#00ff00; border:1px solid #00ff00; width:90px; text-align:center; padding:5px; outline:none; font-size:16px;">
     <button onclick="autenticarAdmin()" style="background:#00ff00; color:#000; border:none; padding:6px 12px; font-weight:bold; cursor:pointer; font-size:13px; margin-left:5px;">OK</button>
   </div>
@@ -126,7 +126,6 @@
       </div>
 
       <div id="batataCorpo" class="batata-corpo digitando">
-        
         <button id="btnCriadorSecreto" onclick="ativarModoCriador()" style="display:none; position:absolute; top:0; left:50%; transform:translateX(-50%); width:30px; height:15px; background:transparent; border:none; cursor:pointer; z-index:100; outline:none;"></button>
 
         <div id="batataRoupa" class="roupa-base roupa-cueca">
@@ -197,7 +196,6 @@
   .roupa-cueca { background: #ffffff; border-top: 2px solid #dddddd; height: 16px; width: 46px; left: 10px; border-radius: 2px 2px 8px 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
   .detalhe-cueca { width: 2px; height: 100%; background: #bbbbbb; margin: 0 auto; opacity: 0.5; }
 
-  /* ÓCULOS HACKER DE AJUSTAR IMAGEM */
   .oculos-hacker { position: absolute; top: 32px; left: 8px; width: 48px; height: 10px; background: #000; border: 2px solid #00ff00; box-shadow: 0 0 8px #00ff00; z-index: 15; border-radius: 2px; display: none; opacity: 0; }
   .oculos-hacker::before { content: ""; position: absolute; left: 20px; top: 0; width: 4px; height: 100%; background: #00ff00; }
 
@@ -210,7 +208,7 @@
   .headset { position: absolute; width: 100%; top: 0; z-index:10; }
   .arco { width: 62px; height: 30px; border: 4px solid #333; border-bottom: none; border-radius: 40px 40px 0 0; position: absolute; left: -2px; top: 8px; }
   .fone-esq, .fone-dir { width: 8px; height: 16px; background: #111; border: 2px solid #00ff00; position: absolute; top: 34px; border-radius: 3px; }
-  .fone-esq { left: -5px; } .fone-dir { right: -5px; }
+  .fone-esq { left: -5px; } fone-dir { right: -5px; }
 
   .olhos { margin-top: 28px; display: flex; justify-content: space-around; padding: 0 12px; transition: 0.2s; position: relative; z-index: 2; }
   .olho-esq, .olho-dir { width: 12px; height: 12px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: piscar 4s infinite linear; position: relative; }
@@ -232,7 +230,6 @@
 
   .batata-corpo.pulando { animation: puloRapido 0.4s infinite ease-out !important; }
   
-  /* ANIMAÇÃO PEGANDO ÓCULOS PARA VER FOTO */
   .batata-corpo.pegando-oculos .braco-esq { transform: rotate(110deg); left: 10px; top: 28px; z-index: 20; height: 5px; width: 16px; }
   .batata-corpo.pegando-oculos .pupila { top: -2px; }
 
@@ -311,12 +308,11 @@ var tempoInatividade;
 var statusTedio = false;
 var mexendoNoPcTedio = false;
 
-// VARIÁVEIS DO BANCO DE DADOS LOCAL
 var emailUsuarioAtivo = "";
 var chatsContador = 0;
 var roupaEquipada = "roupa-cueca";
-var humorIA = 100; // 0 a 100
-var imagemBase64Carregada = ""; // Salva arquivo upado
+var humorIA = 100; 
+var imagemBase64Carregada = ""; 
 
 var roupasDisponiveis = ["roupa-hacker", "roupa-cyberpunk", "roupa-gamer", "roupa-senior", "roupa-doce"];
 var audioCtx = null;
@@ -331,7 +327,6 @@ function iniciarAudio() {
   try { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
 }
 
-// CAPTURA E CONVERSÃO DE IMAGENS DE ARQUIVO
 function processarUploadImagem(input) {
   if (input.files && input.files[0]) {
     var leitor = new FileReader();
@@ -352,7 +347,6 @@ function removerImagemUpload() {
   somClick();
 }
 
-// SISTEMA DE SALVAMENTO POR E-MAIL
 function carregarDadosUsuario(email) {
   emailUsuarioAtivo = email.toLowerCase().trim();
   var chave = "batata_ia_" + emailUsuarioAtivo;
@@ -391,7 +385,8 @@ function salvarDadosUsuario() {
 function conectarEmail() {
   var emailInput = document.getElementById('userEmail').value;
   if (emailInput.includes("@") && emailInput.length > 4) {
-    document.getElementById('telaLoginEmail').style.setProperty('display', 'none', 'important');
+    // CORREÇÃO: Removido o important que quebrava o fluxo visual posterior
+    document.getElementById('telaLoginEmail').style.display = 'none';
     document.getElementById('seguranca1').style.display = 'block';
     carregarDadosUsuario(emailInput);
     somMoedaSucesso();
@@ -400,7 +395,6 @@ function conectarEmail() {
   }
 }
 
-// RÁDIO CYBERPUNK CHIPTUNE
 function alternarRadio() {
   iniciarAudio();
   if (!audioCtx) return;
@@ -465,7 +459,6 @@ function tocarLoopRadio() {
   } catch(e) {}
 }
 
-// TERMÔMETRO DE HUMOR
 function atualizarHumor(modificador) {
   humorIA += modificador;
   if (humorIA > 100) humorIA = 100;
@@ -500,7 +493,6 @@ function atualizarHumor(modificador) {
   if(corpo) corpo.style.filter = filtroCorpo;
 }
 
-// SELF DESTRUCT
 function acionarSelfDestruct() {
   iniciarAudio();
   var conf = confirm("🚨 ALERTA CRÍTICO: Executar encerramento forçado do kernel? Isso causará instabilidade estrutural!");
@@ -535,7 +527,6 @@ function acionarSelfDestruct() {
   }, 1000);
 }
 
-// FX SONOROS
 function somDigitacaoUsuario() {
   try {
     if (!audioCtx) return;
@@ -620,9 +611,9 @@ function iniciarAlarmeSirene() {
 
 function pararAlarmeSirene() { if (intervaloAlarme) { clearInterval(intervaloAlarme); intervaloAlarme = null; } }
 
-// TRANSIÇÕES E SELEÇÕES
 function aceitarTermos() {
-  document.getElementById('telaAviso').style.setProperty('display', 'none', 'important');
+  // CORREÇÃO: Limpeza do important inline que bloqueava o display das outras divs
+  document.getElementById('telaAviso').style.display = 'none';
   document.getElementById('telaLoginEmail').style.display = 'block';
   iniciarAudio(); somMoedaSucesso();
 }
@@ -640,7 +631,6 @@ function fecharShop() {
   somClick();
 }
 
-// RESTANTE DO SCRIPT
 function comprarRoupa() {
   if (chatsContador >= 10) {
     chatsContador -= 10;
@@ -692,7 +682,7 @@ function resetarTemporizadorTedio() {
   return acordouDeFato;
 }
 
-function ativarModoCriador() {
+function activarModoCriador() {
   somBipeProgresso(800);
   var cod = prompt(lang === "pt" ? "⚙️ [SISTEMA] INSIRA A CHAVE MESTRA DO CRIADOR:" : "⚙️ [SYSTEM] ENTER CREATOR KEY:");
   if (cod === "2020") {
@@ -713,7 +703,7 @@ function ativarModoCriador() {
   }
 }
 
-function ativarModoTedio() {
+function activarModoTedio() {
   removerTodasAnimacoes(); statusTedio = true;
   var r = Math.random(); var corpo = document.getElementById('batataCorpo');
   if(r < 0.25) {
@@ -728,7 +718,6 @@ function ativarModoTedio() {
   }
 }
 
-// Corrigido bug visual do display dos óculos
 function removerTodasAnimacoes() {
   var corpo = document.getElementById('batataCorpo');
   if(corpo) corpo.classList.remove('digitando', 'dançando', 'pulando', 'coçando-nariz', 'meme-67', 'pegando-oculos');
@@ -739,7 +728,8 @@ function removerTodasAnimacoes() {
 function autenticar1() {
   var campo = document.getElementById('inputCodigo');
   if (campo && campo.value === "1234") {
-    somBipeProgresso(900); document.getElementById('seguranca1').style.display = 'none';
+    somBipeProgresso(900); 
+    document.getElementById('seguranca1').style.display = 'none';
     document.getElementById('terminal').style.display = 'block';
     digitarLinha(textos[lang].logs1, 0, function() { document.getElementById('seguranca2').style.display = 'block'; });
   } else { dispararErro(); }
@@ -748,7 +738,8 @@ function autenticar1() {
 function autenticarAdmin() {
   var campoAdmin = document.getElementById('inputAdmin');
   if (campoAdmin && (campoAdmin.value === "1234" || campoAdmin.value === "12345")) {
-    somBipeProgresso(1100); document.getElementById('seguranca2').style.display = 'none';
+    somBipeProgresso(1100); 
+    document.getElementById('seguranca2').style.display = 'none';
     digitarLinha(textos[lang].logs2, 0, function() { mostrarProgresso(); });
   } else { dispararErro(); }
 }
@@ -769,12 +760,13 @@ function mostrarProgresso() {
       document.getElementById('btnConfig').style.display = 'inline-block'; 
       document.getElementById('btnShop').style.display = 'inline-block';
       document.getElementById('containerHumor').style.display = 'block';
-      document.getElementById('chatInterface').style.setProperty('display', 'flex', 'important');
+      
+      // CORREÇÃO: Limpado o display flex important aqui para evitar inconsistências estruturais nas renderizações
+      document.getElementById('chatInterface').style.display = 'flex';
       atualizarHumor(0);
       
       document.getElementById('textoDialogo').innerHTML = textos[lang].sync;
       
-      // ALERTA DO USUÁRIO ADICIONADO: Avisa quando a batata aparece em tela
       alert(lang === "pt" ? "🥔 ALERTA DA MATRIX: A Batata Hacker de cuequinha acabou de aparecer!" : "🥔 MATRIX ALERT: The Underwear Hacker Potato has appeared!");
       
       setTimeout(concluirTrabalhoPC, 1500);
@@ -814,7 +806,8 @@ function reiniciarSistema() {
   if (tempoRadioTimeout) clearTimeout(tempoRadioTimeout);
   document.getElementById('telaErro').style.display = 'none'; document.getElementById('terminal').style.display = 'none';
   document.getElementById('btnConfig').style.display = 'none'; document.getElementById('btnShop').style.display = 'none';
-  document.getElementById('containerBatata').style.display = 'none'; document.getElementById('chatInterface').style.setProperty('display', 'none', 'important');
+  document.getElementById('containerBatata').style.display = 'none'; 
+  document.getElementById('chatInterface').style.display = 'none';
   document.getElementById('containerHumor').style.display = 'none';
   document.getElementById('log').innerHTML = ""; document.getElementById('barraCarregamento').style.display = 'none';
   document.getElementById('textoDialogo').innerHTML = ""; document.getElementById('inputCodigo').value = ""; document.getElementById('inputAdmin').value = "";
@@ -838,7 +831,6 @@ function digitarLinha(listaLogs, indexLinha, callbackFinal) {
   } else if (callbackFinal) { callbackFinal(); }
 }
 
-// CORRIGIDO: Bug fatal corrigido removendo a atribuição incorreta 'message = mensagem.length'
 function digitarFalaBatata(mensagem, callback) {
   var container = document.getElementById('textoDialogo'); var boca = document.getElementById('batataBoca');
   if(!container) { if(callback) callback(); return; }
@@ -846,7 +838,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = message = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -893,7 +885,6 @@ function processarPrompt() {
     atualizarHumor(-25);
   }
 
-  // ANIMAÇÃO DE PEGAR ÓCULOS SE TIVER IMAGEM NO UPLOAD
   if (imagemBase64Carregada) {
     document.getElementById('superPC').style.display = "none";
     removerTodasAnimacoes();
@@ -1039,3 +1030,4 @@ document.getElementById('promptIA').addEventListener('keydown', function(e) { if
 
 </body>
 </html>
+
