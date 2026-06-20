@@ -39,7 +39,7 @@
   </div>
 
   <h1 id="txtRestrito" style="letter-spacing: 3px; font-size: 24px;">⚠️ ACCESS RESTRICTED</h1>
-  <p id="txtCredencial" style="color:#00aa00;">INSIRA A CREDENCIAL DE ACESSO (1234):</p>
+  <p id="txtCredencial" style="color:#00aa00;">INSIRA A CREDENCIAL DE ACESSO:</p>
   <input type="password" id="inputCodigo" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="0000" style="background:#050505; color:#00ff00; border:2px solid #00ff00; padding:12px; text-align:center; font-size:24px; width:140px; outline:none; font-weight:bold; box-shadow: 0 0 10px #00ff00; border-radius:5px;"><br><br>
   <button id="btnInject" onclick="autenticar1()" style="background:#00ff00; color:#000; border:none; padding:12px 25px; font-weight:bold; font-size:16px; cursor:pointer; box-shadow: 0 0 15px #00ff00; border-radius:5px;">INJECT PAYLOAD</button>
 </div>
@@ -112,7 +112,7 @@
   
   <div id="seguranca2" style="display:none; margin-top:20px; border-top: 1px dashed #00ff00; padding-top:15px;">
     <p id="txtAlertaAdmin" style="color: #ff3333; font-weight:bold; animation: blink 1s infinite; font-size:13px;">[!] ALERTA: AUTENTICAÇÃO REQUERIDA</p>
-    <label>COD_ADMIN (1234): </label>
+    <label id="labelAdminCode">COD_ADMIN: </label>
     <input type="password" id="inputAdmin" inputmode="numeric" pattern="[0-9]*" maxlength="5" style="background:#000; color:#00ff00; border:1px solid #00ff00; width:90px; text-align:center; padding:5px; outline:none; font-size:16px;">
     <button onclick="autenticarAdmin()" style="background:#00ff00; color:#000; border:none; padding:6px 12px; font-weight:bold; cursor:pointer; font-size:13px; margin-left:5px;">OK</button>
   </div>
@@ -267,7 +267,7 @@ var textos = {
     btnEnviar: "ENVIAR", coreVersao: "[ BATATA_CORE_IA v12.0_GAME ]",
     logs1: ["> Iniciando bypass de segurança...", "> Inicializando kernel modular...", "> Conectando aos servidores da Batata..."],
     logs2: ["🔓 PROTOCOLO DE CONEXÃO VALIDADO.", "> Abrindo portal visual de interação..."],
-    sync: "Sincronizando com o supercomputador holográfico...",
+    sync: "Sincronizando with local data...",
     boasVindas: "Olá Administrator! 😳 Venha conversar comigo pelo terminal inferior! Seu progresso está saved na nuvem local! Peça imagens ou mude meu visual! 🎨🛍️🥔",
     proc: "Acessando banco de dados neural... 🧠⚙️",
     recusado: "⚠️ SOLICITAÇÃO RECUSADA: Conteúdo adulto detectado. Mantenha o sistema limpo!",
@@ -369,6 +369,16 @@ function carregarDadosUsuario(email) {
   var elementoRoupa = document.getElementById('batataRoupa');
   if(elementoRoupa) {
     elementoRoupa.className = "roupa-base " + roupaEquipada;
+  }
+
+  // REGRA DO EMAIL DO PABLO: Altera dinamicamente o texto do segundo passo de segurança
+  var lblAdmin = document.getElementById('labelAdminCode');
+  if(lblAdmin) {
+    if(emailUsuarioAtivo === "pabloeduardohonorato@gmail.com") {
+      lblAdmin.innerText = "COD_ADMIN (1234): ";
+    } else {
+      lblAdmin.innerText = "COD_ADMIN: ";
+    }
   }
 }
 
@@ -759,8 +769,11 @@ function mostrarProgresso() {
       document.getElementById('btnShop').style.display = 'inline-block';
       document.getElementById('containerHumor').style.display = 'block';
       
-      // SOLUÇÃO: Forçando a renderização flexível limpa removendo o display inline anterior
-      document.getElementById('chatInterface').style.setProperty('display', 'flex', 'important');
+      // CONSERTADO: Aplicação direta e limpa para fazer a caixa de chat renderizar e aceitar cliques
+      var interfaceChat = document.getElementById('chatInterface');
+      if (interfaceChat) {
+         interfaceChat.style.display = 'flex';
+      }
       atualizarHumor(0);
       
       document.getElementById('textoDialogo').innerHTML = textos[lang].sync;
@@ -836,7 +849,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = message.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
