@@ -837,7 +837,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = message = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = mensagem = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -939,15 +939,21 @@ function processarPrompt() {
   }, 10000);
 
   var instrucaoSistema = "Atue como Batata_IA, uma batata hacker zoeira de cuequinha criada por @batatadocegamer em 2026. Responda em português com muito humor, gírias da internet e emojis. Seja muito curto e direto.";
-  var urlEndpoint = "https://text.pollinations.ai/";
+  var urlEndpoint = "https://gen.pollinations.ai/v1/chat/completions";
 
   if (imagemBase64Carregada) {
-    var promptFinalVision = instrucaoSistema + " O usuário enviou uma imagem anexada (em formato inline) e perguntou: " + (promptStr ? promptStr : "Analise esta imagem.");
-    var payloadVision = {
+    let payloadVision = {
+      model: "openai",
       messages: [
-        { role: "user", content: [ { type: "text", text: promptFinalVision }, { type: "image_url", image_url: { url: imagemBase64Carregada } } ] }
-      ],
-      model: "p1"
+        { role: "system", content: instrucaoSistema },
+        {
+          role: "user",
+          content: [
+            { type: "text", text: promptStr || "Analise esta imagem." },
+            { type: "image_url", image_url: { url: imagemBase64Carregada } }
+          ]
+        }
+      ]
     };
 
     fetch(urlEndpoint, {
@@ -955,13 +961,14 @@ function processarPrompt() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payloadVision)
     })
-    .then(function(res) { return res.text(); })
+    .then(function(res) { return res.json(); })
     .then(function(data) {
       apiFuncionou = true; clearTimeout(timeoutFallback);
       document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
       removerImagemUpload();
-      if(!data || data.trim().length < 2) data = "Caraca! Meus olhos hackers derreteram com essa imagem! Muito foda! 👁️🥔";
-      digitarFalaBatata(prefixoOpa + data);
+      var respostaText = data.choices[0].message.content;
+      if(!respostaText || respostaText.trim().length < 2) respostaText = "Caraca! Meus olhos hackers derreteram com essa imagem! Muito foda! 👁️🥔";
+      digitarFalaBatata(prefixoOpa + respostaText);
     })
     .catch(function() {
       apiFuncionou = true; clearTimeout(timeoutFallback);
@@ -971,14 +978,26 @@ function processarPrompt() {
     });
 
   } else {
-    var urlGet = urlEndpoint + encodeURIComponent(promptStr) + "?system=" + encodeURIComponent(instrucaoSistema) + "&model=p1";
-    fetch(urlGet)
-    .then(function(res) { return res.text(); })
+    let payloadText = {
+      model: "openai",
+      messages: [
+        { role: "system", content: instrucaoSistema },
+        { role: "user", content: promptStr }
+      ]
+    };
+
+    fetch(urlEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payloadText)
+    })
+    .then(function(res) { return res.json(); })
     .then(function(data) {
       apiFuncionou = true; clearTimeout(timeoutFallback);
       document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-      if(!data || data.trim().length < 2) data = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
-      digitarFalaBatata(prefixoOpa + data);
+      var respostaText = data.choices[0].message.content;
+      if(!respostaText || respostaText.trim().length < 2) respostaText = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
+      digitarFalaBatata(prefixoOpa + respostaText);
     })
     .catch(function() {
       apiFuncionou = true; clearTimeout(timeoutFallback);
@@ -1004,4 +1023,3 @@ document.getElementById('promptIA').addEventListener('keydown', function(e) { if
 
 </body>
 </html>
-
