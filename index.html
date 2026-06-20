@@ -371,7 +371,6 @@ function carregarDadosUsuario(email) {
     elementoRoupa.className = "roupa-base " + roupaEquipada;
   }
 
-  // REGRA DO EMAIL DO PABLO: Altera dinamicamente o texto do segundo passo de segurança
   var lblAdmin = document.getElementById('labelAdminCode');
   if(lblAdmin) {
     if(emailUsuarioAtivo === "pabloeduardohonorato@gmail.com") {
@@ -769,7 +768,6 @@ function mostrarProgresso() {
       document.getElementById('btnShop').style.display = 'inline-block';
       document.getElementById('containerHumor').style.display = 'block';
       
-      // CONSERTADO: Aplicação direta e limpa para fazer a caixa de chat renderizar e aceitar cliques
       var interfaceChat = document.getElementById('chatInterface');
       if (interfaceChat) {
          interfaceChat.style.display = 'flex';
@@ -848,8 +846,9 @@ function digitarFalaBatata(mensagem, callback) {
   
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
+  // CONSERTADO: Corrigida a referência errada de 'message' para 'mensagem'
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = message.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -1041,3 +1040,4 @@ document.getElementById('promptIA').addEventListener('keydown', function(e) { if
 
 </body>
 </html>
+
