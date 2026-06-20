@@ -4,19 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- TAGS PARA APARECER NO GOOGLE -->
     <title>Batata_IA - A Batata Hacker de Cuequinha</title>
     <meta name="description" content="Converse com a Batata_IA, a inteligência artificial mais zoeira da Matrix. Crie imagens, faça perguntas e divirta-se no terminal hacker!">
     <meta name="keywords" content="batata ia, batata hacker, jogo da batata, batatadocegamer, ia zoeira">
 </head>
 <body id="bodyMain">
 
-<!-- CRÉDITOS NO CANTO DA TELA -->
 <div style="position: fixed; bottom: 10px; right: 15px; font-size: 11px; color: #00ff00; opacity: 0.35; font-family: monospace; z-index: 999; text-shadow: none;">
   @batatadocegamer
 </div>
 
-<!-- TELA DE AVISO DE RESPONSABILIDADE (DISCLAIMER) -->
 <div id="telaAviso" style="display:flex; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#000; z-index:10000; justify-content:center; align-items:center; flex-direction:column; padding: 20px; box-sizing: border-box;">
   <div style="max-width:500px; border:2px solid #ff3333; background:#0a0000; padding:25px; border-radius:5px; box-shadow: 0 0 20px #ff3333; text-align:left;">
     <h2 id="txtAvisoTitulo" style="color:#ff3333; text-align:center; margin-top:0; letter-spacing:2px; animation: blink 1s infinite;">⚠️ AVISO CRÍTICO / CRITICAL NOTICE</h2>
@@ -28,7 +25,6 @@
   </div>
 </div>
 
-<!-- TELA DE LOGIN / SALVAMENTO POR E-MAIL -->
 <div id="telaLoginEmail" style="display:none; max-width:450px; margin: 12vh auto 0 auto; background:#050505; border:2px solid #00ff00; padding:25px; border-radius:5px; box-shadow: 0 0 25px rgba(0,25,0,0.2);">
   <h2 style="color:#00ff00; font-size:18px; margin-top:0; letter-spacing:1px;">💾 CLOUD STORAGE SYSTEM</h2>
   <p style="font-size:12px; color:#00aa00; margin-bottom:20px;">Insira seu e-mail para recuperar ou salvar suas moedas e roupas na Matrix Local.</p>
@@ -36,14 +32,12 @@
   <button onclick="conectarEmail()" style="width:100%; background:#00ff00; color:#000; padding:12px; border:none; font-weight:bold; font-size:14px; cursor:pointer; font-family:monospace;">[ SYNC DATABASE PROFILE ]</button>
 </div>
 
-<!-- TELA DE ERRO -->
 <div id="telaErro" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(15,0,0,0.98); z-index:9999; justify-content:center; align-items:center; flex-direction:column; color:#ff3333;">
   <h1 id="txtErroTitulo" style="font-size:32px; animation: tremer 0.1s infinite; letter-spacing: 2px;">🚨 ACESSO BLOQUEADO 🚨</h1>
   <div id="mensagensErro" style="width:100%; height:70%; position:relative;"></div>
   <button onclick="reiniciarSistema()" style="margin-top:10px; background:#ff3333; color:#000; padding:12px 25px; border:none; font-weight:bold; font-size:16px; cursor:pointer; border-radius:5px; box-shadow: 0 0 15px #ff3333;">REBOOT SYSTEM</button>
 </div>
 
-<!-- TELA DE CONFIGURAÇÕES -->
 <div id="telaConfig" style="display:none; max-width:500px; margin: 20px auto; background:#111; border:2px solid #ffff00; padding:20px; border-radius:5px; text-align:left; box-shadow: 0 0 20px rgba(255,255,0,0.2);">
   <h3 id="txtConfigTitulo" style="color:#ffff00; text-align:center; margin-top:0;">⚙️ PAINEL DE CONFIGURAÇÃO</h3>
   <p id="txtConfigSub" style="font-size:12px; color:#aaa;">O sistema está conectado à API pública da Batata.</p>
@@ -61,7 +55,6 @@
   </div>
 </div>
 
-<!-- LOJINHA DE ROUPAS DA BATATA -->
 <div id="telaShop" style="display:none; max-width:500px; margin: 20px auto; background:#0a0a1a; border:2px solid #00ffff; padding:20px; border-radius:5px; text-align:left; box-shadow: 0 0 20px rgba(0,25,25,0.3);">
   <h3 style="color:#00ffff; text-align:center; margin-top:0; letter-spacing:1px;">🛍️ POTATO STORE / LOJINHA</h3>
   <p style="font-size:13px; color:#fff; text-align:center; border-bottom:1px dashed #00ffff; padding-bottom:10px;">
@@ -85,7 +78,6 @@
   </button>
 </div>
 
-<!-- TELA DE SELEÇÃO DE IDIOMA E LOGIN CODIGO -->
 <div id="seguranca1" style="display:none; margin-top: 12vh;">
   <div style="margin-bottom: 25px;">
     <button onclick="mudarIdioma('pt')" style="background:#111; border:2px solid #00ff00; cursor:pointer; padding:5px 10px; font-size:20px; border-radius:5px; margin-right:10px; box-shadow:0 0 5px #00ff00;">🇧🇷 PT</button>
@@ -98,10 +90,8 @@
   <button id="btnInject" onclick="autenticar1()" style="background:#00ff00; color:#000; border:none; padding:12px 25px; font-weight:bold; font-size:16px; cursor:pointer; box-shadow: 0 0 15px #00ff00; border-radius:5px;">INJECT PAYLOAD</button>
 </div>
 
-<!-- TERMINAL HACKER INTERATIVO -->
 <div id="terminal" style="display:none; text-align:left; max-width:500px; margin: 10px auto; background:#050505; border: 1px solid #00ff00; padding: 15px; border-radius: 5px; box-shadow: 0 0 20px rgba(0,25,0,0.2); min-height: 200px; box-sizing: border-box; position:relative;">
   
-  <!-- BOTÕES SUPERIORES DE FERRAMENTAS -->
   <div style="position:absolute; top:10px; right:10px; display:flex; gap:10px; z-index:10;">
     <button id="btnRadio" onclick="alternarRadio()" style="background:none; border:none; color:#ff00ff; font-size:16px; cursor:pointer; text-shadow:0 0 5px #ff00ff;" title="Rádio Cyberpunk">📻 <span id="statusRadio" style="font-size:10px; color:#fff;">OFF</span></button>
     <button id="btnShop" onclick="abrirShop()" style="display:none; background:none; border:none; color:#00ffff; font-size:18px; cursor:pointer; text-shadow:0 0 5px #00ffff;">🛍️</button>
@@ -113,7 +103,6 @@
     <span style="float:right; color:#ffff00; margin-left: 10px;" id="contadorChats">CHATS: 0</span>
   </div>
 
-  <!-- TERMÔMETRO DE HUMOR DA BATATA -->
   <div id="containerHumor" style="display:none; font-size:11px; color:#ffaa00; margin-bottom:10px; border:1px dashed #333; padding:5px; background:#0c0c0c;">
     🧠 HUMOR DA IA: <span id="barraHumor" style="color:#00ff00; font-weight:bold;">██████████ 100% (Estável)</span>
   </div>
@@ -121,7 +110,6 @@
   <div id="log" style="font-size: 13px; line-height: 1.4;"></div>
   <div id="barraCarregamento" style="display:none; margin-top:15px; font-weight:bold; font-size:13px;"></div>
   
-  <!-- SEGUNDA VALIDAÇÃO (ADMIN) -->
   <div id="seguranca2" style="display:none; margin-top:20px; border-top: 1px dashed #00ff00; padding-top:15px;">
     <p id="txtAlertaAdmin" style="color: #ff3333; font-weight:bold; animation: blink 1s infinite; font-size:13px;">[!] ALERTA: AUTENTICAÇÃO REQUERIDA</p>
     <label>COD_ADMIN: </label>
@@ -129,28 +117,22 @@
     <button onclick="autenticarAdmin()" style="background:#00ff00; color:#000; border:none; padding:6px 12px; font-weight:bold; cursor:pointer; font-size:13px; margin-left:5px;">OK</button>
   </div>
 
-  <!-- AMBIENTE DA BATATA IA -->
   <div id="containerBatata" style="display:none; margin-top:35px; text-align:center;">
     
     <div class="cena-trabalho" style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 110px; position:relative; padding-right:35px;">
-      <!-- Supercomputador Holográfico -->
       <div id="superPC" class="super-pc">
         <div class="tela-pc"><code id="codeTxt">CODI<br>NG..</code></div>
         <div class="teclado-pc"></div>
       </div>
 
-      <!-- Personagem Batata -->
       <div id="batataCorpo" class="batata-corpo digitando">
         
-        <!-- BOTAO EASTER EGG -->
         <button id="btnCriadorSecreto" onclick="ativarModoCriador()" style="display:none; position:absolute; top:0; left:50%; transform:translateX(-50%); width:30px; height:15px; background:transparent; border:none; cursor:pointer; z-index:100; outline:none;"></button>
 
-        <!-- ROUPA DA BATATA -->
         <div id="batataRoupa" class="roupa-base roupa-cueca">
           <div class="detalhe-cueca"></div>
         </div>
         
-        <!-- ÓCULOS MATRIX OCULTO (Animação de olhar foto) -->
         <div id="batataOculos" class="oculos-hacker"></div>
 
         <div class="headset">
@@ -170,35 +152,27 @@
       </div>
     </div>
 
-    <!-- Caixa de diálogo -->
     <div style="margin-top:15px; background:#111; border:2px solid #ffff00; border-radius:5px; padding:12px; color:#fff; font-size:14px; text-shadow:none; text-align:left; box-shadow: 0 0 15px rgba(255,255,0,0.3); max-height:220px; overflow-y:auto;">
       <span id="txtCoreVersao" style="color:#ffff00; font-weight:bold; display:block; margin-bottom:5px; text-align:center;">[ BATATA_CORE_IA v12.0_GAME ]</span>
       <span id="textoDialogo"></span>
     </div>
 
-    <!-- PREVISUALIZAÇÃO DE IMAGEM ENVIADA -->
     <div id="previewUploadContainer" style="display:none; margin-bottom: 10px; background:#1a0000; border:1px solid #ff3333; padding:5px; border-radius:3px; text-align:left;">
       <span style="font-size:11px; color:#ff3333; font-weight:bold;">🖼️ IMAGEM CARREGADA:</span>
       <button onclick="removerImagemUpload()" style="float:right; background:none; border:none; color:#ff3333; cursor:pointer; font-weight:bold; padding:0 5px;">[X]</button>
       <img id="imgUploadPreview" src="" style="max-height:50px; display:block; margin-top:5px; border:1px solid #ff3333;">
     </div>
 
-    <!-- Interface de Chat Atualizada com Áudio e Upload -->
     <div id="chatInterface" style="display:none; margin-top:15px; display:flex; gap:5px; align-items:center;">
       <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="processarUploadImagem(this)">
       
-      <!-- Botão de Upload -->
       <button onclick="document.getElementById('fileInput').click()" style="background:#00ffff; color:#000; border:none; padding:10px; font-weight:bold; cursor:pointer; font-family:monospace; border-radius:3px;" title="Enviar Imagem para a Batata">📁</button>
       
       <input type="text" id="promptIA" oninput="somDigitacaoUsuario()" placeholder="Pergunte algo ou peça um desenho..." style="flex:1; background:#000; color:#00ff00; border:1px solid #00ff00; padding:10px; font-family:monospace; outline:none; font-size:14px;">
       
-      <!-- Botão de Gravador de Voz (Microfone) -->
-      <button id="btnAudioVoz" onclick="alternarGravacaoVoz()" style="background:#ff9800; color:#000; border:none; padding:10px; font-weight:bold; cursor:pointer; font-family:monospace; border-radius:3px;" title="Falar por Áudio">🎙️</button>
-      
       <button id="btnEnviar" onclick="processarPrompt()" style="background:#00ff00; color:#000; border:none; padding:10px 15px; font-weight:bold; cursor:pointer; font-family:monospace;">ENVIAR</button>
     </div>
 
-    <!-- BOTÃO DE SELF-DESTRUCT -->
     <div style="margin-top: 15px; text-align: right; opacity: 0.15; transition: opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.15">
       <span onclick="acionarSelfDestruct()" style="font-size: 9px; color: #ff3333; cursor: pointer; font-family: monospace; border: 1px dashed #ff3333; padding: 2px 4px;">[ SYS_KERNEL_KILL ]</span>
     </div>
@@ -206,7 +180,6 @@
 
 </div>
 
-<!-- ESTILOS CSS -->
 <style>
   body { background:#000; color:#00ff00; font-family:'Courier New', monospace; padding:15px; text-align:center; text-shadow: 0 0 5px #00ff00; overflow-x: hidden; user-select: none; transition: transform 0.5s ease-in-out, filter 0.5s ease-in-out; }
   .super-pc { width: 55px; height: 45px; background: #111; border: 2px solid #00ff00; border-radius: 4px; box-shadow: 0 0 8px #00ff00; display: inline-block; vertical-align: middle; }
@@ -281,7 +254,6 @@
   @keyframes tremer { 0% { transform: translate(2px, 2px); } 50% { transform: translate(-2px, -2px); } 100% { transform: translate(2px, -2px); } }
 </style>
 
-<!-- CONTROLADORES JAVASCRIPT -->
 <script>
 var lang = "pt";
 var textos = {
@@ -290,12 +262,12 @@ var textos = {
     alertaAdmin: "[!] ALERTA: AUTENTICAÇÃO REQUERIDA", erroTitulo: "🚨 ACESSO BLOQUEADO 🚨",
     erroMsg: "VOCÊ NÃO SABE O CÓDIGO?!", configTitulo: "⚙️ PAINEL DE CONFIGURAÇÃO",
     configSub: "O sistema está conectado à API pública da Batata.", lblPersonalidade: "Personalidade da Batata:",
-    btnSalvar: "SALVAR CONFIG", btnVoltar: "VOLTAR AO CHAT", placeholder: "Mande-me criar uma imagem, mande fotos ou fale no mic... 📈🤖",
+    btnSalvar: "SALVAR CONFIG", btnVoltar: "VOLTAR AO CHAT", placeholder: "Mande-me criar uma imagem, mande fotos... 📈🤖",
     btnEnviar: "ENVIAR", coreVersao: "[ BATATA_CORE_IA v12.0_GAME ]",
     logs1: ["> Iniciando bypass de segurança...", "> Inicializando kernel modular...", "> Conectando aos servidores da Batata..."],
     logs2: ["🔓 PROTOCOLO DE CONEXÃO VALIDADO.", "> Abrindo portal visual de interação..."],
     sync: "Sincronizando com o supercomputador holográfico...",
-    boasVindas: "Olá Administrator! 😳 Venha conversar comigo pelo terminal inferior! Seu progresso está salvo na nuvem local! Peça imagens ou mude meu visual! 🎨🛍️🥔",
+    boasVindas: "Olá Administrator! 😳 Venha conversar comigo pelo terminal inferior! Seu progresso está saved na nuvem local! Peça imagens ou mude meu visual! 🎨🛍️🥔",
     proc: "Acessando banco de dados neural... 🧠⚙️",
     recusado: "⚠️ SOLICITAÇÃO RECUSADA: Conteúdo adulto detectado. Mantenha o sistema limpo!",
     voltou: "Opa voltou que bom! 🥳 ", tédioNariz: "*Limpando o nariz de cueca por falta de comandos... 👃🥔*",
@@ -307,7 +279,7 @@ var textos = {
     alertaAdmin: "[!] ALERT: AUTHENTICATION REQUIRED", erroTitulo: "🚨 ACCESS BLOCKED 🚨",
     erroMsg: "DON'T YOU KNOW THE CODE?!", configTitulo: "⚙️ CONFIGURATION PANEL",
     configSub: "The system is connected to the public Potato API.", lblPersonalidade: "Potato Personality:",
-    btnSalvar: "SAVE CONFIG", btnVoltar: "BACK TO CHAT", placeholder: "Ask anything, send images or talk into the mic... 🚀🤖",
+    btnSalvar: "SAVE CONFIG", btnVoltar: "BACK TO CHAT", placeholder: "Ask anything, send images... 🚀🤖",
     btnEnviar: "SEND", coreVersao: "[ POTATO_CORE_IA v12.0_GAME ]",
     logs1: ["> Initiating security bypass...", "> Initializing modular kernel...", "> Connecting to Potato servers..."],
     logs2: ["🔓 CONNECTION PROTOCOLO VALIDATED.", "> Opening interaction visual portal..."],
@@ -349,62 +321,10 @@ var oscRadioNode = null;
 var gainRadioNode = null;
 var tocandoRadio = false;
 var tempoRadioTimeout = null;
-
-var reconhecimentoVoz = null;
-var gravandoVoz = false;
 var intervaloDigitacaoGlobal = null;
 
 function iniciarAudio() {
   try { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
-}
-
-// COLETOR E RECONHECIMENTO DE VOZ (MICROFONE)
-function alternarGravacaoVoz() {
-  iniciarAudio();
-  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    alert("Reconhecimento de voz não suportado neste navegador.");
-    return;
-  }
-
-  if (!reconhecimentoVoz) {
-    reconhecimentoVoz = new SpeechRecognition();
-    reconhecimentoVoz.continuous = false;
-    reconhecimentoVoz.lang = lang === "pt" ? "pt-BR" : "en-US";
-    
-    reconhecimentoVoz.onstart = function() {
-      gravandoVoz = true;
-      document.getElementById('btnAudioVoz').style.background = "#ff3333";
-      document.getElementById('btnAudioVoz').innerText = "🛑";
-      somBipeProgresso(600);
-    };
-    
-    reconhecimentoVoz.onresult = function(event) {
-      var resultadoText = event.results[0][0].transcript;
-      document.getElementById('promptIA').value = resultadoText;
-      somMoedaSucesso();
-    };
-    
-    reconhecimentoVoz.onerror = function() {
-      pararGravacaoVozInterface();
-    };
-    
-    reconhecimentoVoz.onend = function() {
-      pararGravacaoVozInterface();
-    };
-  }
-
-  if (gravandoVoz) {
-    reconhecimentoVoz.stop();
-  } else {
-    reconhecimentoVoz.start();
-  }
-}
-
-function pararGravacaoVozInterface() {
-  gravandoVoz = false;
-  document.getElementById('btnAudioVoz').style.background = "#ff9800";
-  document.getElementById('btnAudioVoz').innerText = "🎙️";
 }
 
 // CAPTURA E CONVERSÃO DE IMAGENS DE ARQUIVO
@@ -767,7 +687,7 @@ function resetarTemporizadorTedio() {
   return acordouDeFato;
 }
 
-function ativarModoCriador() {
+function activarModoCriador() {
   somBipeProgresso(800);
   var cod = prompt(lang === "pt" ? "⚙️ [SISTEMA] INSIRA A CHAVE MESTRA DO CRIADOR:" : "⚙️ [SYSTEM] ENTER CREATOR KEY:");
   if (cod === "2020") {
@@ -788,7 +708,7 @@ function ativarModoCriador() {
   }
 }
 
-function activarModoCriador() { ativarModoCriador(); }
+function ativarModoCriador() { activarModoCriador(); }
 
 function ativarModoTedio() {
   removerTodasAnimacoes(); statusTedio = true;
@@ -917,7 +837,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = message = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -927,7 +847,7 @@ function digitarFalaBatata(mensagem, callback) {
 
   var i = 0;
   intervaloDigitacaoGlobal = setInterval(function() {
-    if(i < message.length || i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
+    if(i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
     else { 
       clearInterval(intervaloDigitacaoGlobal); 
       intervaloDigitacaoGlobal = null;
@@ -1018,50 +938,55 @@ function processarPrompt() {
     }
   }, 10000);
 
-  var instrucaoSistema = "Atue como Batata_IA, uma batata hacker zoeira de cuequinha. Responda em português com muito humor e emojis. Seja curto.";
-  
-  // ESTRUTURAÇÃO DO CONTEÚDO (SUPORTANDO TEXTO OU IMAGEM MULTIMODAL)
-  var arrayConteudos = [];
-  if (promptStr) {
-    arrayConteudos.push({ type: "text", text: promptStr });
-  } else if (imagemBase64Carregada) {
-    arrayConteudos.push({ type: "text", text: "Analise esta imagem que eu te enviei agora." });
-  }
-  
+  var instrucaoSistema = "Atue como Batata_IA, uma batata hacker zoeira de cuequinha criada por @batatadocegamer em 2026. Responda em português com muito humor, gírias da internet e emojis. Seja muito curto e direto.";
+  var urlEndpoint = "https://text.pollinations.ai/";
+
   if (imagemBase64Carregada) {
-    arrayConteudos.push({ type: "image_url", image_url: { url: imagemBase64Carregada } });
+    var promptFinalVision = instrucaoSistema + " O usuário enviou uma imagem anexada (em formato inline) e perguntou: " + (promptStr ? promptStr : "Analise esta imagem.");
+    var payloadVision = {
+      messages: [
+        { role: "user", content: [ { type: "text", text: promptFinalVision }, { type: "image_url", image_url: { url: imagemBase64Carregada } } ] }
+      ],
+      model: "p1"
+    };
+
+    fetch(urlEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payloadVision)
+    })
+    .then(function(res) { return res.text(); })
+    .then(function(data) {
+      apiFuncionou = true; clearTimeout(timeoutFallback);
+      document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
+      removerImagemUpload();
+      if(!data || data.trim().length < 2) data = "Caraca! Meus olhos hackers derreteram com essa imagem! Muito foda! 👁️🥔";
+      digitarFalaBatata(prefixoOpa + data);
+    })
+    .catch(function() {
+      apiFuncionou = true; clearTimeout(timeoutFallback);
+      document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
+      removerImagemUpload();
+      digitarFalaBatata(prefixoOpa + "Analisei aqui na sub-rede e achei bem suspeito... Hacker style! 🕶️");
+    });
+
+  } else {
+    var urlGet = urlEndpoint + encodeURIComponent(promptStr) + "?system=" + encodeURIComponent(instrucaoSistema) + "&model=p1";
+    fetch(urlGet)
+    .then(function(res) { return res.text(); })
+    .then(function(data) {
+      apiFuncionou = true; clearTimeout(timeoutFallback);
+      document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
+      if(!data || data.trim().length < 2) data = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
+      digitarFalaBatata(prefixoOpa + data);
+    })
+    .catch(function() {
+      apiFuncionou = true; clearTimeout(timeoutFallback);
+      document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
+      var rAleatoria = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
+      digitarFalaBatata(prefixoOpa + rAleatoria);
+    });
   }
-
-  var payload = {
-    messages: [
-      { role: "system", content: instrucaoSistema },
-      { role: "user", content: arrayConteudos }
-    ],
-    model: "openai"
-  };
-
-  fetch("https://text.pollinations.ai/", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  })
-  .then(function(res) { return res.text(); })
-  .then(function(data) {
-    apiFuncionou = true; clearTimeout(timeoutFallback);
-    document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-    removerImagemUpload();
-    if(!data || data.trim().length < 2) {
-       data = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
-    }
-    digitarFalaBatata(prefixoOpa + data);
-  })
-  .catch(function(err) {
-    apiFuncionou = true; clearTimeout(timeoutFallback);
-    document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-    removerImagemUpload();
-    var rAleatoria = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
-    digitarFalaBatata(prefixoOpa + rAleatoria);
-  });
   
   input.value = "";
 }
@@ -1072,10 +997,11 @@ window.autenticarAdmin = autenticarAdmin; window.abrirConfig = abrirConfig; wind
 window.salvarConfig = salvarConfig; window.reiniciarSistema = reiniciarSistema; window.processarPrompt = processarPrompt;
 window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = activarModoCriador;
 window.conectarEmail = conectarEmail; window.alternarRadio = alternarRadio; window.acionarSelfDestruct = acionarSelfDestruct;
-window.alternarGravacaoVoz = alternarGravacaoVoz; window.processarUploadImagem = processarUploadImagem; window.removerImagemUpload = removerImagemUpload;
+window.processarUploadImagem = processarUploadImagem; window.removerImagemUpload = removerImagemUpload;
 
 document.getElementById('promptIA').addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); processarPrompt(); } });
 </script>
 
 </body>
 </html>
+
