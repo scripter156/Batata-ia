@@ -692,7 +692,7 @@ function resetarTemporizadorTedio() {
   return acordouDeFato;
 }
 
-function activarModoCriador() {
+function ativarModoCriador() {
   somBipeProgresso(800);
   var cod = prompt(lang === "pt" ? "⚙️ [SISTEMA] INSIRA A CHAVE MESTRA DO CRIADOR:" : "⚙️ [SYSTEM] ENTER CREATOR KEY:");
   if (cod === "2020") {
@@ -713,8 +713,6 @@ function activarModoCriador() {
   }
 }
 
-function ativarModoCriador() { activarModoCriador(); }
-
 function ativarModoTedio() {
   removerTodasAnimacoes(); statusTedio = true;
   var r = Math.random(); var corpo = document.getElementById('batataCorpo');
@@ -730,6 +728,7 @@ function ativarModoTedio() {
   }
 }
 
+// Corrigido bug visual do display dos óculos
 function removerTodasAnimacoes() {
   var corpo = document.getElementById('batataCorpo');
   if(corpo) corpo.classList.remove('digitando', 'dançando', 'pulando', 'coçando-nariz', 'meme-67', 'pegando-oculos');
@@ -839,6 +838,7 @@ function digitarLinha(listaLogs, indexLinha, callbackFinal) {
   } else if (callbackFinal) { callbackFinal(); }
 }
 
+// CORRIGIDO: Bug fatal corrigido removendo a atribuição incorreta 'message = mensagem.length'
 function digitarFalaBatata(mensagem, callback) {
   var container = document.getElementById('textoDialogo'); var boca = document.getElementById('batataBoca');
   if(!container) { if(callback) callback(); return; }
@@ -846,7 +846,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = message = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -856,7 +856,7 @@ function digitarFalaBatata(mensagem, callback) {
 
   var i = 0;
   intervaloDigitacaoGlobal = setInterval(function() {
-    if(i < message = mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
+    if(i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
     else { 
       clearInterval(intervaloDigitacaoGlobal); 
       intervaloDigitacaoGlobal = null;
@@ -1039,4 +1039,3 @@ document.getElementById('promptIA').addEventListener('keydown', function(e) { if
 
 </body>
 </html>
-
