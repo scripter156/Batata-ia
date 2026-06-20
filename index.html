@@ -525,12 +525,11 @@ function mostrarProgresso() {
 function concluirTrabalhoPC() {
   document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
   document.getElementById('textoDialogo').innerHTML = ""; somMoedaSucesso();
-  // EXIBE O BOTÃO SECRETO APENAS QUANDO A BATATA FINALMENTE APARECE
   document.getElementById('btnCriadorSecreto').style.display = 'block';
   digitarFalaBatata(textos[lang].boasVindas, function() { resetarTemporizadorTedio(); });
 }
 
-// FUNÇÃO DO SCRIPT DE EASTER EGG DO CRIADOR REAL
+function activarModoCriador() { ativarModoCriador(); }
 function ativarModoCriador() {
   somBipeProgresso(800);
   var cod = prompt(lang === "pt" ? "⚙️ [SISTEMA] INSIRA A CHAVE MESTRA DO CRIADOR:" : "⚙️ [SYSTEM] ENTER CREATOR KEY:");
@@ -552,14 +551,15 @@ function ativarModoCriador() {
 function digitarFalaBatata(mensagem, callback) {
   var container = document.getElementById('textoDialogo'); var boca = document.getElementById('batataBoca');
   if(!container) { if(callback) callback(); return; }
-  container.innerHTML = "";
   
-  if(boca) boca.classList.add('falando');
-  
-  if (mensagem.includes("<img") || mensagem.includes("<div")) {
-    container.innerHTML = message; if(boca) boca.classList.remove('falando');
+  if (mensagem.includes("🚀_IMG_MODE_🚀")) {
+    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
+    if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
+
+  container.innerHTML = "";
+  if(boca) boca.classList.add('falando');
 
   var i = 0;
   var intervalo = setInterval(function() {
@@ -606,19 +606,25 @@ function processarPrompt() {
     input.value = ""; return;
   }
 
+  // NOVA CORREÇÃO DIRETA PARA IMAGENS COM POLICIES COMPATÍVEIS E ENCODE SEGURO
   if (pLower.includes("desenhe") || pLower.includes("crie uma imagem") || pLower.includes("draw") || pLower.includes("image")) {
     var termoBusca = prompt.replace(/(desenhe|crie uma imagem|draw|image)/gi, "").trim();
-    if(!termoBusca) termoBusca = "funny potato hacker";
-    var renderImg = "<br><img src=\"https://image.pollinations.ai/p/" + encodeURIComponent(termoBusca) + "?width=400&height=300&nofeed=true\" style=\"width:100%; max-height:160px; object-fit:cover; border:1px solid #ffff00; margin-top:5px; border-radius:3px;\">";
+    if(!termoBusca) termoBusca = "funny hacker potato inside a database matrix matrix";
+    
+    var urlRender = "https://image.pollinations.ai/p/" + encodeURIComponent(termoBusca) + "?width=400&height=300&nofeed=true&seed=" + Math.floor(Math.random() * 9999);
+    
+    var conteudoResultado = prefixoOpa + "Gerando imagem na Matrix de Segurança...<br>" +
+      "<a href=\"" + urlRender + "\" target=\"_blank\" style=\"color:#00ffff; font-weight:bold; display:block; margin:5px 0 8px 0; text-decoration:underline;\">🔗 Clique aqui para abrir a imagem em alta definição</a>" +
+      "<img src=\"" + urlRender + "\" style=\"width:100%; max-height:140px; object-fit:cover; border:2px solid #00ff00; border-radius:3px;\" onerror=\"this.onerror=null; this.src='https://placehold.co/400x300/000000/00ff00?text=Abrir+Link+Acima';\">";
+    
     setTimeout(function() {
       document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-      digitarFalaBatata(prefixoOpa + "Gerando imagem na Matrix... " + renderImg);
-    }, 1000);
+      digitarFalaBatata("🚀_IMG_MODE_🚀" + conteudoResultado);
+    }, 1200);
     input.value = ""; return;
   }
 
   var apiFuncionou = false;
-  
   var timeoutFallback = setTimeout(function() {
     if(!apiFuncionou) {
        document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
