@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Batata Core OS</title>
+    
+    <title>Batata_IA - A Batata Hacker de Cuequinha</title>
+    <meta name="description" content="Converse com a Batata_IA, a inteligência artificial mais zoeira da Matrix. Crie imagens, faça perguntas e divirta-se no terminal hacker!">
+    <meta name="keywords" content="batata ia, batata hacker, jogo da batata, batatadocegamer, ia zoeira">
 </head>
 <body>
 
-<!-- CRÉDITOS NO CANTO DA TELA -->
 <div style="position: fixed; bottom: 10px; right: 15px; font-size: 11px; color: #00ff00; opacity: 0.35; font-family: monospace; z-index: 999; text-shadow: none;">
   @batatadocegamer
 </div>
 
-<!-- TELA DE AVISO DE RESPONSABILIDADE (DISCLAIMER) -->
 <div id="telaAviso" style="display:flex; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#000; z-index:10000; justify-content:center; align-items:center; flex-direction:column; padding: 20px; box-sizing: border-box;">
   <div style="max-width:500px; border:2px solid #ff3333; background:#0a0000; padding:25px; border-radius:5px; box-shadow: 0 0 20px #ff3333; text-align:left;">
     <h2 id="txtAvisoTitulo" style="color:#ff3333; text-align:center; margin-top:0; letter-spacing:2px; animation: blink 1s infinite;">⚠️ AVISO CRÍTICO / CRITICAL NOTICE</h2>
@@ -20,21 +21,19 @@
       Este sistema acessa subcamadas neurais da rede. O desenvolvedor <strong>@batatadocegamer</strong> NÃO se responsabiliza por quaisquer danos, bugs, falhas no sistema ou perda de dados que possam ocorrer durante ou após a execução deste payload.<br><br>
       Proceed at your own risk. The developer is not liable for any issues caused by running this interactive protocol.
     </p>
-    <button onclick="aceitarTermos()" style="width:100%; background:#ff3333; color:#000; padding:12px; border:none; font-weight:bold; font-size:15px; cursor:pointer; border-radius:3px; box-shadow: 0 0 10px #ff3333; font-family:monospace;">[ ACEITAR TERMOS E ATIVAR AUDIO ]</button>
+    <button onclick="aceitarTermos()" style="width:100%; background:#ff3333; color:#000; padding:12px; border:none; font-weight:bold; font-size:15px; cursor:pointer; border-radius:3px; box-shadow: 0 0 10px #ff3333; font-family:monospace;">[ ACEITAR TEMOS E ATIVAR AUDIO ]</button>
   </div>
 </div>
 
-<!-- TELA DE ERRO -->
 <div id="telaErro" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(15,0,0,0.98); z-index:9999; justify-content:center; align-items:center; flex-direction:column; color:#ff3333;">
   <h1 id="txtErroTitulo" style="font-size:32px; animation: tremer 0.1s infinite; letter-spacing: 2px;">🚨 ACESSO BLOQUEADO 🚨</h1>
   <div id="mensagensErro" style="width:100%; height:70%; position:relative;"></div>
   <button onclick="reiniciarSistema()" style="margin-top:10px; background:#ff3333; color:#000; padding:12px 25px; border:none; font-weight:bold; font-size:16px; cursor:pointer; border-radius:5px; box-shadow: 0 0 15px #ff3333;">REBOOT SYSTEM</button>
 </div>
 
-<!-- TELA DE CONFIGURAÇÕES -->
 <div id="telaConfig" style="display:none; max-width:500px; margin: 20px auto; background:#111; border:2px solid #ffff00; padding:20px; border-radius:5px; text-align:left; box-shadow: 0 0 20px rgba(255,255,0,0.2);">
   <h3 id="txtConfigTitulo" style="color:#ffff00; text-align:center; margin-top:0;">⚙️ PAINEL DE CONFIGURAÇÃO</h3>
-  <p id="txtConfigSub" style="font-size:12px; color:#aaa;">O sistema está conectado à API pública para o CodePen.</p>
+  <p id="txtConfigSub" style="font-size:12px; color:#aaa;">O sistema está conectado à API pública da Batata.</p>
   
   <label id="lblPersonalidade" style="font-size:13px; color:#ffff00; display:block; margin-bottom:5px;">Personalidade da Batata:</label>
   <select id="tipoApi" style="background:#000; color:#00ff00; border:1px solid #00ff00; padding:8px; width:100%; font-family:monospace; margin-bottom:15px;">
@@ -47,7 +46,6 @@
   </div>
 </div>
 
-<!-- LOJINHA DE ROUPAS DA BATATA -->
 <div id="telaShop" style="display:none; max-width:500px; margin: 20px auto; background:#0a0a1a; border:2px solid #00ffff; padding:20px; border-radius:5px; text-align:left; box-shadow: 0 0 20px rgba(0,25,25,0.3);">
   <h3 style="color:#00ffff; text-align:center; margin-top:0; letter-spacing:1px;">🛍️ POTATO STORE / LOJINHA</h3>
   <p style="font-size:13px; color:#fff; text-align:center; border-bottom:1px dashed #00ffff; padding-bottom:10px;">
@@ -71,7 +69,6 @@
   </button>
 </div>
 
-<!-- TELA DE SELEÇÃO DE IDIOMA E LOGIN -->
 <div id="seguranca1" style="display:none; margin-top: 12vh;">
   <div style="margin-bottom: 25px;">
     <button onclick="mudarIdioma('pt')" style="background:#111; border:2px solid #00ff00; cursor:pointer; padding:5px 10px; font-size:20px; border-radius:5px; margin-right:10px; box-shadow:0 0 5px #00ff00;">🇧🇷 PT</button>
@@ -84,10 +81,8 @@
   <button id="btnInject" onclick="autenticar1()" style="background:#00ff00; color:#000; border:none; padding:12px 25px; font-weight:bold; font-size:16px; cursor:pointer; box-shadow: 0 0 15px #00ff00; border-radius:5px;">INJECT PAYLOAD</button>
 </div>
 
-<!-- TERMINAL HACKER INTERATIVO -->
 <div id="terminal" style="display:none; text-align:left; max-width:500px; margin: 10px auto; background:#050505; border: 1px solid #00ff00; padding: 15px; border-radius: 5px; box-shadow: 0 0 20px rgba(0,25,0,0.2); min-height: 200px; box-sizing: border-box; position:relative;">
   
-  <!-- BOTÕES SUPERIORES DE FERRAMENTAS -->
   <div style="position:absolute; top:10px; right:10px; display:flex; gap:10px; z-index:10;">
     <button id="btnShop" onclick="abrirShop()" style="display:none; background:none; border:none; color:#00ffff; font-size:18px; cursor:pointer; text-shadow:0 0 5px #00ffff;">🛍️</button>
     <button id="btnConfig" onclick="abrirConfig()" style="display:none; background:none; border:none; color:#ffff00; font-size:18px; cursor:pointer; text-shadow:0 0 5px #ffff00;">⚙️</button>
@@ -97,7 +92,6 @@
   <div id="log" style="font-size: 13px; line-height: 1.4;"></div>
   <div id="barraCarregamento" style="display:none; margin-top:15px; font-weight:bold; font-size:13px;"></div>
   
-  <!-- SEGUNDA VALIDAÇÃO (ADMIN) -->
   <div id="seguranca2" style="display:none; margin-top:20px; border-top: 1px dashed #00ff00; padding-top:15px;">
     <p id="txtAlertaAdmin" style="color: #ff3333; font-weight:bold; animation: blink 1s infinite; font-size:13px;">[!] ALERTA: AUTENTICAÇÃO REQUERIDA</p>
     <label>COD_ADMIN: </label>
@@ -105,19 +99,15 @@
     <button onclick="autenticarAdmin()" style="background:#00ff00; color:#000; border:none; padding:6px 12px; font-weight:bold; cursor:pointer; font-size:13px; margin-left:5px;">OK</button>
   </div>
 
-  <!-- AMBIENTE DA BATATA IA -->
   <div id="containerBatata" style="display:none; margin-top:35px; text-align:center;">
     
     <div class="cena-trabalho" style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 110px; position:relative; padding-right:35px;">
-      <!-- Supercomputador Holográfico -->
       <div id="superPC" class="super-pc">
         <div class="tela-pc"><code id="codeTxt">CODI<br>NG..</code></div>
         <div class="teclado-pc"></div>
       </div>
 
-      <!-- Personagem Batata -->
       <div id="batataCorpo" class="batata-corpo digitando">
-        <!-- ROUPA DA BATATA -->
         <div id="batataRoupa" class="roupa-base roupa-cueca">
           <div class="detalhe-cueca"></div>
         </div>
@@ -139,13 +129,11 @@
       </div>
     </div>
 
-    <!-- Caixa de diálogo -->
     <div style="margin-top:15px; background:#111; border:2px solid #ffff00; border-radius:5px; padding:12px; color:#fff; font-size:14px; text-shadow:none; text-align:left; box-shadow: 0 0 15px rgba(255,255,0,0.3); max-height:220px; overflow-y:auto;">
       <span id="txtCoreVersao" style="color:#ffff00; font-weight:bold; display:block; margin-bottom:5px; text-align:center;">[ BATATA_CORE_IA v12.0_GAME ]</span>
       <span id="textoDialogo"></span>
     </div>
 
-    <!-- Interface de Chat -->
     <div id="chatInterface" style="display:none; margin-top:15px; display:flex; gap:5px;">
       <input type="text" id="promptIA" oninput="somDigitacaoUsuario()" placeholder="Pergunte algo ou peça um desenho..." style="flex:1; background:#000; color:#00ff00; border:1px solid #00ff00; padding:10px; font-family:monospace; outline:none; font-size:14px;">
       <button id="btnEnviar" onclick="processarPrompt()" style="background:#00ff00; color:#000; border:none; padding:10px 15px; font-weight:bold; cursor:pointer; font-family:monospace;">ENVIAR</button>
@@ -154,7 +142,6 @@
 
 </div>
 
-<!-- ESTILOS CSS -->
 <style>
   body { background:#000; color:#00ff00; font-family:'Courier New', monospace; padding:15px; text-align:center; text-shadow: 0 0 5px #00ff00; overflow-x: hidden; user-select: none; }
   .super-pc { width: 55px; height: 45px; background: #111; border: 2px solid #00ff00; border-radius: 4px; box-shadow: 0 0 8px #00ff00; display: inline-block; vertical-align: middle; }
@@ -220,7 +207,6 @@
   @keyframes tremer { 0% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, -1px); } 100% { transform: translate(1px, -1px); } }
 </style>
 
-<!-- CONTROLADORES JAVASCRIPT -->
 <script>
 var lang = "pt";
 var textos = {
@@ -228,7 +214,7 @@ var textos = {
     restrito: "⚠️ ACESSO RESTRITO", credencial: "INSIRA A CREDENCIAL DE ACESSO:", inject: "INJETAR CARGA",
     alertaAdmin: "[!] ALERTA: AUTENTICAÇÃO REQUERIDA", erroTitulo: "🚨 ACESSO BLOQUEADO 🚨",
     erroMsg: "VOCÊ NÃO SABE O CÓDIGO?!", configTitulo: "⚙️ PAINEL DE CONFIGURAÇÃO",
-    configSub: "O sistema está conectado à API pública para o CodePen.", lblPersonalidade: "Personalidade da Batata:",
+    configSub: "O sistema está conectado à API pública da Batata.", lblPersonalidade: "Personalidade da Batata:",
     btnSalvar: "SALVAR CONFIG", btnVoltar: "VOLTAR AO CHAT", placeholder: "Mande-me criar uma imagem ou fazer perguntas! 📈🤖",
     btnEnviar: "ENVIAR", coreVersao: "[ BATATA_CORE_IA v12.0_GAME ]",
     logs1: ["> Iniciando bypass de segurança...", "> Inicializando kernel modular...", "> Conectando aos servidores da Batata..."],
@@ -245,7 +231,7 @@ var textos = {
     restrito: "⚠️ ACCESS RESTRICTED", credencial: "ENTER ACCESS CREDENTIALS:", inject: "INJECT PAYLOAD",
     alertaAdmin: "[!] ALERT: AUTHENTICATION REQUIRED", erroTitulo: "🚨 ACCESS BLOCKED 🚨",
     erroMsg: "DON'T YOU KNOW THE CODE?!", configTitulo: "⚙️ CONFIGURATION PANEL",
-    configSub: "The system is connected to the public CodePen API.", lblPersonalidade: "Potato Personality:",
+    configSub: "The system is connected to the public Potato API.", lblPersonalidade: "Potato Personality:",
     btnSalvar: "SAVE CONFIG", btnVoltar: "BACK TO CHAT", placeholder: "Ask anything or ask me to draw an image! 🚀🤖",
     btnEnviar: "SEND", coreVersao: "[ POTATO_CORE_IA v12.0_GAME ]",
     logs1: ["> Initiating security bypass...", "> Initializing modular kernel...", "> Connecting to Potato servers..."],
@@ -484,7 +470,7 @@ function resetarTemporizadorTedio() {
   return acordouDeFato;
 }
 
-function activarModoTedio() {
+function ativarModoTedio() {
   removerTodasAnimacoes();
   statusTedio = true;
   var r = Math.random();
@@ -589,8 +575,8 @@ function reiniciarSistema() {
   var elementoRoupa = document.getElementById('batataRoupa');
   if(elementoRoupa) elementoRoupa.className = "roupa-base roupa-cueca";
   removerTodasAnimacoes();
-  var grandma = document.getElementById('batataCorpo');
-  if(grandma) grandma.className = "batata-corpo digitando";
+  var corpo = document.getElementById('batataCorpo');
+  if(corpo) corpo.className = "batata-corpo digitando";
   document.getElementById('seguranca1').style.display = 'block';
   clearTimeout(tempoInatividade);
 }
@@ -658,7 +644,7 @@ function digitarFalaBatata(mensagem, callback) {
   if(boca) boca.classList.add('falando');
   
   if (mensagem.includes("<img") || mensagem.includes("<div")) {
-    container.innerHTML = message;
+    container.innerHTML = mensagem;
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750);
     if(callback) callback();
@@ -667,7 +653,7 @@ function digitarFalaBatata(mensagem, callback) {
 
   var i = 0;
   var intervalo = setInterval(function() {
-    if(i < messageLength(mensagem)) { 
+    if(i < mensagem.length) { 
       container.innerHTML += mensagem.charAt(i);
       somTecladoRealista(); i++; 
     } else { 
@@ -678,17 +664,12 @@ function digitarFalaBatata(mensagem, callback) {
   }, 16);
 }
 
-function messageLength(msg) {
-  return msg ? msg.length : 0;
-}
-
 function processarPrompt() {
   var input = document.getElementById('promptIA');
   if(!input) return;
   var prompt = input.value.trim();
   if(!prompt) return;
 
-  // Fecha o teclado móvel para liberar espaço na tela do Acode
   input.blur();
 
   chatsContador++;
@@ -746,7 +727,6 @@ function processarPrompt() {
 
   var instrucaoSistema = "Atue como Batata_IA, uma batata hacker zoeira de cuequinha. Responda em " + (lang === "pt" ? "português" : "inglês") + " com humor e muitos emojis. Seja curto e direto.";
   
-  // Requisição empacotada via POST para o endpoint do Pollinations funcionar perfeitamente sem bugs na URL
   var payload = {
     messages: [
       { role: "system", content: instrucaoSistema },
@@ -794,7 +774,6 @@ window.reiniciarSistema = reiniciarSistema;
 window.processarPrompt = processarPrompt;
 window.somDigitacaoUsuario = somDigitacaoUsuario;
 
-// Gerencia o envio por teclado físico e virtual mobile de forma segura
 document.getElementById('promptIA').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') {
     e.preventDefault(); 
