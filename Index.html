@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batata Core OS</title>
+</head>
+<body>
+
+<!-- CRÉDITOS NO CANTO DA TELA -->
+<div style="position: fixed; bottom: 10px; right: 15px; font-size: 11px; color: #00ff00; opacity: 0.35; font-family: monospace; z-index: 999; text-shadow: none;">
+  @batatadocegamer
+</div>
+
+<!-- TELA DE AVISO DE RESPONSABILIDADE (DISCLAIMER) -->
+<div id="telaAviso" style="display:flex; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#000; z-index:10000; justify-content:center; align-items:center; flex-direction:column; padding: 20px; box-sizing: border-box;">
+  <div style="max-width:500px; border:2px solid #ff3333; background:#0a0000; padding:25px; border-radius:5px; box-shadow: 0 0 20px #ff3333; text-align:left;">
+    <h2 id="txtAvisoTitulo" style="color:#ff3333; text-align:center; margin-top:0; letter-spacing:2px; animation: blink 1s infinite;">⚠️ AVISO CRÍTICO / CRITICAL NOTICE</h2>
+    <p id="txtAvisoCorpo" style="color:#fff; font-size:13px; line-height:1.5; margin-bottom:20px;">
+      Este sistema acessa subcamadas neurais da rede. O desenvolvedor <strong>@batatadocegamer</strong> NÃO se responsabiliza por quaisquer danos, bugs, falhas no sistema ou perda de dados que possam ocorrer durante ou após a execução deste payload.<br><br>
+      Proceed at your own risk. The developer is not liable for any issues caused by running this interactive protocol.
+    </p>
+    <button onclick="aceitarTermos()" style="width:100%; background:#ff3333; color:#000; padding:12px; border:none; font-weight:bold; font-size:15px; cursor:pointer; border-radius:3px; box-shadow: 0 0 10px #ff3333; font-family:monospace;">[ ACEITAR TERMOS E ATIVAR AUDIO ]</button>
+  </div>
+</div>
+
+<!-- TELA DE ERRO -->
+<div id="telaErro" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(15,0,0,0.98); z-index:9999; justify-content:center; align-items:center; flex-direction:column; color:#ff3333;">
+  <h1 id="txtErroTitulo" style="font-size:32px; animation: tremer 0.1s infinite; letter-spacing: 2px;">🚨 ACESSO BLOQUEADO 🚨</h1>
+  <div id="mensagensErro" style="width:100%; height:70%; position:relative;"></div>
+  <button onclick="reiniciarSistema()" style="margin-top:10px; background:#ff3333; color:#000; padding:12px 25px; border:none; font-weight:bold; font-size:16px; cursor:pointer; border-radius:5px; box-shadow: 0 0 15px #ff3333;">REBOOT SYSTEM</button>
+</div>
+
+<!-- TELA DE CONFIGURAÇÕES -->
+<div id="telaConfig" style="display:none; max-width:500px; margin: 20px auto; background:#111; border:2px solid #ffff00; padding:20px; border-radius:5px; text-align:left; box-shadow: 0 0 20px rgba(255,255,0,0.2);">
+  <h3 id="txtConfigTitulo" style="color:#ffff00; text-align:center; margin-top:0;">⚙️ PAINEL DE CONFIGURAÇÃO</h3>
+  <p id="txtConfigSub" style="font-size:12px; color:#aaa;">O sistema está conectado à API pública para o CodePen.</p>
+  
+  <label id="lblPersonalidade" style="font-size:13px; color:#ffff00; display:block; margin-bottom:5px;">Personalidade da Batata:</label>
+  <select id="tipoApi" style="background:#000; color:#00ff00; border:1px solid #00ff00; padding:8px; width:100%; font-family:monospace; margin-bottom:15px;">
+    <option value="batata">Assistente Batata Inteligente / Smart Potato Assistant</option>
+  </select>
+  
+  <div style="display:flex; gap:10px;">
+    <button id="btnSalvarConfig" onclick="salvarConfig()" style="flex:1; background:#00ff00; color:#000; border:none; padding:10px; font-weight:bold; cursor:pointer; font-family:monospace;">SALVAR CONFIG</button>
+    <button id="btnVoltarConfig" onclick="fecharConfig()" style="flex:1; background:#ff3333; color:#000; border:none; padding:10px; font-weight:bold; cursor:pointer; font-family:monospace;">VOLTAR AO CHAT</button>
+  </div>
+</div>
+
+<!-- LOJINHA DE ROUPAS DA BATATA -->
+<div id="telaShop" style="display:none; max-width:500px; margin: 20px auto; background:#0a0a1a; border:2px solid #00ffff; padding:20px; border-radius:5px; text-align:left; box-shadow: 0 0 20px rgba(0,25,25,0.3);">
+  <h3 style="color:#00ffff; text-align:center; margin-top:0; letter-spacing:1px;">🛍️ POTATO STORE / LOJINHA</h3>
+  <p style="font-size:13px; color:#fff; text-align:center; border-bottom:1px dashed #00ffff; padding-bottom:10px;">
+    Saldo Atual: <span id="saldoShop" style="color:#ffff00; font-weight:bold; font-size:16px;">0</span> Mensagens 🪙
+  </p>
+  
+  <div style="margin: 15px 0; font-size:12px; color:#aaa; background:#000; padding:10px; border:1px solid #333;">
+    <b style="color:#00ffff;">Camadas Disponíveis no Gacha:</b><br>
+    • Hacker Style (Neon Green) <br>
+    • Cyberpunk Outfit (Cyber Pink) <br>
+    • Gamer Pro Jacket (RGB Purple) <br>
+    • Dev Senior Cape (Coffee Brown) <br>
+    • Batata Doce Model (Kawaii Pink)
+  </div>
+
+  <button onclick="comprarRoupa()" style="width:100%; background:#ffff00; color:#000; border:none; padding:12px; font-weight:bold; cursor:pointer; font-family:monospace; font-size:14px; margin-bottom:10px; box-shadow: 0 0 10px rgba(255,255,0,0.3);">
+    🎲 SORTEAR ROUPA ALEATÓRIA (Custa 10 Chats)
+  </button>
+  <button onclick="fecharShop()" style="width:100%; background:#ff3333; color:#000; border:none; padding:10px; font-weight:bold; cursor:pointer; font-family:monospace; font-size:13px;">
+    VOLTAR AO TERMINAL
+  </button>
+</div>
+
+<!-- TELA DE SELEÇÃO DE IDIOMA E LOGIN -->
+<div id="seguranca1" style="display:none; margin-top: 12vh;">
+  <div style="margin-bottom: 25px;">
+    <button onclick="mudarIdioma('pt')" style="background:#111; border:2px solid #00ff00; cursor:pointer; padding:5px 10px; font-size:20px; border-radius:5px; margin-right:10px; box-shadow:0 0 5px #00ff00;">🇧🇷 PT</button>
+    <button onclick="mudarIdioma('en')" style="background:#111; border:2px solid #00ff00; cursor:pointer; padding:5px 10px; font-size:20px; border-radius:5px; box-shadow:0 0 5px #00ff00;">🇺🇸 EN</button>
+  </div>
+
+  <h1 id="txtRestrito" style="letter-spacing: 3px; font-size: 24px;">⚠️ ACCESS RESTRICTED</h1>
+  <p id="txtCredencial" style="color:#00aa00;">INSIRA A CREDENCIAL DE ACESSO:</p>
+  <input type="password" id="inputCodigo" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="0000" style="background:#050505; color:#00ff00; border:2px solid #00ff00; padding:12px; text-align:center; font-size:24px; width:140px; outline:none; font-weight:bold; box-shadow: 0 0 10px #00ff00; border-radius:5px;"><br><br>
+  <button id="btnInject" onclick="autenticar1()" style="background:#00ff00; color:#000; border:none; padding:12px 25px; font-weight:bold; font-size:16px; cursor:pointer; box-shadow: 0 0 15px #00ff00; border-radius:5px;">INJECT PAYLOAD</button>
+</div>
+
+<!-- TERMINAL HACKER INTERATIVO -->
+<div id="terminal" style="display:none; text-align:left; max-width:500px; margin: 10px auto; background:#050505; border: 1px solid #00ff00; padding: 15px; border-radius: 5px; box-shadow: 0 0 20px rgba(0,25,0,0.2); min-height: 200px; box-sizing: border-box; position:relative;">
+  
+  <!-- BOTÕES SUPERIORES DE FERRAMENTAS -->
+  <div style="position:absolute; top:10px; right:10px; display:flex; gap:10px; z-index:10;">
+    <button id="btnShop" onclick="abrirShop()" style="display:none; background:none; border:none; color:#00ffff; font-size:18px; cursor:pointer; text-shadow:0 0 5px #00ffff;">🛍️</button>
+    <button id="btnConfig" onclick="abrirConfig()" style="display:none; background:none; border:none; color:#ffff00; font-size:18px; cursor:pointer; text-shadow:0 0 5px #ffff00;">⚙️</button>
+  </div>
+
+  <div style="border-bottom: 1px solid #00ff00; padding-bottom: 5px; margin-bottom: 15px; font-size: 11px; color: #00aa00;">ROOT@BATATA_CORE_OS:~# <span style="float:right; color:#ffff00;" id="contadorChats">CHATS: 0</span></div>
+  <div id="log" style="font-size: 13px; line-height: 1.4;"></div>
+  <div id="barraCarregamento" style="display:none; margin-top:15px; font-weight:bold; font-size:13px;"></div>
+  
+  <!-- SEGUNDA VALIDAÇÃO (ADMIN) -->
+  <div id="seguranca2" style="display:none; margin-top:20px; border-top: 1px dashed #00ff00; padding-top:15px;">
+    <p id="txtAlertaAdmin" style="color: #ff3333; font-weight:bold; animation: blink 1s infinite; font-size:13px;">[!] ALERTA: AUTENTICAÇÃO REQUERIDA</p>
+    <label>COD_ADMIN: </label>
+    <input type="password" id="inputAdmin" inputmode="numeric" pattern="[0-9]*" maxlength="5" style="background:#000; color:#00ff00; border:1px solid #00ff00; width:90px; text-align:center; padding:5px; outline:none; font-size:16px;">
+    <button onclick="autenticarAdmin()" style="background:#00ff00; color:#000; border:none; padding:6px 12px; font-weight:bold; cursor:pointer; font-size:13px; margin-left:5px;">OK</button>
+  </div>
+
+  <!-- AMBIENTE DA BATATA IA -->
+  <div id="containerBatata" style="display:none; margin-top:35px; text-align:center;">
+    
+    <div class="cena-trabalho" style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 110px; position:relative; padding-right:35px;">
+      <!-- Supercomputador Holográfico -->
+      <div id="superPC" class="super-pc">
+        <div class="tela-pc"><code id="codeTxt">CODI<br>NG..</code></div>
+        <div class="teclado-pc"></div>
+      </div>
+
+      <!-- Personagem Batata -->
+      <div id="batataCorpo" class="batata-corpo digitando">
+        <!-- ROUPA DA BATATA -->
+        <div id="batataRoupa" class="roupa-base roupa-cueca">
+          <div class="detalhe-cueca"></div>
+        </div>
+        
+        <div class="headset">
+          <div class="arco"></div>
+          <div class="fone-esq"></div>
+          <div class="fone-dir"></div>
+        </div>
+        <div class="olhos">
+          <div class="olho-esq"><div class="pupila"></div></div>
+          <div class="olho-dir"><div class="pupila"></div></div>
+        </div>
+        <div id="batataBoca" class="boca"></div>
+        <div class="braco-esq"></div>
+        <div class="braco-dir"></div>
+        <div class="pe-esq"></div>
+        <div class="pe-dir"></div>
+      </div>
+    </div>
+
+    <!-- Caixa de diálogo -->
+    <div style="margin-top:15px; background:#111; border:2px solid #ffff00; border-radius:5px; padding:12px; color:#fff; font-size:14px; text-shadow:none; text-align:left; box-shadow: 0 0 15px rgba(255,255,0,0.3); max-height:220px; overflow-y:auto;">
+      <span id="txtCoreVersao" style="color:#ffff00; font-weight:bold; display:block; margin-bottom:5px; text-align:center;">[ BATATA_CORE_IA v12.0_GAME ]</span>
+      <span id="textoDialogo"></span>
+    </div>
+
+    <!-- Interface de Chat -->
+    <div id="chatInterface" style="display:none; margin-top:15px; display:flex; gap:5px;">
+      <input type="text" id="promptIA" oninput="somDigitacaoUsuario()" placeholder="Pergunte algo ou peça um desenho..." style="flex:1; background:#000; color:#00ff00; border:1px solid #00ff00; padding:10px; font-family:monospace; outline:none; font-size:14px;">
+      <button id="btnEnviar" onclick="processarPrompt()" style="background:#00ff00; color:#000; border:none; padding:10px 15px; font-weight:bold; cursor:pointer; font-family:monospace;">ENVIAR</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ESTILOS CSS -->
+<style>
+  body { background:#000; color:#00ff00; font-family:'Courier New', monospace; padding:15px; text-align:center; text-shadow: 0 0 5px #00ff00; overflow-x: hidden; user-select: none; }
+  .super-pc { width: 55px; height: 45px; background: #111; border: 2px solid #00ff00; border-radius: 4px; box-shadow: 0 0 8px #00ff00; display: inline-block; vertical-align: middle; }
+  .tela-pc { background: #000; width: 45px; height: 28px; margin: 3px auto; color: #00ff00; font-size: 8px; text-align: center; padding-top: 4px; overflow:hidden; }
+  .teclado-pc { width: 45px; height: 4px; background: #333; margin: 2px auto; }
+
+  .batata-corpo { width: 65px; height: 85px; background: #e6a15c; border: 3px solid #ffff00; border-radius: 50% 50% 45% 45%; position: relative; display: inline-block; box-shadow: 0 0 15px #ffff00; animation: flutuar 2s infinite ease-in-out; vertical-align: middle; overflow: hidden; }
+  
+  .roupa-base { position: absolute; bottom: 0; left: 0; width: 100%; height: 32px; z-index: 1; transition: 0.3s; }
+  
+  .roupa-cueca { background: #ffffff; border-top: 2px solid #dddddd; height: 16px; width: 46px; left: 10px; border-radius: 2px 2px 8px 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+  .detalhe-cueca { width: 2px; height: 100%; background: #bbbbbb; margin: 0 auto; opacity: 0.5; }
+
+  .roupa-hacker { background: linear-gradient(to top, #111 70%, transparent); border-top: 2px solid #00ff00; }
+  .roupa-cyberpunk { background: linear-gradient(to top, #ff0055 60%, transparent); border-top: 2px solid #00ffff; }
+  .roupa-gamer { background: linear-gradient(to top, #6600ff 70%, transparent); border-top: 2px solid #ff00ff; }
+  .roupa-senior { background: linear-gradient(to top, #5c4033 80%, transparent); border-top: 2px solid #fff; }
+  .roupa-doce { background: linear-gradient(to top, #ff66cc 70%, transparent); border-top: 2px solid #ffff00; }
+
+  .headset { position: absolute; width: 100%; top: 0; z-index:10; }
+  .arco { width: 62px; height: 30px; border: 4px solid #333; border-bottom: none; border-radius: 40px 40px 0 0; position: absolute; left: -2px; top: 8px; }
+  .fone-esq, .fone-dir { width: 8px; height: 16px; background: #111; border: 2px solid #00ff00; position: absolute; top: 34px; border-radius: 3px; }
+  .fone-esq { left: -5px; } .fone-dir { right: -5px; }
+
+  .olhos { margin-top: 28px; display: flex; justify-content: space-around; padding: 0 12px; transition: 0.2s; position: relative; z-index: 2; }
+  .olho-esq, .olho-dir { width: 12px; height: 12px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: piscar 4s infinite linear; position: relative; }
+  .pupila { width: 5px; height: 5px; background: #000; border-radius: 50%; position: absolute; transition: 0.2s; }
+  
+  .boca { width: 16px; height: 8px; border-bottom: 3px solid #000; border-radius: 0 0 10px 10px; margin: 6px auto 0; transition: 0.1s; position: relative; z-index: 2; }
+  .boca.falando { animation: mexerBoca 0.15s infinite alternate; border-bottom: none; background: #000; border-radius: 50%; width: 10px; height: 10px; }
+
+  .braco-esq, .braco-dir { width: 14px; height: 4px; background: #ffff00; position: absolute; top: 48px; transition: 0.2s; z-index: 3; }
+  .braco-esq { left: -11px; transform: rotate(15deg); } .braco-dir { right: -11px; transform: rotate(-15deg); }
+  
+  .batata-corpo.digitando .pupila { left: 2px; top: 3px; }
+  .batata-corpo.digitando .braco-esq { animation: digitarEsq 0.1s infinite alternate; left: -14px; top: 44px; width: 18px; transform-origin: right; }
+  .batata-corpo.digitando .braco-dir { animation: digitarDir 0.12s infinite alternate-reverse; right: -4px; top: 46px; width: 16px; transform-origin: left; z-index: 4; }
+
+  .batata-corpo.dançando { animation: dancaGiro 0.6s infinite linear !important; }
+  .batata-corpo.dançando .braco-esq { transform: rotate(120deg); top: 35px; }
+  .batata-corpo.dançando .braco-dir { transform: rotate(-120deg); top: 35px; }
+
+  .batata-corpo.pulando { animation: puloRapido 0.4s infinite ease-out !important; }
+  .batata-corpo.coçando-nariz .braco-esq { transform: rotate(70deg); left: 10px; top: 38px; z-index: 5; }
+
+  .batata-corpo.meme-67 { animation: desabarMeme67 2s infinite ease-in-out !important; }
+  .batata-corpo.meme-67 .braco-esq { transform: rotate(80deg); left: -5px; }
+  .batata-corpo.meme-67 .braco-dir { transform: rotate(-80deg); right: -5px; }
+  .batata-corpo.meme-67 .pupila { top: -3px; }
+
+  .pe-esq, .pe-dir { width: 14px; height: 7px; background: #b57433; border: 2px solid #ffff00; position: absolute; bottom: -7px; border-radius: 4px 4px 0 0; }
+  .pe-esq { left: 12px; } .pe-dir { right: 12px; }
+
+  @keyframes mexerBoca { 0% { height: 3px; } 100% { height: 9px; } }
+  @keyframes digitarEsq { 0% { transform: rotate(25deg) translateX(0px); } 100% { transform: rotate(5deg) translateX(-2px); } }
+  @keyframes digitarDir { 0% { transform: rotate(-45deg) translateX(0px); } 100% { transform: rotate(-15deg) translateX(-3px); } }
+  @keyframes piscar { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+  @keyframes flutuar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes dancaGiro { 0% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-4px) rotate(6deg); } 75% { transform: translateY(0) rotate(-6deg); } 100% { transform: translateY(0) rotate(0deg); } }
+  @keyframes puloRapido { 0%, 100% { transform: translateY(0) scaleY(1); } 50% { transform: translateY(-25px) scaleY(1.05); } }
+  @keyframes desabarMeme67 { 0%, 100% { transform: scaleY(0.7) translateY(25px); filter: hue-rotate(0deg); } 50% { transform: scaleY(0.6) scaleX(1.1) translateY(32px); filter: hue-rotate(20deg); } }
+  @keyframes blink { 0% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes tremer { 0% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, -1px); } 100% { transform: translate(1px, -1px); } }
+</style>
+
+<!-- CONTROLADORES JAVASCRIPT -->
+<script>
+var lang = "pt";
+var textos = {
+  pt: {
+    restrito: "⚠️ ACESSO RESTRITO", credencial: "INSIRA A CREDENCIAL DE ACESSO:", inject: "INJETAR CARGA",
+    alertaAdmin: "[!] ALERTA: AUTENTICAÇÃO REQUERIDA", erroTitulo: "🚨 ACESSO BLOQUEADO 🚨",
+    erroMsg: "VOCÊ NÃO SABE O CÓDIGO?!", configTitulo: "⚙️ PAINEL DE CONFIGURAÇÃO",
+    configSub: "O sistema está conectado à API pública para o CodePen.", lblPersonalidade: "Personalidade da Batata:",
+    btnSalvar: "SALVAR CONFIG", btnVoltar: "VOLTAR AO CHAT", placeholder: "Mande-me criar uma imagem ou fazer perguntas! 📈🤖",
+    btnEnviar: "ENVIAR", coreVersao: "[ BATATA_CORE_IA v12.0_GAME ]",
+    logs1: ["> Iniciando bypass de segurança...", "> Inicializando kernel modular...", "> Conectando aos servidores da Batata..."],
+    logs2: ["🔓 PROTOCOLO DE CONEXÃO VALIDADO.", "> Abrindo portal visual de interação..."],
+    sync: "Sincronizando com o supercomputador holográfico...",
+    boasVindas: "Olá Administrador! 😳 Venha conversar comigo pelo terminal inferior! Você pode acumular moedas conversando e gastar na Lojinha! Peça imagens também! 🎨🛍️🥔",
+    proc: "Acessando banco de dados neural... 🧠⚙️",
+    recusado: "⚠️ SOLICITAÇÃO RECUSADA: Conteúdo adulto detectado. Mantenha o sistema limpo!",
+    voltou: "Opa voltou que bom! 🥳 ", tédioNariz: "*Limpando o nariz de cueca por falta de comandos... 👃🥔*",
+    tédioDança: "*Mandando aquela dancinha constrangedora só de cueca... 💃🎶*",
+    meme67Text: "*Batata ativou o Modo Meme 67: Excesso de preguiça acumulada no processador principal... 😴💤*"
+  },
+  en: {
+    restrito: "⚠️ ACCESS RESTRICTED", credencial: "ENTER ACCESS CREDENTIALS:", inject: "INJECT PAYLOAD",
+    alertaAdmin: "[!] ALERT: AUTHENTICATION REQUIRED", erroTitulo: "🚨 ACCESS BLOCKED 🚨",
+    erroMsg: "DON'T YOU KNOW THE CODE?!", configTitulo: "⚙️ CONFIGURATION PANEL",
+    configSub: "The system is connected to the public CodePen API.", lblPersonalidade: "Potato Personality:",
+    btnSalvar: "SAVE CONFIG", btnVoltar: "BACK TO CHAT", placeholder: "Ask anything or ask me to draw an image! 🚀🤖",
+    btnEnviar: "SEND", coreVersao: "[ POTATO_CORE_IA v12.0_GAME ]",
+    logs1: ["> Initiating security bypass...", "> Initializing modular kernel...", "> Connecting to Potato servers..."],
+    logs2: ["🔓 CONNECTION PROTOCOLO VALIDATED.", "> Opening interaction visual portal..."],
+    sync: "Synchronizing with the holographic supercomputer...",
+    boasVindas: "Hello Admin! 😳 Chat with me on the terminal below! You can earn coins by chatting and buy items in the Shop! Ask for drawings too! 🎨🛍️🥔",
+    proc: "Accessing neural database... 🧠⚙️",
+    recusado: "⚠️ REQUEST DENIED: Adult content detected. Keep the system clean!",
+    voltou: "Oh, you're back! Great! 🥳 ", tédioNariz: "*Picking its nose in underwear due to lack of commands... 👃🥔*",
+    tédioDança: "*Dancing awkwardly in underpants to pass time... 💃🎶*",
+    meme67Text: "*Potato activated Meme 67: Overwhelming laziness slowing down the mainframe... 😴💤*"
+  }
+};
+
+var tempoInatividade;
+var statusTedio = false;
+var mexendoNoPcTedio = false;
+
+var chatsContador = 0;
+var roupasDisponiveis = ["roupa-hacker", "roupa-cyberpunk", "roupa-gamer", "roupa-senior", "roupa-doce"];
+
+var audioCtx = null;
+var intervaloAlarme = null;
+
+function iniciarAudio() {
+  try {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+  } catch(e) { console.log("Audio bloqueado."); }
+}
+
+function somDigitacaoUsuario() {
+  try {
+    if (!audioCtx) return;
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(950 + Math.random() * 200, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.02);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.02);
+  } catch(e) {}
+}
+
+function somTecladoRealista() {
+  try {
+    if (!audioCtx) return;
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    var filtro = audioCtx.createBiquadFilter();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(180 + Math.random() * 260, audioCtx.currentTime);
+    filtro.type = 'bandpass';
+    filtro.frequency.setValueAtTime(1000, audioCtx.currentTime);
+    filtro.Q.setValueAtTime(2, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
+    osc.connect(filtro);
+    filtro.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.03);
+  } catch(e) {}
+}
+
+function somClick() {
+  try {
+    if (!audioCtx) return;
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.05);
+    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.06);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.06);
+  } catch(e) {}
+}
+
+function somBipeProgresso(frequencia) {
+  try {
+    if (!audioCtx) return;
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(frequencia, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.08);
+  } catch(e) {}
+}
+
+function somMoedaSucesso() {
+  try {
+    if (!audioCtx) return;
+    var notas = [523.25, 659.25, 783.99, 1318.51];
+    var agora = audioCtx.currentTime;
+    notas.forEach(function(f, index) {
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(f, agora + (index * 0.07));
+      gain.gain.setValueAtTime(0.0, agora + (index * 0.07));
+      gain.gain.linearRampToValueAtTime(0.08, agora + (index * 0.07) + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, agora + (index * 0.07) + 0.25);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(agora + (index * 0.07));
+      osc.stop(agora + (index * 0.07) + 0.25);
+    });
+  } catch(e) {}
+}
+
+function somErroAntigo() {
+  try {
+    if (!audioCtx) return;
+    var osc1 = audioCtx.createOscillator();
+    var osc2 = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc1.type = 'sawtooth';
+    osc1.frequency.setValueAtTime(140, audioCtx.currentTime);
+    osc2.type = 'square';
+    osc2.frequency.setValueAtTime(143, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+    osc1.connect(gain);
+    osc2.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc1.start(); osc2.start();
+    osc1.stop(audioCtx.currentTime + 0.25);
+    osc2.stop(audioCtx.currentTime + 0.25);
+  } catch(e) {}
+}
+
+function iniciarAlarmeSirene() {
+  try {
+    if (!audioCtx) return;
+    pararAlarmeSirene();
+    var subindo = true; var freq = 380;
+    intervaloAlarme = setInterval(function() {
+      try {
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.18);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.18);
+        if (subindo) { freq += 40; if(freq > 750) subindo = false; }
+        else { freq -= 40; if(freq < 380) subindo = true; }
+      } catch(err) {}
+    }, 100);
+  } catch(e) {}
+}
+
+function pararAlarmeSirene() {
+  if (intervaloAlarme) { clearInterval(intervaloAlarme); intervaloAlarme = null; }
+}
+
+function aceitarTermos() {
+  document.getElementById('telaAviso').style.setProperty('display', 'none', 'important');
+  document.getElementById('seguranca1').style.display = 'block';
+  iniciarAudio();
+  somMoedaSucesso();
+}
+
+function abrirShop() {
+  document.getElementById('terminal').style.display = 'none';
+  document.getElementById('saldoShop').innerText = chatsContador;
+  document.getElementById('telaShop').style.display = 'block';
+  somBipeProgresso(700);
+}
+
+function fecharShop() {
+  document.getElementById('telaShop').style.display = 'none';
+  document.getElementById('terminal').style.display = 'block';
+  somClick();
+}
+
+function comprarRoupa() {
+  if (chatsContador >= 10) {
+    chatsContador -= 10;
+    document.getElementById('contadorChats').innerText = "CHATS: " + chatsContador;
+    document.getElementById('saldoShop').innerText = chatsContador;
+    var elementoRoupa = document.getElementById('batataRoupa');
+    elementoRoupa.className = "roupa-base"; 
+    var sorteada = roupasDisponiveis[Math.floor(Math.random() * roupasDisponiveis.length)];
+    elementoRoupa.classList.add(sorteada);
+    somMoedaSucesso();
+    alert(lang === "pt" ? "🎉 ROUPA DESBLOQUEADA COM SUCESSO! Visual alterado." : "🎉 OUTFIT UNLOCKED SUCCESSFULLY! Looking good.");
+    fecharShop();
+    digitarFalaBatata(lang === "pt" ? "Uau! Adeus cuequinha antiga! O que achou desse meu novo look completo que você comprou? 😎" : "Wow! Goodbye old underpants! How do you like this outfit you just bought me? 😎");
+  } else {
+    somErroAntigo();
+    alert(lang === "pt" ? "❌ Saldo insuficiente! Você precisa de pelo menos 10 mensagens conversadas." : "❌ Not enough tokens! You need at least 10 chat messages.");
+  }
+}
+
+function mudarIdioma(id) {
+  lang = id;
+  somClick();
+  document.getElementById('txtRestrito').innerText = textos[lang].restrito;
+  document.getElementById('txtCredencial').innerText = textos[lang].credencial;
+  document.getElementById('btnInject').innerText = textos[lang].inject;
+  document.getElementById('txtAlertaAdmin').innerText = textos[lang].alertaAdmin;
+  document.getElementById('txtErroTitulo').innerText = textos[lang].erroTitulo;
+  document.getElementById('txtConfigTitulo').innerText = textos[lang].configTitulo;
+  document.getElementById('txtConfigSub').innerText = textos[lang].configSub;
+  document.getElementById('lblPersonalidade').innerText = textos[lang].lblPersonalidade;
+  document.getElementById('btnSalvarConfig').innerText = textos[lang].btnSalvar;
+  document.getElementById('btnVoltarConfig').innerText = textos[lang].btnVoltar;
+  document.getElementById('promptIA').placeholder = textos[lang].placeholder;
+  document.getElementById('btnEnviar').innerText = textos[lang].btnEnviar;
+  document.getElementById('txtCoreVersao').innerText = textos[lang].coreVersao;
+}
+
+function resetarTemporizadorTedio() {
+  clearTimeout(tempoInatividade);
+  var acordouDeFato = mexendoNoPcTedio;
+  removerTodasAnimacoes();
+  mexendoNoPcTedio = false;
+  statusTedio = false;
+  tempoInatividade = setTimeout(ativarModoTedio, 60000); 
+  return acordouDeFato;
+}
+
+function activarModoTedio() {
+  removerTodasAnimacoes();
+  statusTedio = true;
+  var r = Math.random();
+  var corpo = document.getElementById('batataCorpo');
+  if(r < 0.25) {
+    if(corpo) corpo.classList.add('coçando-nariz');
+    digitarFalaBatata(textos[lang].tédioNariz);
+  } else if(r < 0.50) {
+    if(corpo) corpo.classList.add('dançando');
+    digitarFalaBatata(textos[lang].tédioDança);
+  } else if(r < 0.75) {
+    if(corpo) corpo.classList.add('meme-67');
+    somBipeProgresso(200);
+    digitarFalaBatata(textos[lang].meme67Text);
+  } else {
+    mexendoNoPcTedio = true;
+    document.getElementById('superPC').style.display = "block";
+    document.getElementById('codeTxt').innerHTML = "IDLE<br>PLAY";
+    if(corpo) corpo.classList.add('digitando');
+  }
+}
+
+function removerTodasAnimacoes() {
+  var corpo = document.getElementById('batataCorpo');
+  if(corpo) corpo.classList.remove('digitando', 'dançando', 'pulando', 'coçando-nariz', 'meme-67');
+  var boca = document.getElementById('batataBoca');
+  if(boca) boca.classList.remove('falando');
+}
+
+function autenticar1() {
+  var campo = document.getElementById('inputCodigo');
+  if (campo && campo.value === "1234") {
+    somBipeProgresso(900);
+    document.getElementById('seguranca1').style.display = 'none';
+    document.getElementById('terminal').style.display = 'block';
+    digitarLinha(textos[lang].logs1, 0, function() { 
+      document.getElementById('seguranca2').style.display = 'block'; 
+    });
+  } else { dispararErro(); }
+}
+
+function autenticarAdmin() {
+  var campoAdmin = document.getElementById('inputAdmin');
+  if (campoAdmin && (campoAdmin.value === "1234" || campoAdmin.value === "12345")) {
+    somBipeProgresso(1100);
+    document.getElementById('seguranca2').style.display = 'none';
+    digitarLinha(textos[lang].logs2, 0, function() { mostrarProgresso(); });
+  } else { dispararErro(); }
+}
+
+function abrirConfig() {
+  document.getElementById('terminal').style.display = 'none';
+  document.getElementById('telaConfig').style.display = 'block';
+  somBipeProgresso(650);
+}
+
+function fecharConfig() {
+  document.getElementById('telaConfig').style.display = 'none';
+  document.getElementById('terminal').style.display = 'block';
+  somClick();
+}
+
+function salvarConfig() {
+  somMoedaSucesso(); alert("Saved / Salvo!"); fecharConfig();
+}
+
+function dispararErro() {
+  somErroAntigo(); iniciarAlarmeSirene();
+  document.getElementById('seguranca1').style.display = 'none';
+  document.getElementById('terminal').style.display = 'none';
+  var tela = document.getElementById('telaErro');
+  var container = document.getElementById('mensagensErro');
+  container.innerHTML = ""; tela.style.display = "flex";
+  for (var i = 0; i < 15; i++) {
+    var msg = document.createElement('div');
+    msg.innerHTML = textos[lang].erroMsg;
+    msg.style.position = "absolute";
+    msg.style.top = (Math.random() * 80) + "%"; 
+    msg.style.left = (Math.random() * 50) + "%";
+    msg.style.transform = "translateX(-50%)"; 
+    msg.style.fontSize = (Math.random() * 6 + 14) + "px";
+    msg.style.width = "90%"; msg.style.fontWeight = "bold";
+    msg.style.animation = "blink 0.2s infinite alternate";
+    container.appendChild(msg);
+  }
+}
+
+function reiniciarSistema() {
+  pararAlarmeSirene(); somBipeProgresso(400);
+  document.getElementById('telaErro').style.display = 'none';
+  document.getElementById('terminal').style.display = 'none';
+  document.getElementById('btnConfig').style.display = 'none';
+  document.getElementById('btnShop').style.display = 'none';
+  document.getElementById('containerBatata').style.display = 'none';
+  document.getElementById('chatInterface').style.setProperty('display', 'none', 'important');
+  document.getElementById('log').innerHTML = "";
+  document.getElementById('barraCarregamento').style.display = 'none';
+  document.getElementById('textoDialogo').innerHTML = "";
+  document.getElementById('inputCodigo').value = ""; document.getElementById('inputAdmin').value = "";
+  document.getElementById('superPC').style.display = "block";
+  chatsContador = 0; document.getElementById('contadorChats').innerText = "CHATS: 0";
+  var elementoRoupa = document.getElementById('batataRoupa');
+  if(elementoRoupa) elementoRoupa.className = "roupa-base roupa-cueca";
+  removerTodasAnimacoes();
+  var grandma = document.getElementById('batataCorpo');
+  if(grandma) grandma.className = "batata-corpo digitando";
+  document.getElementById('seguranca1').style.display = 'block';
+  clearTimeout(tempoInatividade);
+}
+
+function digitarLinha(listaLogs, indexLinha, callbackFinal) {
+  if (indexLinha < listaLogs.length) {
+    var divLog = document.getElementById('log');
+    var paragrafo = document.createElement('p'); 
+    paragrafo.style.margin = "4px 0";
+    divLog.appendChild(paragrafo);
+    var texto = listaLogs[indexLinha]; var indexLetra = 0;
+    var intervaloLetra = setInterval(function() {
+      if (indexLetra < texto.length) { 
+        paragrafo.innerHTML += texto.charAt(indexLetra); 
+        somTecladoRealista(); indexLetra++; 
+      } else { 
+        clearInterval(intervaloLetra); 
+        setTimeout(function() { digitarLinha(listaLogs, indexLinha + 1, callbackFinal); }, 150); 
+      }
+    }, 15);
+  } else if (callbackFinal) { callbackFinal(); }
+}
+
+function mostrarProgresso() {
+  var barra = document.getElementById('barraCarregamento'); 
+  barra.style.display = 'block'; var progresso = 0;
+  var intervaloBarra = setInterval(function() {
+    if(progresso <= 100) {
+      var blocos = "█".repeat(progresso / 10); var vazios = "░".repeat(10 - (progresso / 10));
+      barra.innerHTML = "SINCRO_AI: [" + blocos + vazios + "] " + progresso + "%"; 
+      somBipeProgresso(250 + (progresso * 5)); progresso += 10;
+    } else {
+      clearInterval(intervaloBarra);
+      document.getElementById('containerBatata').style.display = 'block';
+      document.getElementById('btnConfig').style.display = 'block'; 
+      document.getElementById('btnShop').style.display = 'block';
+      document.getElementById('chatInterface').style.setProperty('display', 'flex', 'important');
+      digitarFalaBatata(textos[lang].sync, function() {
+        setTimeout(concluirTrabalhoPC, 1200);
+      });
+    }
+  }, 80);
+}
+
+function concluirTrabalhoPC() {
+  document.getElementById('superPC').style.display = "none";
+  removerTodasAnimacoes();
+  document.getElementById('textoDialogo').innerHTML = "";
+  somMoedaSucesso();
+  digitarFalaBatata(textos[lang].boasVindas, function() {
+    resetarTemporizadorTedio();
+  });
+}
+
+function digitarFalaBatata(mensagem, callback) {
+  var container = document.getElementById('textoDialogo');
+  var boca = document.getElementById('batataBoca');
+  if(!container) { if(callback) callback(); return; }
+  container.innerHTML = "";
+  
+  if (!mensagem || mensagem.length < 2 || (mensagem.includes(".") && mensagem.length < 10 && !mensagem.includes("*"))) {
+    mensagem = (lang === "pt") ? "Eita! Meu processador neural fritou aqui... Tenta mandar de novo! 🤯🥔" : "Oops! My neural network glitched... Try asking again! 🤯🥔";
+  }
+
+  if(boca) boca.classList.add('falando');
+  
+  if (mensagem.includes("<img") || mensagem.includes("<div")) {
+    container.innerHTML = message;
+    if(boca) boca.classList.remove('falando');
+    somBipeProgresso(750);
+    if(callback) callback();
+    return;
+  }
+
+  var i = 0;
+  var intervalo = setInterval(function() {
+    if(i < messageLength(mensagem)) { 
+      container.innerHTML += mensagem.charAt(i);
+      somTecladoRealista(); i++; 
+    } else { 
+      clearInterval(intervalo); 
+      if(boca) boca.classList.remove('falando');
+      if(callback) callback(); 
+    }
+  }, 16);
+}
+
+function messageLength(msg) {
+  return msg ? msg.length : 0;
+}
+
+function processarPrompt() {
+  var input = document.getElementById('promptIA');
+  if(!input) return;
+  var prompt = input.value.trim();
+  if(!prompt) return;
+
+  // Fecha o teclado móvel para liberar espaço na tela do Acode
+  input.blur();
+
+  chatsContador++;
+  document.getElementById('contadorChats').innerText = "CHATS: " + chatsContador;
+  var acordouDoPc = resetarTemporizadorTedio();
+  var prefixoOpa = acordouDoPc ? textos[lang].voltou : "";
+
+  var pLower = prompt.toLowerCase();
+  if(pLower === "dançar" || pLower === "dance") {
+    document.getElementById('superPC').style.display = "none";
+    var corpo = document.getElementById('batataCorpo');
+    if(corpo) corpo.classList.add('dançando');
+    somBipeProgresso(550);
+    digitarFalaBatata(prefixoOpa + (lang === "pt" ? "Olha os meus passos de dance na Matrix! 🕺🎶" : "Look at my dancing moves in the Matrix! 🕺🎶"));
+    input.value = ""; return;
+  }
+  if(pLower === "pular" || pLower === "jump") {
+    document.getElementById('superPC').style.display = "none";
+    var corpo = document.getElementById('batataCorpo');
+    if(corpo) corpo.classList.add('pulando');
+    somBipeProgresso(650);
+    digitarFalaBatata(prefixoOpa + (lang === "pt" ? "Pulando pelas camadas do código fonte! ⚡🥔" : "Jumping through the source code layers! ⚡🥔"));
+    input.value = ""; return;
+  }
+
+  document.getElementById('superPC').style.display = "block";
+  document.getElementById('codeTxt').innerHTML = "THIN<br>KING";
+  var corpoIA = document.getElementById('batataCorpo');
+  if(corpoIA) corpoIA.classList.add('digitando');
+  digitarFalaBatata(textos[lang].proc);
+
+  const proibidas = ["18+", "sexo", "porno", "nude", "adulto", "safadeza", "puta", "caralho", "hentai"];
+  if (proibidas.some(function(p) { return prompt.toLowerCase().includes(p); })) {
+    setTimeout(function() {
+      document.getElementById('superPC').style.display = "none";
+      removerTodasAnimacoes();
+      document.getElementById('terminal').style.boxShadow = "0 0 30px #ff3333";
+      somErroAntigo();
+      digitarFalaBatata(textos[lang].recusado);
+    }, 600);
+    input.value = ""; return;
+  }
+
+  if (pLower.includes("desenhe") || pLower.includes("crie uma imagem") || pLower.includes("draw") || pLower.includes("image")) {
+    var termoBusca = prompt.replace(/(desenhe|crie uma imagem|draw|image)/gi, "").trim();
+    if(!termoBusca) termoBusca = "funny potato";
+    var renderImg = "<br><img src=\"https://image.pollinations.ai/p/" + encodeURIComponent(termoBusca) + "?width=400&height=300&nofeed=true\" style=\"width:100%; max-height:160px; object-fit:cover; border:1px solid #ffff00; margin-top:5px; border-radius:3px;\">";
+    setTimeout(function() {
+      document.getElementById('superPC').style.display = "none";
+      removerTodasAnimacoes();
+      digitarFalaBatata(prefixoOpa + (lang === "pt" ? "Aqui está a sua imagem gerada nas profundezas do servidor: " : "Here is your image generated deep within the mainframe: ") + renderImg);
+    }, 1000);
+    input.value = ""; return;
+  }
+
+  var instrucaoSistema = "Atue como Batata_IA, uma batata hacker zoeira de cuequinha. Responda em " + (lang === "pt" ? "português" : "inglês") + " com humor e muitos emojis. Seja curto e direto.";
+  
+  // Requisição empacotada via POST para o endpoint do Pollinations funcionar perfeitamente sem bugs na URL
+  var payload = {
+    messages: [
+      { role: "system", content: instrucaoSistema },
+      { role: "user", content: prompt }
+    ],
+    model: "openai",
+    jsonMode: false
+  };
+
+  fetch("https://text.pollinations.ai/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
+  .then(function(res) { return res.text(); })
+  .then(function(data) {
+    document.getElementById('superPC').style.display = "none";
+    removerTodasAnimacoes();
+    if(!data || data.trim().length < 2) {
+       data = "A rede oscilou e o token sumiu, manda de novo! 🤯";
+    }
+    digitarFalaBatata(prefixoOpa + data);
+  })
+  .catch(function(err) {
+    document.getElementById('superPC').style.display = "none";
+    removerTodasAnimacoes();
+    somErroAntigo();
+    digitarFalaBatata("💻 Network Error / Falha na conexão da API.");
+  });
+  
+  input.value = "";
+}
+
+window.aceitarTermos = aceitarTermos;
+window.abrirShop = abrirShop;
+window.fecharShop = fecharShop;
+window.comprarRoupa = comprarRoupa;
+window.mudarIdioma = mudarIdioma;
+window.autenticar1 = autenticar1;
+window.autenticarAdmin = autenticarAdmin;
+window.abrirConfig = abrirConfig;
+window.fecharConfig = fecharConfig;
+window.salvarConfig = salvarConfig;
+window.reiniciarSistema = reiniciarSistema;
+window.processarPrompt = processarPrompt;
+window.somDigitacaoUsuario = somDigitacaoUsuario;
+
+// Gerencia o envio por teclado físico e virtual mobile de forma segura
+document.getElementById('promptIA').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault(); 
+    processarPrompt();
+  }
+});
+</script>
+
+</body>
+</html>
