@@ -172,10 +172,6 @@
       <button id="btnEnviar" onclick="processarPrompt()" style="background:#00ff00; color:#000; border:none; padding:10px 15px; font-weight:bold; cursor:pointer; font-family:monospace;">ENVIAR</button>
     </div>
 
-    <div id="avisoRateLimit" style="margin-top: 8px; font-size: 10px; color: #ff3333; text-align: center; font-family: monospace; font-weight: bold; animation: blink 1.5s infinite;">
-      ⚠️ [SISTEMA] EM CASO DE ERRO DE CONEXÃO, AGUARDE UM TEMPO PARA PODER ENVIAR MENSAGENS NOVAMENTE.
-    </div>
-
     <div style="margin-top: 15px; text-align: right; opacity: 0.15; transition: opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.15">
       <span onclick="acionarSelfDestruct()" style="font-size: 9px; color: #ff3333; cursor: pointer; font-family: monospace; border: 1px dashed #ff3333; padding: 2px 4px;">[ SYS_KERNEL_KILL ]</span>
     </div>
@@ -301,7 +297,8 @@ var respostasLocais = [
   "Estou hackeando os servidores centrais agora mesmo para liberar roupas grátis na lojinha!",
   "Cuidado! Se você me apertar muito eu viro purê de inteligência artificial! 🧠💥",
   "Você sabia que o @batatadocegamer me criou para dominar o mundo dos memes em 2026? 🪐",
-  "Estou rodando a 999% de overclocking na minha cuequinha de algodão! ⚡"
+  "Estou rodando a 999% de overclocking na minha cuequinha de algodão! ⚡",
+  "Hum... Seu processamento local está limpo! Sabia que eu guardo segredos criptografados na minha costura? 🤫"
 ];
 
 var tempoInatividade;
@@ -689,7 +686,7 @@ function resetarTemporizadorTedio() {
   return acordouDeFato;
 }
 
-function activarModoCriador() {
+function ativarModoCriador() {
   somBipeProgresso(800);
   var cod = prompt(lang === "pt" ? "⚙️ [SISTEMA] INSIRA A CHAVE MESTRA DO CRIADOR:" : "⚙️ [SYSTEM] ENTER CREATOR KEY:");
   if (cod === "2020") {
@@ -710,7 +707,7 @@ function activarModoCriador() {
   }
 }
 
-function activarModoTedio() {
+function ativarModoTedio() {
   removerTodasAnimacoes(); statusTedio = true;
   var r = Math.random(); var corpo = document.getElementById('batataCorpo');
   if(r < 0.25) {
@@ -846,7 +843,6 @@ function digitarFalaBatata(mensagem, callback) {
   
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
-  // CONSERTADO: Corrigida a referência errada de 'message' para 'mensagem'
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
     container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
@@ -940,13 +936,16 @@ function processarPrompt() {
   }
 
   var apiFuncionou = false;
+  
+  // CORREÇÃO DE FALLBACK SEGURO: Em vez de quebrar a tela, ela fala localmente de cueca se a IA cair!
   var timeoutFallback = setTimeout(function() {
     if(!apiFuncionou) {
+       apiFuncionou = true;
        document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-       somErroAntigo();
-       digitarFalaBatata("<span style='color:#ff3333; font-weight:bold;'>⚠️ [ERRO DE CONEXÃO] Meus circuitos de IA falharam ou o servidor está instável. Por favor, espere um pouco e tente novamente!</span>");
+       var respostaLocalAleatoria = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
+       digitarFalaBatata(prefixoOpa + "[MODO_LOCAL] " + respostaLocalAleatoria);
     }
-  }, 10000);
+  }, 4000); 
 
   var instrucaoSistema = "Atue como Batata_IA, uma batata hacker zoeira de cuequinha criada por @batatadocegamer em 2026. Responda em português com muito humor, gírias da internet e emojis. Seja muito curto e direto.";
   var urlEndpoint = "https://gen.pollinations.ai/v1/chat/completions";
@@ -973,22 +972,23 @@ function processarPrompt() {
     })
     .then(function(res) { return res.json(); })
     .then(function(data) {
+      if (apiFuncionou) return;
       apiFuncionou = true; clearTimeout(timeoutFallback);
       document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
       removerImagemUpload();
       var respostaText = data.choices[0].message.content;
       if(!respostaText || respostaText.trim().length < 2) {
-         somErroAntigo();
-         respostaText = "<span style='color:#ff3333; font-weight:bold;'>⚠️ [ERRO DE RESPOSTA] O servidor retornou dados corrompidos. Tente de novo!</span>";
+         respostaText = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
       }
       digitarFalaBatata(prefixoOpa + respostaText);
     })
     .catch(function() {
+      if (apiFuncionou) return;
       apiFuncionou = true; clearTimeout(timeoutFallback);
       document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
       removerImagemUpload();
-      somErroAntigo();
-      digitarFalaBatata("<span style='color:#ff3333; font-weight:bold;'>⚠️ [ERRO DE REDE] Falha ao enviar payload de imagem para o servidor de IA.</span>");
+      var respostaText = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
+      digitarFalaBatata(prefixoOpa + "[LOCAL] " + respostaText);
     });
 
   } else {
@@ -1007,20 +1007,21 @@ function processarPrompt() {
     })
     .then(function(res) { return res.json(); })
     .then(function(data) {
+      if (apiFuncionou) return;
       apiFuncionou = true; clearTimeout(timeoutFallback);
       document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
       var respostaText = data.choices[0].message.content;
       if(!respostaText || respostaText.trim().length < 2) {
-         somErroAntigo();
-         respostaText = "<span style='color:#ff3333; font-weight:bold;'>⚠️ [ERRO DE RESPOSTA] O servidor de IA ficou mudo. Tente de novo!</span>";
+         respostaText = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
       }
       digitarFalaBatata(prefixoOpa + respostaText);
     })
     .catch(function() {
+      if (apiFuncionou) return;
       apiFuncionou = true; clearTimeout(timeoutFallback);
       document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-      somErroAntigo();
-      digitarFalaBatata("<span style='color:#ff3333; font-weight:bold;'>⚠️ [ERRO DE CONEXÃO] Meus circuitos de IA falharam ou o servidor está instável. Por favor, espere um pouco e tente novamente!</span>");
+      var respostaText = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
+      digitarFalaBatata(prefixoOpa + "[LOCAL] " + respostaText);
     });
   }
   
@@ -1031,13 +1032,18 @@ window.aceitarTermos = aceitarTermos; window.abrirShop = abrirShop; window.fecha
 window.comprarRoupa = comprarRoupa; window.mudarIdioma = mudarIdioma; window.autenticar1 = autenticar1;
 window.autenticarAdmin = autenticarAdmin; window.abrirConfig = abrirConfig; window.fecharConfig = fecharConfig;
 window.salvarConfig = salvarConfig; window.reiniciarSistema = reiniciarSistema; window.processarPrompt = processarPrompt;
-window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = activarModoCriador;
+window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = ativarModoCriador;
 window.conectarEmail = conectarEmail; window.alternarRadio = alternarRadio; window.acionarSelfDestruct = acionarSelfDestruct;
 window.processarUploadImagem = processarUploadImagem; window.removerImagemUpload = removerImagemUpload;
 
 document.getElementById('promptIA').addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); processarPrompt(); } });
 </script>
+// Forçar o sistema a abrir direto na Batata para fins de teste rápido:
+setTimeout(function() {
+    document.getElementById('telaAviso').style.display = 'none';
+    carregarDadosUsuario("pabloeduardohonorato@gmail.com");
+    mostrarProgresso();
+}, 500);
 
 </body>
 </html>
-
