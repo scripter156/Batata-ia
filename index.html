@@ -856,7 +856,7 @@ function digitarFalaBatata(mensagem, callback) {
 
   var i = 0;
   intervaloDigitacaoGlobal = setInterval(function() {
-    if(i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
+    if(i < message = mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
     else { 
       clearInterval(intervaloDigitacaoGlobal); 
       intervaloDigitacaoGlobal = null;
@@ -942,8 +942,8 @@ function processarPrompt() {
   var timeoutFallback = setTimeout(function() {
     if(!apiFuncionou) {
        document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-       var rAleatoria = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
-       digitarFalaBatata(prefixoOpa + rAleatoria);
+       somErroAntigo();
+       digitarFalaBatata("<span style='color:#ff3333; font-weight:bold;'>⚠️ [ERRO DE CONEXÃO] Meus circuitos de IA falharam ou o servidor está instável. Por favor, espere um pouco e tente novamente!</span>");
     }
   }, 10000);
 
@@ -976,14 +976,18 @@ function processarPrompt() {
       document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
       removerImagemUpload();
       var respostaText = data.choices[0].message.content;
-      if(!respostaText || respostaText.trim().length < 2) respostaText = "Caraca! Meus olhos hackers derreteram com essa imagem! Muito foda! 👁️🥔";
+      if(!respostaText || respostaText.trim().length < 2) {
+         somErroAntigo();
+         respostaText = "<span style='color:#ff3333; font-weight:bold;'>⚠️ [ERRO DE RESPOSTA] O servidor retornou dados corrompidos. Tente de novo!</span>";
+      }
       digitarFalaBatata(prefixoOpa + respostaText);
     })
     .catch(function() {
       apiFuncionou = true; clearTimeout(timeoutFallback);
       document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
       removerImagemUpload();
-      digitarFalaBatata(prefixoOpa + "Analisei aqui na sub-rede e achei bem suspeito... Hacker style! 🕶️");
+      somErroAntigo();
+      digitarFalaBatata("<span style='color:#ff3333; font-weight:bold;'>⚠️ [ERRO DE REDE] Falha ao enviar payload de imagem para o servidor de IA.</span>");
     });
 
   } else {
@@ -1005,14 +1009,17 @@ function processarPrompt() {
       apiFuncionou = true; clearTimeout(timeoutFallback);
       document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
       var respostaText = data.choices[0].message.content;
-      if(!respostaText || respostaText.trim().length < 2) respostaText = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
+      if(!respostaText || respostaText.trim().length < 2) {
+         somErroAntigo();
+         respostaText = "<span style='color:#ff3333; font-weight:bold;'>⚠️ [ERRO DE RESPOSTA] O servidor de IA ficou mudo. Tente de novo!</span>";
+      }
       digitarFalaBatata(prefixoOpa + respostaText);
     })
     .catch(function() {
       apiFuncionou = true; clearTimeout(timeoutFallback);
       document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-      var rAleatoria = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
-      digitarFalaBatata(prefixoOpa + rAleatoria);
+      somErroAntigo();
+      digitarFalaBatata("<span style='color:#ff3333; font-weight:bold;'>⚠️ [ERRO DE CONEXÃO] Meus circuitos de IA falharam ou o servidor está instável. Por favor, espere um pouco e tente novamente!</span>");
     });
   }
   
