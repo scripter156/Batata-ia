@@ -173,6 +173,10 @@
       <button id="btnEnviar" onclick="processarPrompt()" style="background:#00ff00; color:#000; border:none; padding:10px 15px; font-weight:bold; cursor:pointer; font-family:monospace;">ENVIAR</button>
     </div>
 
+    <div id="avisoRateLimit" style="margin-top: 8px; font-size: 10px; color: #ff3333; text-align: center; font-family: monospace; font-weight: bold; animation: blink 1.5s infinite;">
+      ⚠️ [SISTEMA] EM CASO DE ERRO DE CONEXÃO, AGUARDE UM TEMPO PARA PODER ENVIAR MENSAGENS NOVAMENTE.
+    </div>
+
     <div style="margin-top: 15px; text-align: right; opacity: 0.15; transition: opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.15">
       <span onclick="acionarSelfDestruct()" style="font-size: 9px; color: #ff3333; cursor: pointer; font-family: monospace; border: 1px dashed #ff3333; padding: 2px 4px;">[ SYS_KERNEL_KILL ]</span>
     </div>
@@ -636,6 +640,7 @@ function fecharShop() {
   somClick();
 }
 
+// RESTANTE DO SCRIPT
 function comprarRoupa() {
   if (chatsContador >= 10) {
     chatsContador -= 10;
@@ -769,6 +774,10 @@ function mostrarProgresso() {
       atualizarHumor(0);
       
       document.getElementById('textoDialogo').innerHTML = textos[lang].sync;
+      
+      // ALERTA DO USUÁRIO ADICIONADO: Avisa quando a batata aparece em tela
+      alert(lang === "pt" ? "🥔 ALERTA DA MATRIX: A Batata Hacker de cuequinha acabou de aparecer!" : "🥔 MATRIX ALERT: The Underwear Hacker Potato has appeared!");
+      
       setTimeout(concluirTrabalhoPC, 1500);
     }
   }, 80);
@@ -837,7 +846,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = mensagem = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = message = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -1023,3 +1032,4 @@ document.getElementById('promptIA').addEventListener('keydown', function(e) { if
 
 </body>
 </html>
+
