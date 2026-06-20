@@ -4,19 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- TAGS PARA APARECER NO GOOGLE -->
     <title>Batata_IA - A Batata Hacker de Cuequinha</title>
     <meta name="description" content="Converse com a Batata_IA, a inteligência artificial mais zoeira da Matrix. Crie imagens, faça perguntas e divirta-se no terminal hacker!">
     <meta name="keywords" content="batata ia, batata hacker, jogo da batata, batatadocegamer, ia zoeira">
 </head>
 <body id="bodyMain">
 
-<!-- CRÉDITOS NO CANTO DA TELA -->
 <div style="position: fixed; bottom: 10px; right: 15px; font-size: 11px; color: #00ff00; opacity: 0.35; font-family: monospace; z-index: 999; text-shadow: none;">
   @batatadocegamer
 </div>
 
-<!-- TELA DE AVISO DE RESPONSABILIDADE (DISCLAIMER) -->
 <div id="telaAviso" style="display:flex; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#000; z-index:10000; justify-content:center; align-items:center; flex-direction:column; padding: 20px; box-sizing: border-box;">
   <div style="max-width:500px; border:2px solid #ff3333; background:#0a0000; padding:25px; border-radius:5px; box-shadow: 0 0 20px #ff3333; text-align:left;">
     <h2 id="txtAvisoTitulo" style="color:#ff3333; text-align:center; margin-top:0; letter-spacing:2px; animation: blink 1s infinite;">⚠️ AVISO CRÍTICO / CRITICAL NOTICE</h2>
@@ -28,22 +25,19 @@
   </div>
 </div>
 
-<!-- TELA DE LOGIN / SALVAMENTO POR E-MAIL -->
-<div id="telaLoginEmail" style="display:none; max-width:450px; margin: 12vh auto 0 auto; background:#050505; border:2px solid #00ff00; padding:25px; border-radius:5px; box-shadow: 0 0 25px rgba(0,255,0,0.2);">
+<div id="telaLoginEmail" style="display:none; max-width:450px; margin: 12vh auto 0 auto; background:#050505; border:2px solid #00ff00; padding:25px; border-radius:5px; box-shadow: 0 0 25px rgba(0,25,0,0.2);">
   <h2 style="color:#00ff00; font-size:18px; margin-top:0; letter-spacing:1px;">💾 CLOUD STORAGE SYSTEM</h2>
   <p style="font-size:12px; color:#00aa00; margin-bottom:20px;">Insira seu e-mail para recuperar ou salvar suas moedas e roupas na Matrix Local.</p>
   <input type="email" id="userEmail" placeholder="seu-email@provedor.com" style="width:100%; background:#000; color:#00ff00; border:1px solid #00ff00; padding:10px; font-family:monospace; margin-bottom:15px; outline:none; text-align:center; box-sizing: border-box;">
   <button onclick="conectarEmail()" style="width:100%; background:#00ff00; color:#000; padding:12px; border:none; font-weight:bold; font-size:14px; cursor:pointer; font-family:monospace;">[ SYNC DATABASE PROFILE ]</button>
 </div>
 
-<!-- TELA DE ERRO -->
 <div id="telaErro" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(15,0,0,0.98); z-index:9999; justify-content:center; align-items:center; flex-direction:column; color:#ff3333;">
   <h1 id="txtErroTitulo" style="font-size:32px; animation: tremer 0.1s infinite; letter-spacing: 2px;">🚨 ACESSO BLOQUEADO 🚨</h1>
   <div id="mensagensErro" style="width:100%; height:70%; position:relative;"></div>
   <button onclick="reiniciarSistema()" style="margin-top:10px; background:#ff3333; color:#000; padding:12px 25px; border:none; font-weight:bold; font-size:16px; cursor:pointer; border-radius:5px; box-shadow: 0 0 15px #ff3333;">REBOOT SYSTEM</button>
 </div>
 
-<!-- TELA DE CONFIGURAÇÕES -->
 <div id="telaConfig" style="display:none; max-width:500px; margin: 20px auto; background:#111; border:2px solid #ffff00; padding:20px; border-radius:5px; text-align:left; box-shadow: 0 0 20px rgba(255,255,0,0.2);">
   <h3 id="txtConfigTitulo" style="color:#ffff00; text-align:center; margin-top:0;">⚙️ PAINEL DE CONFIGURAÇÃO</h3>
   <p id="txtConfigSub" style="font-size:12px; color:#aaa;">O sistema está conectado à API pública da Batata.</p>
@@ -61,7 +55,6 @@
   </div>
 </div>
 
-<!-- LOJINHA DE ROUPAS DA BATATA -->
 <div id="telaShop" style="display:none; max-width:500px; margin: 20px auto; background:#0a0a1a; border:2px solid #00ffff; padding:20px; border-radius:5px; text-align:left; box-shadow: 0 0 20px rgba(0,25,25,0.3);">
   <h3 style="color:#00ffff; text-align:center; margin-top:0; letter-spacing:1px;">🛍️ POTATO STORE / LOJINHA</h3>
   <p style="font-size:13px; color:#fff; text-align:center; border-bottom:1px dashed #00ffff; padding-bottom:10px;">
@@ -85,7 +78,6 @@
   </button>
 </div>
 
-<!-- TELA DE SELEÇÃO DE IDIOMA E LOGIN CODIGO -->
 <div id="seguranca1" style="display:none; margin-top: 12vh;">
   <div style="margin-bottom: 25px;">
     <button onclick="mudarIdioma('pt')" style="background:#111; border:2px solid #00ff00; cursor:pointer; padding:5px 10px; font-size:20px; border-radius:5px; margin-right:10px; box-shadow:0 0 5px #00ff00;">🇧🇷 PT</button>
@@ -98,10 +90,8 @@
   <button id="btnInject" onclick="autenticar1()" style="background:#00ff00; color:#000; border:none; padding:12px 25px; font-weight:bold; font-size:16px; cursor:pointer; box-shadow: 0 0 15px #00ff00; border-radius:5px;">INJECT PAYLOAD</button>
 </div>
 
-<!-- TERMINAL HACKER INTERATIVO -->
 <div id="terminal" style="display:none; text-align:left; max-width:500px; margin: 10px auto; background:#050505; border: 1px solid #00ff00; padding: 15px; border-radius: 5px; box-shadow: 0 0 20px rgba(0,25,0,0.2); min-height: 200px; box-sizing: border-box; position:relative;">
   
-  <!-- BOTÕES SUPERIORES DE FERRAMENTAS -->
   <div style="position:absolute; top:10px; right:10px; display:flex; gap:10px; z-index:10;">
     <button id="btnRadio" onclick="alternarRadio()" style="background:none; border:none; color:#ff00ff; font-size:16px; cursor:pointer; text-shadow:0 0 5px #ff00ff;" title="Rádio Cyberpunk">📻 <span id="statusRadio" style="font-size:10px; color:#fff;">OFF</span></button>
     <button id="btnShop" onclick="abrirShop()" style="display:none; background:none; border:none; color:#00ffff; font-size:18px; cursor:pointer; text-shadow:0 0 5px #00ffff;">🛍️</button>
@@ -113,7 +103,6 @@
     <span style="float:right; color:#ffff00; margin-left: 10px;" id="contadorChats">CHATS: 0</span>
   </div>
 
-  <!-- TERMÔMETRO DE HUMOR DA BATATA -->
   <div id="containerHumor" style="display:none; font-size:11px; color:#ffaa00; margin-bottom:10px; border:1px dashed #333; padding:5px; background:#0c0c0c;">
     🧠 HUMOR DA IA: <span id="barraHumor" style="color:#00ff00; font-weight:bold;">██████████ 100% (Estável)</span>
   </div>
@@ -121,7 +110,6 @@
   <div id="log" style="font-size: 13px; line-height: 1.4;"></div>
   <div id="barraCarregamento" style="display:none; margin-top:15px; font-weight:bold; font-size:13px;"></div>
   
-  <!-- SEGUNDA VALIDAÇÃO (ADMIN) -->
   <div id="seguranca2" style="display:none; margin-top:20px; border-top: 1px dashed #00ff00; padding-top:15px;">
     <p id="txtAlertaAdmin" style="color: #ff3333; font-weight:bold; animation: blink 1s infinite; font-size:13px;">[!] ALERTA: AUTENTICAÇÃO REQUERIDA</p>
     <label>COD_ADMIN: </label>
@@ -129,23 +117,18 @@
     <button onclick="autenticarAdmin()" style="background:#00ff00; color:#000; border:none; padding:6px 12px; font-weight:bold; cursor:pointer; font-size:13px; margin-left:5px;">OK</button>
   </div>
 
-  <!-- AMBIENTE DA BATATA IA -->
   <div id="containerBatata" style="display:none; margin-top:35px; text-align:center;">
     
     <div class="cena-trabalho" style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 110px; position:relative; padding-right:35px;">
-      <!-- Supercomputador Holográfico -->
       <div id="superPC" class="super-pc">
         <div class="tela-pc"><code id="codeTxt">CODI<br>NG..</code></div>
         <div class="teclado-pc"></div>
       </div>
 
-      <!-- Personagem Batata -->
       <div id="batataCorpo" class="batata-corpo digitando">
         
-        <!-- BOTAO EASTER EGG -->
         <button id="btnCriadorSecreto" onclick="ativarModoCriador()" style="display:none; position:absolute; top:0; left:50%; transform:translateX(-50%); width:30px; height:15px; background:transparent; border:none; cursor:pointer; z-index:100; outline:none;"></button>
 
-        <!-- ROUPA DA BATATA -->
         <div id="batataRoupa" class="roupa-base roupa-cueca">
           <div class="detalhe-cueca"></div>
         </div>
@@ -167,19 +150,16 @@
       </div>
     </div>
 
-    <!-- Caixa de diálogo -->
     <div style="margin-top:15px; background:#111; border:2px solid #ffff00; border-radius:5px; padding:12px; color:#fff; font-size:14px; text-shadow:none; text-align:left; box-shadow: 0 0 15px rgba(255,255,0,0.3); max-height:220px; overflow-y:auto;">
       <span id="txtCoreVersao" style="color:#ffff00; font-weight:bold; display:block; margin-bottom:5px; text-align:center;">[ BATATA_CORE_IA v12.0_GAME ]</span>
       <span id="textoDialogo"></span>
     </div>
 
-    <!-- Interface de Chat -->
     <div id="chatInterface" style="display:none; margin-top:15px; display:flex; gap:5px;">
       <input type="text" id="promptIA" oninput="somDigitacaoUsuario()" placeholder="Pergunte algo ou peça um desenho..." style="flex:1; background:#000; color:#00ff00; border:1px solid #00ff00; padding:10px; font-family:monospace; outline:none; font-size:14px;">
       <button id="btnEnviar" onclick="processarPrompt()" style="background:#00ff00; color:#000; border:none; padding:10px 15px; font-weight:bold; cursor:pointer; font-family:monospace;">ENVIAR</button>
     </div>
 
-    <!-- BOTÃO DE SELF-DESTRUCT -->
     <div style="margin-top: 15px; text-align: right; opacity: 0.15; transition: opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.15">
       <span onclick="acionarSelfDestruct()" style="font-size: 9px; color: #ff3333; cursor: pointer; font-family: monospace; border: 1px dashed #ff3333; padding: 2px 4px;">[ SYS_KERNEL_KILL ]</span>
     </div>
@@ -187,7 +167,6 @@
 
 </div>
 
-<!-- ESTILOS CSS -->
 <style>
   body { background:#000; color:#00ff00; font-family:'Courier New', monospace; padding:15px; text-align:center; text-shadow: 0 0 5px #00ff00; overflow-x: hidden; user-select: none; transition: transform 0.5s ease-in-out, filter 0.5s ease-in-out; }
   .super-pc { width: 55px; height: 45px; background: #111; border: 2px solid #00ff00; border-radius: 4px; box-shadow: 0 0 8px #00ff00; display: inline-block; vertical-align: middle; }
@@ -253,7 +232,6 @@
   @keyframes tremer { 0% { transform: translate(2px, 2px); } 50% { transform: translate(-2px, -2px); } 100% { transform: translate(2px, -2px); } }
 </style>
 
-<!-- CONTROLADORES JAVASCRIPT -->
 <script>
 var lang = "pt";
 var textos = {
@@ -319,6 +297,7 @@ var intervaloAlarme = null;
 var oscRadioNode = null;
 var gainRadioNode = null;
 var tocandoRadio = false;
+var tempoRadioTimeout = null; // Armazena a temporização do loop da música
 
 function iniciarAudio() {
   try { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
@@ -372,16 +351,18 @@ function conectarEmail() {
   }
 }
 
-// GERADOR DE ÁUDIO REALTIME - RÁDIO CYBERPUNK CHIPTUNE
+// GERADOR DE ÁUDIO REALTIME - RÁDIO CYBERPUNK CHIPTUNE (MODO DINÂMICO MUTANTE ARRUMADO)
 function alternarRadio() {
   iniciarAudio();
   if (!audioCtx) return;
+  if (audioCtx.state === 'suspended') audioCtx.resume();
   
   if (tocandoRadio) {
+    tocandoRadio = false;
+    if (tempoRadioTimeout) clearTimeout(tempoRadioTimeout);
     try { if (oscRadioNode) oscRadioNode.stop(); } catch(e){}
     document.getElementById('statusRadio').innerText = "OFF";
     document.getElementById('statusRadio').style.color = "#fff";
-    tocandoRadio = false;
   } else {
     tocandoRadio = true;
     document.getElementById('statusRadio').innerText = "LIVE";
@@ -393,29 +374,63 @@ function alternarRadio() {
 function tocarLoopRadio() {
   if (!tocandoRadio) return;
   try {
-    var notas = [110, 130, 146, 164, 110, 130, 196, 164];
-    var tempoNota = 0.25;
+    // 1. Bancos de escalas musicais hackers variantes
+    var escalas = [
+      [110, 130, 146, 164, 196, 220, 261, 293], // Pentatônica Cyberpunk Sombria
+      [146, 164, 174, 196, 220, 246, 293, 329], // Escala Digital Glitch
+      [110, 164, 220, 329, 440, 329, 220, 164], // Arpejo de Contra-baixo Retrô
+      [130, 155, 174, 185, 196, 233, 261, 311]  // Escala Industrial do Submundo
+    ];
+
+    // Escolhe dinamicamente uma escala a cada ciclo completo
+    var escalaSelecionada = escalas[Math.floor(Math.random() * escalas.length)];
+    
+    // Sorteia modificadores de tom para oscilar entre canções agudas e graves espontaneamente
+    var multiplicadorTom = [0.5, 1, 1.5, 2][Math.floor(Math.random() * 4)]; 
+
+    // Alterna os tipos de osciladores de áudio clássicos (timbre do processador chiptune)
+    var tiposOnda = ['square', 'sawtooth', 'triangle'];
+    var tipoOndaEscolhido = tiposOnda[Math.floor(Math.random() * tiposOnda.length)];
+
+    // Sorteia a cadência/velocidade rítmica das notas do compasso atual
+    var temposNota = [0.15, 0.20, 0.25][Math.floor(Math.random() * 3)];
+    
     var agora = audioCtx.currentTime;
     
     oscRadioNode = audioCtx.createOscillator();
     gainRadioNode = audioCtx.createGain();
     
-    oscRadioNode.type = 'sawtooth';
+    oscRadioNode.type = tipoOndaEscolhido;
     
-    notas.forEach(function(f, idx) {
-      oscRadioNode.frequency.setValueAtTime(f, agora + (idx * tempoNota));
-      oscRadioNode.frequency.setValueAtTime(f * 2, agora + (idx * tempoNota) + 0.12);
+    // Injeta variações matemáticas nota por nota
+    escalaSelecionada.forEach(function(f, idx) {
+      var freqFinal = f * multiplicadorTom;
+      
+      // Jitter melódico aleatório (pula para quintas ou terças musicais esporadicamente)
+      if (Math.random() > 0.65) freqFinal *= 1.25; 
+      
+      oscRadioNode.frequency.setValueAtTime(freqFinal, agora + (idx * temposNota));
+      
+      // Segunda voz / efeito de eco duplo computacional de 4-bit
+      if (idx % 2 === 0) {
+        oscRadioNode.frequency.setValueAtTime(freqFinal * 1.5, agora + (idx * temposNota) + 0.05);
+      }
     });
     
-    gainRadioNode.gain.setValueAtTime(0.015, agora);
+    // Volume bem calibrado e seguro para não ferir a audição
+    gainRadioNode.gain.setValueAtTime(0.012, agora);
+    // Cria rampa de fade-out suave ao fim de cada estrofe gerada
+    gainRadioNode.gain.exponentialRampToValueAtTime(0.0001, agora + (escalaSelecionada.length * temposNota));
+    
     oscRadioNode.connect(gainRadioNode);
     gainRadioNode.connect(audioCtx.destination);
     oscRadioNode.start(agora);
-    oscRadioNode.stop(agora + (notas.length * tempoNota));
+    oscRadioNode.stop(agora + (escalaSelecionada.length * temposNota));
     
-    setTimeout(function() {
+    // Agenda a execução da próxima sequência inédita de frequências
+    tempoRadioTimeout = setTimeout(function() {
       if (tocandoRadio) tocarLoopRadio();
-    }, notas.length * tempoNota * 1000);
+    }, escalaSelecionada.length * temposNota * 1000);
   } catch(e) {}
 }
 
@@ -475,6 +490,7 @@ function acionarSelfDestruct() {
     } else {
       clearInterval(idxCD);
       pararAlarmeSirene();
+      if (tempoRadioTimeout) clearTimeout(tempoRadioTimeout);
       try { if(oscRadioNode) oscRadioNode.stop(); } catch(e){}
       
       bMain.style.animation = "none";
@@ -573,6 +589,7 @@ function iniciarAlarmeSirene() {
 
 function pararAlarmeSirene() { if (intervaloAlarme) { clearInterval(intervaloAlarme); intervaloAlarme = null; } }
 
+// TRANSIÇÕES E EXECUÇÕES DE FLUXO
 function aceitarTermos() {
   document.getElementById('telaAviso').style.setProperty('display', 'none', 'important');
   document.getElementById('telaLoginEmail').style.display = 'block';
@@ -643,6 +660,27 @@ function resetarTemporizadorTedio() {
   return acordouDeFato;
 }
 
+function activarModoCriador() {
+  somBipeProgresso(800);
+  var cod = prompt(lang === "pt" ? "⚙️ [SISTEMA] INSIRA A CHAVE MESTRA DO CRIADOR:" : "⚙️ [SYSTEM] ENTER CREATOR KEY:");
+  if (cod === "2020") {
+    chatsContador += 999;
+    salvarDadosUsuario();
+    document.getElementById('contadorChats').innerText = "CHATS: " + chatsContador;
+    if(document.getElementById('saldoShop')) document.getElementById('saldoShop').innerText = chatsContador;
+    somMoedaSucesso();
+    resetarTemporizadorTedio();
+    atualizarHumor(100);
+    document.getElementById('superPC').style.display = "none";
+    var corpo = document.getElementById('batataCorpo'); if(corpo) { removerTodasAnimacoes(); corpo.classList.add('pulando'); }
+    digitarFalaBatata("🚨 DETECTADO PROTOCOLO ALFA! 🚨 MEU DEUS, É VOCÊ! @batatadocegamer, O MEU CRIADOR REAL! 👑🥔 Injetando +999 moedas na Matrix agora mesmo! Manda os comandos, mestre!");
+  } else if (cod !== null) {
+    somErroAntigo();
+    atualizarHumor(-20);
+    alert(lang === "pt" ? "❌ Chave incorreta! Payload de segurança travado." : "❌ Invalid master key.");
+  }
+}
+
 function ativarModoTedio() {
   removerTodasAnimacoes(); statusTedio = true;
   var r = Math.random(); var corpo = document.getElementById('batataCorpo');
@@ -707,6 +745,7 @@ function dispararErro() {
 
 function reiniciarSistema() {
   pararAlarmeSirene(); somBipeProgresso(400);
+  if (tempoRadioTimeout) clearTimeout(tempoRadioTimeout);
   document.getElementById('telaErro').style.display = 'none'; document.getElementById('terminal').style.display = 'none';
   document.getElementById('btnConfig').style.display = 'none'; document.getElementById('btnShop').style.display = 'none';
   document.getElementById('containerBatata').style.display = 'none'; document.getElementById('chatInterface').style.setProperty('display', 'none', 'important');
@@ -758,33 +797,12 @@ function concluirTrabalhoPC() {
   digitarFalaBatata(textos[lang].boasVindas, function() { resetarTemporizadorTedio(); });
 }
 
-function activarModoCriador() {
-  somBipeProgresso(800);
-  var cod = prompt(lang === "pt" ? "⚙️ [SISTEMA] INSIRA A CHAVE MESTRA DO CRIADOR:" : "⚙️ [SYSTEM] ENTER CREATOR KEY:");
-  if (cod === "2020") {
-    chatsContador += 999;
-    salvarDadosUsuario();
-    document.getElementById('contadorChats').innerText = "CHATS: " + chatsContador;
-    if(document.getElementById('saldoShop')) document.getElementById('saldoShop').innerText = chatsContador;
-    somMoedaSucesso();
-    resetarTemporizadorTedio();
-    atualizarHumor(100);
-    document.getElementById('superPC').style.display = "none";
-    var corpo = document.getElementById('batataCorpo'); if(corpo) { removerTodasAnimacoes(); corpo.classList.add('pulando'); }
-    digitarFalaBatata("🚨 DETECTADO PROTOCOLO ALFA! 🚨 MEU DEUS, É VOCÊ! @batatadocegamer, O MEU CRIADOR REAL! 👑🥔 Injetando +999 moedas na Matrix agora mesmo! Manda os comandos, mestre!");
-  } else if (cod !== null) {
-    somErroAntigo();
-    atualizarHumor(-20);
-    alert(lang === "pt" ? "❌ Chave incorreta! Payload de segurança travado." : "❌ Invalid master key.");
-  }
-}
-
 function digitarFalaBatata(mensagem, callback) {
   var container = document.getElementById('textoDialogo'); var boca = document.getElementById('batataBoca');
   if(!container) { if(callback) callback(); return; }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = message.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -794,7 +812,7 @@ function digitarFalaBatata(mensagem, callback) {
 
   var i = 0;
   var intervalo = setInterval(function() {
-    if(i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
+    if(i < mensagem.length) { container.innerHTML += message.charAt(i); somTecladoRealista(); i++; } 
     else { clearInterval(intervalo); if(boca) boca.classList.remove('falando'); if(callback) callback(); }
   }, 16);
 }
@@ -922,4 +940,3 @@ document.getElementById('promptIA').addEventListener('keydown', function(e) { if
 
 </body>
 </html>
-
