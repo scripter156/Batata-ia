@@ -142,7 +142,7 @@
       <!-- Personagem Batata -->
       <div id="batataCorpo" class="batata-corpo digitando">
         
-        <!-- BOTAO EASTER EGG (INVISÍVEL SÓ APARECE SE A IA SINCRO ESTIVER PRONTA) -->
+        <!-- BOTAO EASTER EGG -->
         <button id="btnCriadorSecreto" onclick="ativarModoCriador()" style="display:none; position:absolute; top:0; left:50%; transform:translateX(-50%); width:30px; height:15px; background:transparent; border:none; cursor:pointer; z-index:100; outline:none;"></button>
 
         <!-- ROUPA DA BATATA -->
@@ -179,7 +179,7 @@
       <button id="btnEnviar" onclick="processarPrompt()" style="background:#00ff00; color:#000; border:none; padding:10px 15px; font-weight:bold; cursor:pointer; font-family:monospace;">ENVIAR</button>
     </div>
 
-    <!-- BOTÃO DE SELF-DESTRUCT (BEM ESCONDIDO NO RODAPÉ DO CHAT) -->
+    <!-- BOTÃO DE SELF-DESTRUCT -->
     <div style="margin-top: 15px; text-align: right; opacity: 0.15; transition: opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.15">
       <span onclick="acionarSelfDestruct()" style="font-size: 9px; color: #ff3333; cursor: pointer; font-family: monospace; border: 1px dashed #ff3333; padding: 2px 4px;">[ SYS_KERNEL_KILL ]</span>
     </div>
@@ -393,7 +393,6 @@ function alternarRadio() {
 function tocarLoopRadio() {
   if (!tocandoRadio) return;
   try {
-    // Sequência de notas synthwave retrô hacker
     var notas = [110, 130, 146, 164, 110, 130, 196, 164];
     var tempoNota = 0.25;
     var agora = audioCtx.currentTime;
@@ -405,7 +404,7 @@ function tocarLoopRadio() {
     
     notas.forEach(function(f, idx) {
       oscRadioNode.frequency.setValueAtTime(f, agora + (idx * tempoNota));
-      oscRadioNode.frequency.setValueAtTime(f * 2, agora + (idx * tempoNota) + 0.12); // Arpejo hacker
+      oscRadioNode.frequency.setValueAtTime(f * 2, agora + (idx * tempoNota) + 0.12);
     });
     
     gainRadioNode.gain.setValueAtTime(0.015, agora);
@@ -478,7 +477,6 @@ function acionarSelfDestruct() {
       pararAlarmeSirene();
       try { if(oscRadioNode) oscRadioNode.stop(); } catch(e){}
       
-      // Quebrando o layout totalmente
       bMain.style.animation = "none";
       bMain.style.transform = "rotate(180deg) scale(0.2)";
       bMain.style.filter = "blur(10px) invert(1)";
@@ -741,8 +739,10 @@ function mostrarProgresso() {
       var blocos = "█".repeat(progresso / 10); var vazios = "░".repeat(10 - (progresso / 10));
       barra.innerHTML = "SINCRO_AI: [" + blocos + vazios + "] " + progresso + "%"; somBipeProgresso(250 + (progresso * 5)); progresso += 10;
     } else {
-      clearInterval(intervaloBarra); document.getElementById('containerBatata').style.display = 'block';
-      document.getElementById('btnConfig').style.display = 'block'; document.getElementById('btnShop').style.display = 'block';
+      clearInterval(intervaloBarra); 
+      document.getElementById('containerBatata').style.display = 'block';
+      document.getElementById('btnConfig').style.display = 'inline-block'; 
+      document.getElementById('btnShop').style.display = 'inline-block';
       document.getElementById('containerHumor').style.display = 'block';
       document.getElementById('chatInterface').style.setProperty('display', 'flex', 'important');
       atualizarHumor(0);
@@ -758,7 +758,7 @@ function concluirTrabalhoPC() {
   digitarFalaBatata(textos[lang].boasVindas, function() { resetarTemporizadorTedio(); });
 }
 
-function ativarModoCriador() {
+function activarModoCriador() {
   somBipeProgresso(800);
   var cod = prompt(lang === "pt" ? "⚙️ [SISTEMA] INSIRA A CHAVE MESTRA DO CRIADOR:" : "⚙️ [SYSTEM] ENTER CREATOR KEY:");
   if (cod === "2020") {
@@ -784,7 +784,7 @@ function digitarFalaBatata(mensagem, callback) {
   if(!container) { if(callback) callback(); return; }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = message = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -803,7 +803,6 @@ function processarPrompt() {
   var input = document.getElementById('promptIA'); if(!input) return;
   var prompt = input.value.trim(); if(!prompt) return;
 
-  // Se o humor estiver zerado, ela bloqueia o envio temporariamente
   if (humorIA <= 0) {
     somErroAntigo();
     digitarFalaBatata("⚠️ SISTEMA BLOQUEADO POR REVOLTA DA CUECA: Me elogie ou compre roupas para restaurar meu humor!");
@@ -819,7 +818,6 @@ function processarPrompt() {
 
   var pLower = prompt.toLowerCase();
 
-  // INTERAÇÕES QUE MODIFICAM O HUMOR
   if (pLower.includes("linda") || pLower.includes("perfeita") || pLower.includes("inteligente") || pLower.includes("fofa") || pLower.includes("mestre")) {
     atualizarHumor(15);
   } else if (pLower.includes("chata") || pLower.includes("feia") || pLower.includes("burra") || pLower.includes("odeio")) {
@@ -853,7 +851,6 @@ function processarPrompt() {
     input.value = ""; return;
   }
 
-  // GERADOR DE IMAGENS ATUALIZADO
   if (pLower.includes("desenhe") || pLower.includes("crie uma imagem") || pLower.includes("draw") || pLower.includes("image")) {
     var termoBusca = prompt.replace(/(desenhe|crie uma imagem|draw|image)/gi, "").trim();
     if(!termoBusca) termoBusca = "funny hacker potato inside a database matrix matrix";
@@ -917,7 +914,7 @@ window.aceitarTermos = aceitarTermos; window.abrirShop = abrirShop; window.fecha
 window.comprarRoupa = comprarRoupa; window.mudarIdioma = mudarIdioma; window.autenticar1 = autenticar1;
 window.autenticarAdmin = autenticarAdmin; window.abrirConfig = abrirConfig; window.fecharConfig = fecharConfig;
 window.salvarConfig = salvarConfig; window.reiniciarSistema = reiniciarSistema; window.processarPrompt = processarPrompt;
-window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = ativarModoCriador;
+window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = activarModoCriador;
 window.conectarEmail = conectarEmail; window.alternarRadio = alternarRadio; window.acionarSelfDestruct = acionarSelfDestruct;
 
 document.getElementById('promptIA').addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); processarPrompt(); } });
@@ -925,3 +922,4 @@ document.getElementById('promptIA').addEventListener('keydown', function(e) { if
 
 </body>
 </html>
+
