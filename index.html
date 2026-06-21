@@ -270,7 +270,7 @@ var textos = {
     logs1: ["> Iniciando bypass de segurança...", "> Inicializando kernel modular...", "> Conectando aos servidores da Batata..."],
     logs2: ["🔓 PROTOCOLO DE CONEXÃO VALIDADO.", "> Abrindo portal visual de interação..."],
     sync: "Sincronizando com dados locais...",
-    boasVindas: "Olá Administrator! 😳 Venha conversar comigo pelo terminal inferior! Seu progresso está salvo na nuvem local! Peça imagens ou mude meu visual! 🎨🛍️🥔",
+    boasVindas: "Olá Administrator! 😳 Venha conversar comigo pelo terminal inferior! Seu progresso está saved na nuvem local! Peça imagens ou mude meu visual! 🎨🛍️🥔",
     proc: "Acessando banco de dados neural... 🧠⚙️",
     recusado: "⚠️ SOLICITAÇÃO RECUSADA: Conteúdo adulto detectado. Mantenha o system limpo!",
     voltou: "Opa voltou que bom! 🥳 ", tédioNariz: "*Limpando o nariz de cueca por falta de comandos... 👃🥔*",
@@ -398,7 +398,6 @@ function conectarEmail() {
   var emailInput = document.getElementById('userEmail').value;
   if (emailInput.includes("@") && emailInput.length > 4) {
     document.getElementById('telaLoginEmail').style.display = 'none';
-    document.getElementById('segurancy1');
     document.getElementById('seguranca1').style.display = 'block';
     carregarDadosUsuario(emailInput);
     somMoedaSucesso();
@@ -629,7 +628,6 @@ function aceitarTermos() {
   iniciarAudio(); somMoedaSucesso();
 }
 
-// Corrigido typo que travava a lojinha
 function abrirShop() {
   document.getElementById('terminal').style.display = 'none';
   if(document.getElementById('saldoShop')) document.getElementById('saldoShop').innerText = chatsContador;
@@ -734,7 +732,7 @@ function ativarModoTedio() {
 
 function removerTodasAnimacoes() {
   var corpo = document.getElementById('batataCorpo');
-  if(corpo) corpo.classList.remove('digitando', 'dançando', 'pulando', 'coçando-nariz', 'meme-67', 'pegando-oculos', 'carregando');
+  if(corpo) corpo.className = "batata-corpo";
   var boca = document.getElementById('batataBoca'); if(boca) boca.classList.remove('falando');
   var oculos = document.getElementById('batataOculos'); if(oculos) { oculos.style.display = 'none'; oculos.style.opacity = '0'; }
 }
@@ -851,7 +849,6 @@ function digitarLinha(listaLogs, indexLinha, callbackFinal) {
   } else if (callbackFinal) { callbackFinal(); }
 }
 
-// CORREÇÃO CRÍTICA DA DIGITAÇÃO TRAVADA AQUI:
 function digitarFalaBatata(mensagem, callback) {
   var container = document.getElementById('textoDialogo'); var boca = document.getElementById('batataBoca');
   if(!container) { if(callback) callback(); return; }
@@ -870,7 +867,7 @@ function digitarFalaBatata(mensagem, callback) {
   var i = 0;
   intervaloDigitacaoGlobal = setInterval(function() {
     if(i < mensagem.length) { 
-      container.innerHTML += mensagem.charAt(i); // Corrigido a atribuição errática antiga
+      container.innerHTML += mensagem.charAt(i); 
       somTecladoRealista(); 
       i++; 
     } 
@@ -880,7 +877,7 @@ function digitarFalaBatata(mensagem, callback) {
       if(boca) boca.classList.remove('falando'); 
       if(callback) callback(); 
     }
-  }, 12); // Ficou um pouco mais rápido para otimizar fluidez
+  }, 12);
 }
 
 function processarPrompt() {
@@ -916,7 +913,7 @@ function processarPrompt() {
   if (imagemBase64Carregada) {
     document.getElementById('superPC').style.display = "none";
     var oculos = document.getElementById('batataOculos');
-    if (corpoIA) corpoIA.classList.add('pegando-oculos');
+    if (corpoIA) { corpoIA.className = "batata-corpo pegando-oculos"; }
     if (oculos) { oculos.style.display = 'block'; oculos.style.opacity = '1'; }
     
     somBipeProgresso(400);
@@ -962,7 +959,7 @@ function processarPrompt() {
        var respostaLocalAleatoria = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
        digitarFalaBatata(prefixoOpa + "[MODO_LOCAL] " + respostaLocalAleatoria);
     }
-  }, 5000); 
+  }, 6000); 
 
   var instrucaoSistema = "Atue como Batata_IA, uma batata hacker zoeira de cuequinha criada por @batatadocegamer em 2026. Responda em português com muito humor, gírias da internet e emojis. Seja muito curto e direto.";
   var urlEndpoint = "https://gen.pollinations.ai/v1/chat/completions";
@@ -1010,7 +1007,7 @@ function processarPrompt() {
 
   } else {
     let payloadText = {
-      model: "mistralai/mistral-7b-instruct", // Modelo otimizado para respostas rápidas via Pollinations
+      model: "openai", 
       messages: [
         { role: "system", content: instrucaoSistema },
         { role: "user", content: promptStr }
