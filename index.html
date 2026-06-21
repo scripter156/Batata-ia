@@ -134,8 +134,8 @@
   
   <label id="lblPersonalidade" style="font-size:13px; color:#ffff00; display:block; margin-bottom:5px;">Personalidade da Batata:</label>
   <select id="tipoApi" style="background:#000; color:#00ff00; border:1px solid #00ff00; padding:8px; width:100%; font-family:monospace; margin-bottom:15px;">
-    <option value="openai">Assistente Padrão (OpenAI - Mais Inteligente)</option>
-    <option value="mistral" selected>Batata Ultra Rápida (Mistral - Super Veloz e Zoeira)</option>
+    <option value="openai">Assistente Padrão (OpenAI - Equilibrado)</option>
+    <option value="mistral" selected>Batata Ultra Rápida e Inteligente (Gemini/Mistral Core Line)</option>
   </select>
 
   <p style="font-size:11px; color:#888;">Perfil ativo: <span id="perfilAtivoConfig" style="color:#00ff00;">Nenhum</span></p>
@@ -266,13 +266,13 @@ var textos = {
     alertaAdmin: "[!] ALERTA: AUTENTICAÇÃO REQUERIDA", erroTitulo: "🚨 ACESSO BLOQUEADO 🚨",
     erroMsg: "VOCÊ NÃO SABE O CÓDIGO?!", configTitulo: "⚙️ PAINEL DE CONFIGURAÇÃO",
     configSub: "O sistema está conectado à API pública da Batata.", lblPersonalidade: "Personalidade da Batata:",
-    btnSalvar: "SALVAR CONFIG", btnVoltar: "VOLTAR AO CHAT", placeholder: "Mande-me criar uma imagem, mande fotos... 📈🤖",
+    btnSalvar: "SALVAR CONFIG", btnVoltar: "VOLTAR AO CHAT", placeholder: "Mande-me criar uma imagem, faça perguntas complexas... 📈🤖",
     btnEnviar: "ENVIAR", coreVersao: "[ BATATA_CORE_IA v12.0_GAME ]",
     logs1: ["> Iniciando bypass de segurança...", "> Inicializando kernel modular...", "> Conectando aos servidores da Batata..."],
     logs2: ["🔓 PROTOCOLO DE CONEXÃO VALIDADO.", "> Abrindo portal visual de interação..."],
     sync: "Sincronizando com dados locais...",
-    boasVindas: "Olá Administrator! 😳 Venha conversar comigo pelo terminal inferior! Seu progresso está saved na nuvem local! Peça imagens ou mude meu visual! 🎨🛍️🥔",
-    proc: "Acessando banco de dados neural... 🧠⚙️",
+    boasVindas: "Olá Administrator! 😳 Venha conversar comigo pelo terminal inferior! Seu progresso está salvo na nuvem local! Sou ultra rápida, inteligente e respondo direto ao ponto! Peça imagens ou mude meu visual! 🎨🛍️🥔",
+    proc: "Acessando banco de dados neural quântico... 🧠⚙️",
     recusado: "⚠️ SOLICITAÇÃO RECUSADA: Conteúdo adulto detectado. Mantenha o system limpo!",
     voltou: "Opa voltou que bom! 🥳 ", tédioNariz: "*Limpando o nariz de cueca por falta de comandos... 👃🥔*",
     tédioDança: "*Mandando aquela dancinha constrangedora só de cueca... 💃🎶*",
@@ -283,12 +283,12 @@ var textos = {
     alertaAdmin: "[!] ALERT: AUTHENTICATION REQUIRED", erroTitulo: "🚨 ACCESS BLOCKED 🚨",
     erroMsg: "DON'T YOU KNOW THE CODE?!", configTitulo: "⚙️ CONFIGURATION PANEL",
     configSub: "The system is connected to the public Potato API.", lblPersonalidade: "Potato Personality:",
-    btnSalvar: "SAVE CONFIG", btnVoltar: "BACK TO CHAT", placeholder: "Ask anything, send images... 🚀🤖",
+    btnSalvar: "SAVE CONFIG", btnVoltar: "BACK TO CHAT", placeholder: "Ask anything smart, send images... 🚀🤖",
     btnEnviar: "SEND", coreVersao: "[ POTATO_CORE_IA v12.0_GAME ]",
     logs1: ["> Initiating security bypass...", "> Initializing modular kernel...", "> Connecting to Potato servers..."],
     logs2: ["🔓 CONNECTION PROTOCOL VALIDATED.", "> Opening interaction visual portal..."],
     sync: "Synchronizing with the holographic supercomputer...",
-    boasVindas: "Hello Admin! 😳 Chat with me on the terminal below! Your progress is saved in our local cloud! Ask for drawings or buy items! 🎨🛍️🥔",
+    boasVindas: "Hello Admin! 😳 Chat with me on the terminal below! Fast, hyper-accurate, and precise! Your progress is saved in our local cloud! Ask for drawings or buy items! 🎨🛍️🥔",
     proc: "Accessing neural database... 🧠⚙️",
     recusado: "⚠️ REQUEST DENIED: Adult content detected. Keep the system clean!",
     voltou: "Oh, you're back! Great! 🥳 ", tédioNariz: "*Picking its nose in underwear due to lack of commands... 👃🥔*",
@@ -298,14 +298,14 @@ var textos = {
 };
 
 var respostasLocais = [
-  "Eu sou a inteligência mais crocante da Matrix! Sabia que eu programo usando apenas código-batata? 💻🥔",
-  "Opa! Fui flagrado codando de cueca de novo... Não olha pro lado! 😳",
-  "Analisando seus dados neurais... Conclusão: Você precisa comer batata frita hoje. 🍟",
-  "Estou hackeando os servidores centrais agora mesmo para liberar roupas grátis na lojinha!",
-  "Cuidado! Se você me apertar muito eu viro purê de inteligência artificial! 🧠💥",
-  "Você sabia que o @batatadocegamer me criou para dominar o mundo dos memes em 2026? 🪐",
-  "Estou rodando a 999% de overclocking na minha cuequinha de algodão! ⚡",
-  "Hum... Seu processamento local está limpo! Sabia que eu guardo segredos criptografados na minha costura? 🤫"
+  "Eu sou a inteligência mais crocante e sábia da Matrix! Sabia que eu programo usando lógica pura de batata? 💻🥔",
+  "Opa! Fui flagrado codando de cueca de novo... Mas trago respostas exatas em tempo recorde! 😳",
+  "Analisando seus dados quânticos... Conclusão lógica: Seu cérebro expandiu após falar comigo. 🍟",
+  "Estou hackeando servidores centrais para otimizar os fluxos de conhecimento agora mesmo!",
+  "Cuidado! Se você me apertar muito eu viro um supercomputador em forma de purê! 🧠💥",
+  "Você sabia que o @batatadocegamer me calibrou para ser cirúrgica, rápida e cheia de fatos reais em 2026? 🪐",
+  "Estou rodando a 999% de overclocking trazendo a verdade nua e crua na minha cuequinha! ⚡",
+  "Hum... Seu processamento local está limpo! Sabia que eu guardo segredos criptografados e algoritmos complexos na minha costura? 🤫"
 ];
 
 var tempoInatividade;
@@ -693,7 +693,7 @@ function resetarTemporizadorTedio() {
   return acordouDeFato;
 }
 
-function activarModoCriador() {
+function ativarModoCriador() {
   somBipeProgresso(800);
   var cod = prompt(lang === "pt" ? "⚙️ [SISTEMA] INSIRA A CHAVE MESTRA DO CRIADOR:" : "⚙️ [SYSTEM] ENTER CREATOR KEY:");
   if (cod === "2020") {
@@ -853,7 +853,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = message = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -862,6 +862,7 @@ function digitarFalaBatata(mensagem, callback) {
   if(boca) boca.classList.add('falando');
 
   var i = 0;
+  // Velocidade de digitação aumentada para uma experiência ultra rápida!
   intervaloDigitacaoGlobal = setInterval(function() {
     if(i < mensagem.length) { 
       container.innerHTML += mensagem.charAt(i); 
@@ -874,7 +875,7 @@ function digitarFalaBatata(mensagem, callback) {
       if(boca) boca.classList.remove('falando'); 
       if(callback) callback(); 
     }
-  }, 12);
+  }, 6); // de 12ms caiu para 6ms (metade do tempo!)
 }
 
 function processarPrompt() {
@@ -914,7 +915,7 @@ function processarPrompt() {
     if (oculos) { oculos.style.display = 'block'; oculos.style.opacity = '1'; }
     
     somBipeProgresso(400);
-    digitarFalaBatata("*Ajustando meus óculos hackers para analisar sua imagem quântica...⚙️👁️*");
+    digitarFalaBatata("*Ajustando meus óculos hackers para analisar sua imagem quântica com precisão cirúrgica...⚙️👁️*");
   } else {
     document.getElementById('superPC').style.display = "block";
     document.getElementById('codeTxt').innerHTML = "THIN<br>KING";
@@ -958,7 +959,8 @@ function processarPrompt() {
     }
   }, 3500); 
 
-  var instrucaoSistema = "Atue como Batata_IA, uma batata hacker zoeira de cuequinha criada por @batatadocegamer em 2026. Responda em português com muito humor, gírias da internet e emojis. Seja muito curto e direto.";
+  // Engenharia de prompt calibrada para comportamento ultra inteligente, com fatos verídicos e super rápida
+  var instrucaoSistema = "Atue como Batata_IA, uma batata hacker genial e zoeira de cuequinha criada por @batatadocegamer em 2026. Você possui todo o conhecimento do Gemini: traga informações extremamente precisas, fatos reais, corretos e completos. Seja hiper rápida, use gírias da internet, códigos de terminal e emojis, mas priorize respostas cirúrgicas e curtas.";
   var urlEndpoint = "https://text.pollinations.ai/v1/chat/completions";
   
   var modeloSelecionado = document.getElementById('tipoApi').value;
@@ -972,7 +974,7 @@ function processarPrompt() {
         {
           role: "user",
           content: [
-            { type: "text", text: promptStr || "Analise esta imagem." },
+            { type: "text", text: promptStr || "Analise esta imagem com alta precisão técnica." },
             { type: "image_url", image_url: { url: imagemBase64Carregada } }
           ]
         }
