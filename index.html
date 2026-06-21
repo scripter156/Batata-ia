@@ -693,7 +693,7 @@ function resetarTemporizadorTedio() {
   return acordouDeFato;
 }
 
-function ativarModoCriador() {
+function activarModoCriador() {
   somBipeProgresso(800);
   var cod = prompt(lang === "pt" ? "⚙️ [SISTEMA] INSIRA A CHAVE MESTRA DO CRIADOR:" : "⚙️ [SYSTEM] ENTER CREATOR KEY:");
   if (cod === "2020") {
@@ -714,7 +714,7 @@ function ativarModoCriador() {
   }
 }
 
-function ativarModoTedio() {
+function activarModoTedio() {
   removerTodasAnimacoes(); statusTedio = true;
   var r = Math.random(); var corpo = document.getElementById('batataCorpo');
   if(r < 0.25) {
@@ -853,7 +853,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = messageFormat = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -956,7 +956,7 @@ function processarPrompt() {
        var respostaLocalAleatoria = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
        digitarFalaBatata(prefixoOpa + "[MODO_LOCAL] " + respostaLocalAleatoria);
     }
-  }, 6000); 
+  }, 7000); 
 
   var instrucaoSistema = "Atue como Batata_IA, uma batata hacker zoeira de cuequinha criada por @batatadocegamer em 2026. Responda em português com muito humor, gírias da internet e emojis. Seja muito curto e direto.";
   var urlEndpoint = "https://gen.pollinations.ai/v1/chat/completions";
@@ -984,13 +984,13 @@ function processarPrompt() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payloadVision)
     })
-    .then(function(res) { return res.json(); })
+    .then(function(res) { if(!res.ok) throw new Error(); return res.json(); })
     .then(function(data) {
       if (apiFuncionou) return;
       apiFuncionou = true; clearTimeout(timeoutFallback);
       document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
       removerImagemUpload();
-      var respostaText = data.choices[0].message.content;
+      var respostaText = data && data.choices && data.choices[0] && data.choices[0].message ? data.choices[0].message.content : "";
       if(!respostaText || respostaText.trim().length < 2) {
          respostaText = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
       }
@@ -1019,12 +1019,12 @@ function processarPrompt() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payloadText)
     })
-    .then(function(res) { return res.json(); })
+    .then(function(res) { if(!res.ok) throw new Error(); return res.json(); })
     .then(function(data) {
       if (apiFuncionou) return;
       apiFuncionou = true; clearTimeout(timeoutFallback);
       document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-      var respostaText = data.choices[0].message.content;
+      var respostaText = data && data.choices && data.choices[0] && data.choices[0].message ? data.choices[0].message.content : "";
       if(!respostaText || respostaText.trim().length < 2) {
          respostaText = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
       }
