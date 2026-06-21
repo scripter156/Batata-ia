@@ -134,7 +134,8 @@
   
   <label id="lblPersonalidade" style="font-size:13px; color:#ffff00; display:block; margin-bottom:5px;">Personalidade da Batata:</label>
   <select id="tipoApi" style="background:#000; color:#00ff00; border:1px solid #00ff00; padding:8px; width:100%; font-family:monospace; margin-bottom:15px;">
-    <option value="batata">Assistente Batata Inteligente / Smart Potato Assistant</option>
+    <option value="openai">Assistente Padrão (OpenAI - Mais Inteligente)</option>
+    <option value="mistral" selected>Batata Ultra Rápida (Mistral - Super Veloz e Zoeira)</option>
   </select>
 
   <p style="font-size:11px; color:#888;">Perfil ativo: <span id="perfilAtivoConfig" style="color:#00ff00;">Nenhum</span></p>
@@ -692,7 +693,7 @@ function resetarTemporizadorTedio() {
   return acordouDeFato;
 }
 
-function ativarModoCriador() {
+function activarModoCriador() {
   somBipeProgresso(800);
   var cod = prompt(lang === "pt" ? "⚙️ [SISTEMA] INSIRA A CHAVE MESTRA DO CRIADOR:" : "⚙️ [SYSTEM] ENTER CREATOR KEY:");
   if (cod === "2020") {
@@ -713,7 +714,7 @@ function ativarModoCriador() {
   }
 }
 
-function activarModoCriador() { ativarModoCriador(); }
+function ativarModoCriador() { activarModoCriador(); }
 
 function ativarModoTedio() {
   removerTodasAnimacoes(); statusTedio = true;
@@ -856,7 +857,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = message.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -963,10 +964,15 @@ function processarPrompt() {
 
   var instrucaoSistema = "Atue como Batata_IA, uma batata hacker zoeira de cuequinha criada por @batatadocegamer em 2026. Responda em português com muito humor, gírias da internet e emojis. Seja muito curto e direto.";
   var urlEndpoint = "https://gen.pollinations.ai/v1/chat/completions";
+  
+  // Captura o modelo selecionado no painel de configuração
+  var modeloSelecionado = document.getElementById('tipoApi').value;
+  // Se for "mistral", altera para o engine modular rápido da Mistral-Nemo
+  var modeloFinal = (modeloSelecionado === "mistral") ? "mistral-nemo" : "openai";
 
   if (imagemBase64Carregada) {
     let payloadVision = {
-      model: "openai",
+      model: modeloFinal,
       messages: [
         { role: "system", content: instrucaoSistema },
         {
@@ -1007,7 +1013,7 @@ function processarPrompt() {
 
   } else {
     let payloadText = {
-      model: "openai", 
+      model: modeloFinal, 
       messages: [
         { role: "system", content: instrucaoSistema },
         { role: "user", content: promptStr }
