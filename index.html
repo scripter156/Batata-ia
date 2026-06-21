@@ -693,7 +693,7 @@ function resetarTemporizadorTedio() {
   return acordouDeFato;
 }
 
-function activarModoCriador() {
+function ativarModoCriador() {
   somBipeProgresso(800);
   var cod = prompt(lang === "pt" ? "⚙️ [SISTEMA] INSIRA A CHAVE MESTRA DO CRIADOR:" : "⚙️ [SYSTEM] ENTER CREATOR KEY:");
   if (cod === "2020") {
@@ -713,8 +713,6 @@ function activarModoCriador() {
     alert(lang === "pt" ? "❌ Chave incorreta! Payload de segurança travado." : "❌ Invalid master key.");
   }
 }
-
-function ativarModoCriador() { activarModoCriador(); }
 
 function ativarModoTedio() {
   removerTodasAnimacoes(); statusTedio = true;
@@ -786,9 +784,7 @@ function mostrarProgresso() {
       
       document.getElementById('textoDialogo').innerHTML = textos[lang].sync;
       
-      alert(lang === "pt" ? "🥔 ALERTA DA MATRIX: A Batata Hacker de cuequinha acabou de aparecer!" : "🥔 MATRIX ALERT: The Underwear Hacker Potato has appeared!");
-      
-      setTimeout(concluirTrabalhoPC, 1500);
+      setTimeout(concluirTrabalhoPC, 1200);
     }
   }, 80);
 }
@@ -857,7 +853,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = message.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -965,9 +961,7 @@ function processarPrompt() {
   var instrucaoSistema = "Atue como Batata_IA, uma batata hacker zoeira de cuequinha criada por @batatadocegamer em 2026. Responda em português com muito humor, gírias da internet e emojis. Seja muito curto e direto.";
   var urlEndpoint = "https://gen.pollinations.ai/v1/chat/completions";
   
-  // Captura o modelo selecionado no painel de configuração
   var modeloSelecionado = document.getElementById('tipoApi').value;
-  // Se for "mistral", altera para o engine modular rápido da Mistral-Nemo
   var modeloFinal = (modeloSelecionado === "mistral") ? "mistral-nemo" : "openai";
 
   if (imagemBase64Carregada) {
@@ -1052,7 +1046,7 @@ window.aceitarTermos = aceitarTermos; window.abrirShop = abrirShop; window.fecha
 window.comprarRoupa = comprarRoupa; window.mudarIdioma = mudarIdioma; window.autenticar1 = autenticar1;
 window.autenticarAdmin = autenticarAdmin; window.abrirConfig = abrirConfig; window.fecharConfig = fecharConfig;
 window.salvarConfig = salvarConfig; window.reiniciarSistema = reiniciarSistema; window.processarPrompt = processarPrompt;
-window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = activarModoCriador;
+window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = ativarModoCriador;
 window.conectarEmail = conectarEmail; window.alternarRadio = alternarRadio; window.acionarSelfDestruct = acionarSelfDestruct;
 window.processarUploadImagem = processarUploadImagem; window.removerImagemUpload = removerImagemUpload;
 
