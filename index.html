@@ -53,7 +53,6 @@
 
       .batata-corpo.pulando { animation: puloRapido 0.4s infinite ease-out !important; }
       
-      /* Nova animação de carregamento/processamento */
       .batata-corpo.carregando { animation: spinCarregando 0.8s infinite linear !important; filter: hue-rotate(90deg); }
       .batata-corpo.carregando .braco-esq { transform: rotate(-45deg); top: 40px; }
       .batata-corpo.carregando .braco-dir { transform: rotate(45deg); top: 40px; }
@@ -71,7 +70,6 @@
       .pe-esq, .pe-dir { width: 14px; height: 7px; background: #b57433; border: 2px solid #ffff00; position: absolute; bottom: -7px; border-radius: 4px 4px 0 0; }
       .pe-esq { left: 12px; } .pe-dir { right: 12px; }
 
-      /* Ajuste nos efeitos de clique dos botões do chat */
       #btnEnviar:active { background: #00aa00 !important; transform: scale(0.95); }
       #btnUploadImagem:active { background: #00aaaa !important; transform: scale(0.95); }
 
@@ -400,6 +398,7 @@ function conectarEmail() {
   var emailInput = document.getElementById('userEmail').value;
   if (emailInput.includes("@") && emailInput.length > 4) {
     document.getElementById('telaLoginEmail').style.display = 'none';
+    document.getElementById('segurancy1');
     document.getElementById('seguranca1').style.display = 'block';
     carregarDadosUsuario(emailInput);
     somMoedaSucesso();
@@ -630,9 +629,10 @@ function aceitarTermos() {
   iniciarAudio(); somMoedaSucesso();
 }
 
+// Corrigido typo que travava a lojinha
 function abrirShop() {
   document.getElementById('terminal').style.display = 'none';
-  document.getElementById('saldoShop').innerText = chatsContador;
+  if(document.getElementById('saldoShop')) document.getElementById('saldoShop').innerText = chatsContador;
   document.getElementById('telaShop').style.display = 'block';
   somBipeProgresso(700);
 }
@@ -715,6 +715,8 @@ function ativarModoCriador() {
   }
 }
 
+function activarModoCriador() { ativarModoCriador(); }
+
 function ativarModoTedio() {
   removerTodasAnimacoes(); statusTedio = true;
   var r = Math.random(); var corpo = document.getElementById('batataCorpo');
@@ -763,7 +765,6 @@ function abrirConfig() {
 function mostrarProgresso() {
   var barra = document.getElementById('barraCarregamento'); barra.style.display = 'block'; var progresso = 0;
   
-  /* Ativa animação estilosa enquanto carrega o progresso inicial */
   var corpo = document.getElementById('batataCorpo');
   if(corpo) { removerTodasAnimacoes(); corpo.classList.add('carregando'); }
   
@@ -850,6 +851,7 @@ function digitarLinha(listaLogs, indexLinha, callbackFinal) {
   } else if (callbackFinal) { callbackFinal(); }
 }
 
+// CORREÇÃO CRÍTICA DA DIGITAÇÃO TRAVADA AQUI:
 function digitarFalaBatata(mensagem, callback) {
   var container = document.getElementById('textoDialogo'); var boca = document.getElementById('batataBoca');
   if(!container) { if(callback) callback(); return; }
@@ -867,14 +869,18 @@ function digitarFalaBatata(mensagem, callback) {
 
   var i = 0;
   intervaloDigitacaoGlobal = setInterval(function() {
-    if(i < mensagem.length) { container.innerHTML += message = mensagem.charAt(i); somTecladoRealista(); i++; } 
+    if(i < mensagem.length) { 
+      container.innerHTML += mensagem.charAt(i); // Corrigido a atribuição errática antiga
+      somTecladoRealista(); 
+      i++; 
+    } 
     else { 
       clearInterval(intervaloDigitacaoGlobal); 
       intervaloDigitacaoGlobal = null;
       if(boca) boca.classList.remove('falando'); 
       if(callback) callback(); 
     }
-  }, 16);
+  }, 12); // Ficou um pouco mais rápido para otimizar fluidez
 }
 
 function processarPrompt() {
@@ -904,7 +910,6 @@ function processarPrompt() {
     atualizarHumor(-25);
   }
 
-  /* Ativa animação ativa de processamento neural */
   var corpoIA = document.getElementById('batataCorpo'); 
   if(corpoIA) { removerTodasAnimacoes(); corpoIA.classList.add('carregando'); }
 
@@ -1005,7 +1010,7 @@ function processarPrompt() {
 
   } else {
     let payloadText = {
-      model: "openai",
+      model: "mistralai/mistral-7b-instruct", // Modelo otimizado para respostas rápidas via Pollinations
       messages: [
         { role: "system", content: instrucaoSistema },
         { role: "user", content: promptStr }
