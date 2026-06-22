@@ -336,7 +336,6 @@
 <script type="module">
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// CHAVE CORRIGIDA SEM PREFIXO INVÁLIDO
 const FALLBACK_KEY = "Ab8RN6IB9-RM5xSPdQJcOWdQnfjT1Iq_MmcvSP3n3_534Px05A";
 
 var lang = "pt";
@@ -857,7 +856,7 @@ window.digitarFalaBatata = function(mensagem, callback) {
   container.innerHTML = ""; if(boca) boca.classList.add('falando');
   var i = 0;
   window.intervaloDigitacaoGlobal = setInterval(function() {
-    if(i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
+    if(i < mensagem.length) { container.innerHTML += message.charAt(i); somTecladoRealista(); i++; } 
     else { clearInterval(window.intervaloDigitacaoGlobal); window.intervaloDigitacaoGlobal = null; if(boca) boca.classList.remove('falando'); if(callback) callback(); }
   }, 25); 
 };
@@ -893,10 +892,16 @@ window.processarPrompt = async function() {
       var genAI = new GoogleGenerativeAI(apiKeyUsar);
       var model = genAI.getGenerativeModel({ 
         model: "gemini-1.5-flash",
-        systemInstruction: "Você é a Batata_IA, uma inteligência artificial extremamente zoeira, hacker, sarcástica e engraçada desenvolvida por @batatadocegamer. Você usa cueca branca na Matrix Local. Responda de forma corta, usando gírias de internet, humor ácido e referências nerds. Se o usuário falar em inglês, mude seu comportamento para inglês zoeiro."
+        systemInstruction: "Você é a Batata_IA, uma inteligência artificial extremamente zoeira, hacker, sarcástica e engraçada desenvolvida por @batatadocegamer. Você usa cueca branca na Matrix Local. Responda de forma extremamente curta (máximo 2 linhas), usando gírias de internet, humor ácido e referências nerds. Nunca use introduções ou saudações como 'Olá!', vá direto à resposta zoeira. Se o usuário falar em inglês, mude seu comportamento para inglês zoeiro."
       });
       
       var respostaTexto = "";
+      
+      // CONFIGURAÇÃO ADICIONAL PARA CORTAR RESPOSTAS INFINITAS
+      var configGeracao = {
+        maxOutputTokens: 120,
+        temperature: 0.8
+      };
       
       if (window.imagemBase64Carregada) {
         var dadosLimposBase64 = window.imagemBase64Carregada.split(',')[1];
@@ -910,10 +915,10 @@ window.processarPrompt = async function() {
         };
         
         var promptComImagem = promptStr || "O que é isso na imagem? Analise com seu humor de batata hacker.";
-        var resultado = await model.generateContent([promptComImagem, parteImagem]);
+        var resultado = await model.generateContent({ contents: [{ role: 'user', parts: [promptComImagem, parteImagem] }], generationConfig: configGeracao });
         respostaTexto = resultado.response.text();
       } else {
-        var resultado = await model.generateContent(promptStr);
+        var resultado = await model.generateContent({ contents: [{ role: 'user', parts: [{ text: promptStr }] }], generationConfig: configGeracao });
         respostaTexto = resultado.response.text();
       }
       
