@@ -314,6 +314,18 @@
 
 </div>
 
+<script>
+  function aceitarTermos() {
+    document.getElementById('telaAviso').style.display = 'none';
+    document.getElementById('telaLoginEmail').style.display = 'block';
+    
+    // Dispara a inicialização do áudio no escopo global
+    if (window.inicializarAudioGlobal) {
+      window.inicializarAudioGlobal();
+    }
+  }
+</script>
+
 <script type="importmap">
   {
     "imports": {
@@ -392,6 +404,12 @@ var bancoFeedbacks = [
 function iniciarAudio() {
   try { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
 }
+
+// Expõe para a função global interceptar o clique com sucesso
+window.inicializarAudioGlobal = function() {
+  iniciarAudio();
+  setTimeout(function() { somMoedaSucesso(); }, 50);
+};
 
 function processarUploadImagem(input) {
   if (input.files && input.files[0]) {
@@ -716,13 +734,6 @@ function iniciarAlarmeSirene() {
 }
 
 function pararAlarmeSirene() { if (intervaloAlarme) { clearInterval(intervaloAlarme); intervaloAlarme = null; } }
-
-function aceitarTermos() {
-  document.getElementById('telaAviso').style.display = 'none';
-  document.getElementById('telaLoginEmail').style.display = 'block';
-  iniciarAudio(); 
-  setTimeout(function() { somMoedaSucesso(); }, 50);
-}
 
 function abrirShop() {
   document.getElementById('terminal').style.display = 'none';
@@ -1214,7 +1225,6 @@ document.getElementById('btnConectarEmail').addEventListener('click', conectarEm
 document.getElementById('btnInject').addEventListener('click', autenticar1);
 document.getElementById('btnAutenticarAdmin').addEventListener('click', autenticarAdmin);
 
-window.aceitarTermos = aceitarTermos;
 window.abrirShop = abrirShop; window.fecharShop = fecharShop;
 window.comprarRoupa = comprarRoupa; window.mudarIdioma = mudarIdioma; window.autenticar1 = autenticar1;
 window.autenticarAdmin = autenticarAdmin; window.abrirConfig = abrirConfig; window.fecharConfig = fecharConfig;
