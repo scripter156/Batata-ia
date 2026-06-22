@@ -122,7 +122,7 @@
       Este sistema acessa subcamadas neurais da rede. O desenvolvedor <strong>@batatadocegamer</strong> NÃO se responsabiliza por quaisquer danos, bugs, falhas no sistema ou perda de dados que possam ocorrer durante ou após a execução deste payload.<br><br>
       Proceed at your own risk. The developer is not liable for any issues caused by running this interactive protocol.
     </p>
-    <button type="button" id="btnAceitarTermos" style="width:100%; background:#ff3333; color:#000; padding:12px; border:none; font-weight:bold; font-size:15px; cursor:pointer; border-radius:3px; box-shadow: 0 0 10px #ff3333; font-family:monospace;">[ ACEITAR TERMOS E ATIVAR AUDIO ]</button>
+    <button type="button" id="btnAceitarTermos" onclick="aceitarTermos()" style="width:100%; background:#ff3333; color:#000; padding:12px; border:none; font-weight:bold; font-size:15px; cursor:pointer; border-radius:3px; box-shadow: 0 0 10px #ff3333; font-family:monospace;">[ ACEITAR TERMOS E ATIVAR AUDIO ]</button>
   </div>
 </div>
 
@@ -325,7 +325,6 @@
 <script type="module">
 import { GoogleGenAI } from "@google/generative-ai";
 
-// Chave pública restaurada (pode sofrer rate-limit temporário de 15 RPM se abusada)
 const FALLBACK_KEY = "AIzaSy" + "AsO7t8W" + "Y9g8WlX" + "9w4fRzK" + "2pL0mN" + "7vQ6xZ";
 
 var lang = "pt";
@@ -851,7 +850,7 @@ function activarModoTedio() {
   }
 }
 
-function ativarModoCriador() {
+function activarModoCriador() {
   somBipeProgresso(800);
   var cod = prompt(lang === "pt" ? "⚙️ [SISTEMA] INSIRA A CHAVE MESTRA DO CRIADOR:" : "⚙️ [SYSTEM] ENTER CREATOR KEY:");
   if (cod === "2020") {
@@ -1013,7 +1012,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = message.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -1076,7 +1075,6 @@ function baterPalmasFisicas() {
   }, 2500);
 }
 
-// INTEGRAÇÃO ROBUSTA COM GOOGLE GEMINI CORE
 async function gerarComGemini(promptTexto, imagemBase64) {
   try {
     let chaveDefinida = document.getElementById('geminiApiKey').value.trim();
@@ -1212,12 +1210,11 @@ async function processarPrompt() {
   input.value = "";
 }
 
-// Vinculação de eventos robusta (Corrige falhas do type="module" no onclick)
-document.getElementById('btnAceitarTermos').addEventListener('click', aceitarTermos);
 document.getElementById('btnConectarEmail').addEventListener('click', conectarEmail);
 document.getElementById('btnInject').addEventListener('click', autenticar1);
 document.getElementById('btnAutenticarAdmin').addEventListener('click', autenticarAdmin);
 
+window.aceitarTermos = aceitarTermos;
 window.abrirShop = abrirShop; window.fecharShop = fecharShop;
 window.comprarRoupa = comprarRoupa; window.mudarIdioma = mudarIdioma; window.autenticar1 = autenticar1;
 window.autenticarAdmin = autenticarAdmin; window.abrirConfig = abrirConfig; window.fecharConfig = fecharConfig;
