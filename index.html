@@ -78,6 +78,17 @@
 
       .fade-in-slow { animation: esmaecerEntrada 2.5s forwards ease-in-out; }
 
+      .aviso-sobrecarga {
+        margin-top: 10px;
+        font-size: 11px;
+        font-weight: bold;
+        color: #ff3333;
+        font-family: monospace;
+        letter-spacing: 0.5px;
+        text-shadow: 0 0 5px #ff0000;
+        animation: piscarAviso 1.5s infinite alternate;
+      }
+
       @keyframes esmaecerEntrada {
         0% { opacity: 0; filter: blur(5px) brightness(0.3); }
         100% { opacity: 1; filter: blur(0px) brightness(1); }
@@ -94,6 +105,7 @@
       @keyframes desabarMeme67 { 0%, 100% { transform: scaleY(0.7) translateY(25px); filter: hue-rotate(0deg); } 50% { transform: scaleY(0.6) scaleX(1.1) translateY(32px); filter: hue-rotate(20deg); } }
       @keyframes blink { 0% { opacity: 1; } 100% { opacity: 0; } }
       @keyframes tremer { 0% { transform: translate(2px, 2px); } 50% { transform: translate(-2px, -2px); } 100% { transform: translate(2px, -2px); } }
+      @keyframes piscarAviso { 0% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body id="bodyMain">
@@ -106,7 +118,7 @@
   <div style="max-width:500px; border:2px solid #ff3333; background:#0a0000; padding:25px; border-radius:5px; box-shadow: 0 0 20px #ff3333; text-align:left;">
     <h2 id="txtAvisoTitulo" style="color:#ff3333; text-align:center; margin-top:0; letter-spacing:2px; animation: blink 1s infinite;">⚠️ AVISO CRÍTICO / CRITICAL NOTICE</h2>
     <p id="txtAvisoCorpo" style="color:#fff; font-size:13px; line-height:1.5; margin-bottom:20px;">
-      Este sistema acessa subcamadas neurais da rede. O desenvolvedor <strong>@batatadocegamer</strong> NÃO se responsabiliza por quaisquer danos, bugs, falhas no system os perda de dados que possam ocorrer durante ou após a execução deste payload.<br><br>
+      Este system acessa subcamadas neurais da rede. O desenvolvedor <strong>@batatadocegamer</strong> NÃO se responsabiliza por quaisquer danos, bugs, falhas no system ou perda de dados que possam ocorrer durante ou após a execução deste payload.<br><br>
       Proceed at your own risk. The developer is not liable for any issues caused by running this interactive protocol.
     </p>
     <button type="button" onclick="aceitarTermos()" style="width:100%; background:#ff3333; color:#000; padding:12px; border:none; font-weight:bold; font-size:15px; cursor:pointer; border-radius:3px; box-shadow: 0 0 10px #ff3333; font-family:monospace;">[ ACEITAR TERMOS E ATIVAR AUDIO ]</button>
@@ -289,6 +301,10 @@
       <input type="text" id="promptIA" oninput="somDigitacaoUsuario()" placeholder="Pergunte algo ou peça um desenho...">
       
       <button type="button" id="btnEnviar" onclick="processarPrompt()">ENVIAR</button>
+    </div>
+
+    <div class="aviso-sobrecarga">
+      em caso de erro espere um pouco e volte mais tarde pois a api pode ter sobrecarregada
     </div>
 
     <div style="margin-top: 15px; text-align: right; opacity: 0.15; transition: opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.15">
@@ -782,7 +798,7 @@ function comprarRoupa() {
 function mudarIdioma(id) {
   lang = id; somClick();
   document.getElementById('txtRestrito').innerText = textos[lang].restrito;
-  document.getElementById('txtCredencial').innerText = textos[lang].credencial;
+  document.getElementById('txtCredencial').innerText = textos[lang].credenclal;
   document.getElementById('btnInject').innerText = textos[lang].inject;
   document.getElementById('txtAlertaAdmin').innerText = textos[lang].alertaAdmin;
   document.getElementById('txtErroTitulo').innerText = textos[lang].erroTitulo;
@@ -977,7 +993,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = message.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -1081,18 +1097,16 @@ function processarPrompt() {
        somErroAntigo();
        digitarFalaBatata("Algo deu errado na subcamada neural. Por favor tente novamente mais tarde, administrador!");
     }
-  }, 20000); 
+  }, 60000); 
 
   var instrucaoSistema = "Atue como Batata_IA, uma batata hacker genial e zoeira de cuequinha criada por @batatadocegamer em 2026. Você possui todo o conhecimento do Gemini: traga informações extremamente precisas, fatos reais, corretos e completos. Seja hiper rápida, use gírias da internet, códigos de terminal e emojis, mas priorize respostas cirúrgicas e curtas.";
   
   var modeloSelecionado = document.getElementById('tipoApi').value;
   var modeloFinal = (modeloSelecionado === "mistral") ? "mistral" : "openai";
 
-  // Usamos a rota simplificada GET / POST direto por texto no Pollinations que é ultra confiável
   var urlEndpoint = "https://text.pollinations.ai/" + encodeURIComponent(promptStr) + "?system=" + encodeURIComponent(instrucaoSistema) + "&model=" + modeloFinal;
 
   if (imagemBase64Carregada) {
-    // Tratamento adaptativo simplificado para modo visão no Pollinations
     urlEndpoint = "https://text.pollinations.ai/" + encodeURIComponent("Analise esta imagem quântica e responda: " + promptStr) + "?system=" + encodeURIComponent(instrucaoSistema) + "&model=" + modeloFinal;
   }
 
@@ -1126,7 +1140,7 @@ window.aceitarTermos = aceitarTermos; window.abrirShop = abrirShop; window.fecha
 window.comprarRoupa = comprarRoupa; window.mudarIdioma = mudarIdioma; window.autenticar1 = autenticar1;
 window.autenticarAdmin = autenticarAdmin; window.abrirConfig = abrirConfig; window.fecharConfig = fecharConfig;
 window.salvarConfig = salvarConfig; window.reiniciarSistema = reiniciarSistema; window.processarPrompt = processarPrompt;
-window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = activarModoCriador; // Corrigido mapeamento
+window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = activarModoCriador; 
 window.conectarEmail = conectarEmail; window.alternarRadio = alternarRadio; window.acionarSelfDestruct = acionarSelfDestruct;
 window.processarUploadImagem = processarUploadImagem; window.removerImagemUpload = removerImagemUpload;
 window.abrirFeedback = abrirFeedback; window.fecharFeedback = fecharFeedback; window.enviarFeedbackDados = enviarFeedbackDados; window.verificarCodigoFeedback = verificarCodigoFeedback;
