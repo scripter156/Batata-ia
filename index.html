@@ -35,7 +35,7 @@
 
       .olhos { margin-top: 28px; display: flex; justify-content: space-around; padding: 0 12px; transition: 0.2s; position: relative; z-index: 2; }
       .olho-esq, .olho-dir { width: 12px; height: 12px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: piscar 4s infinite linear; position: relative; }
-      .pupila { width: 5px; height: 5px; background: #000; border-radius: 50%; position: absolute; transition: 0.2s; }
+      .pupila { width: 5px; height: 5px; background: #000; border-radius: 50%; position: absolute; transition: 0.2s; left: 3.5px; top: 3.5px; }
       
       .boca { width: 16px; height: 8px; border-bottom: 3px solid #000; border-radius: 0 0 10px 10px; margin: 6px auto 0; transition: 0.1s; position: relative; z-index: 2; }
       .boca.falando { animation: mexerBoca 0.15s infinite alternate; border-bottom: none; background: #000; border-radius: 50%; width: 10px; height: 10px; }
@@ -70,6 +70,7 @@
       .pe-esq, .pe-dir { width: 14px; height: 7px; background: #b57433; border: 2px solid #ffff00; position: absolute; bottom: -7px; border-radius: 4px 4px 0 0; }
       .pe-esq { left: 12px; } .pe-dir { right: 12px; }
 
+      .interface-botoes-container { display: flex; gap: 5px; align-items: center; width: 100%; }
       #btnEnviar { background: #00ff00; color: #000; border: none; padding: 10px 15px; font-weight: bold; cursor: pointer; font-family: monospace; min-width: 80px; flex-shrink: 0; z-index: 999; position: relative; }
       #btnEnviar:active { background: #00aa00 !important; transform: scale(0.95); }
       #btnUploadImagem { background: #00ffff; color: #000; border: none; padding: 10px; font-weight: bold; cursor: pointer; font-family: monospace; border-radius: 3px; min-width: 40px; flex-shrink: 0; z-index: 999; position: relative; }
@@ -161,8 +162,8 @@
   <p style="font-size:11px; color:#888;">Perfil ativo: <span id="perfilAtivoConfig" style="color:#00ff00;">Nenhum</span></p>
   
   <div style="display:flex; gap:10px;">
-    <button type="button" id="btnSalvarConfig" onclick="salvarConfig()" style="flex:1; background:#00ff00; color:#000; border:none; padding:10px; font-weight:bold; cursor:pointer; font-family:monospace;">SALVAR CONFIG</button>
-    <button type="button" id="btnVoltarConfig" onclick="fecharConfig()" style="flex:1; background:#ff3333; color:#000; border:none; padding:10px; font-weight:bold; cursor:pointer; font-family:monospace;">VOLTAR AO CHAT</button>
+    <button type="button" id="btnSalvarConfig" onclick="salvarConfig()">SALVAR CONFIG</button>
+    <button type="button" id="btnVoltarConfig" onclick="fecharConfig()">VOLTAR AO CHAT</button>
   </div>
 </div>
 
@@ -291,16 +292,18 @@
       <img id="imgUploadPreview" src="" style="max-height:50px; display:block; margin-top:5px; border:1px solid #ff3333;">
     </div>
 
-    <div id="chatInterface" style="display:none; margin-top:15px; gap:5px; align-items:center; flex-wrap: nowrap; width: 100%; position: relative; z-index: 9999;">
-      <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="processarUploadImagem(this)">
-      
-      <button type="button" id="btnUploadImagem" onclick="document.getElementById('fileInput').click()" title="Enviar Imagem para a Batata">📁</button>
-      
-      <button type="button" id="btnPalmas" onclick="baterPalmasFisicas()" title="Bater Palmas para a Batata">👏</button>
+    <div id="chatInterface" style="display:none; margin-top:15px; width: 100%; position: relative; z-index: 9999;">
+      <div class="interface-botoes-container">
+        <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="processarUploadImagem(this)">
+        
+        <button type="button" id="btnUploadImagem" onclick="document.getElementById('fileInput').click()" title="Enviar Imagem para a Batata">📁</button>
+        
+        <button type="button" id="btnPalmas" onclick="baterPalmasFisicas()" title="Bater Palmas para a Batata">👏</button>
 
-      <input type="text" id="promptIA" oninput="somDigitacaoUsuario()" placeholder="Pergunte algo ou peça um desenho...">
-      
-      <button type="button" id="btnEnviar" onclick="processarPrompt()">ENVIAR</button>
+        <input type="text" id="promptIA" oninput="somDigitacaoUsuario()" placeholder="Pergunte algo ou peça um desenho...">
+        
+        <button type="button" id="btnEnviar" onclick="processarPrompt()">ENVIAR</button>
+      </div>
     </div>
 
     <div class="aviso-sobrecarga">
