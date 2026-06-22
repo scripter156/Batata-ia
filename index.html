@@ -987,7 +987,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = message = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -997,7 +997,7 @@ function digitarFalaBatata(mensagem, callback) {
 
   var i = 0;
   intervaloDigitacaoGlobal = setInterval(function() {
-    if(i < message = mensagem.length) { 
+    if(i < mensagem.length) { 
       container.innerHTML += mensagem.charAt(i); 
       somTecladoRealista(); 
       i++; 
@@ -1048,11 +1048,11 @@ function processarPrompt() {
     if (oculos) { oculos.style.display = 'block'; oculos.style.opacity = '1'; }
     
     somBipeProgresso(400);
-    digitarFalaBatata("*Ajustando meus óculos hackers para analisar sua imagem quântica com precisão cirúrgica...⚙️👁️*");
+    document.getElementById('textoDialogo').innerHTML = "*Ajustando meus óculos hackers para analisar sua imagem quântica...⚙️👁️*";
   } else {
     document.getElementById('superPC').style.display = "block";
     document.getElementById('codeTxt').innerHTML = "THIN<br>KING";
-    digitarFalaBatata(textos[lang].proc);
+    document.getElementById('textoDialogo').innerHTML = textos[lang].proc;
   }
 
   const proibidas = ["18+", "sexo", "porno", "nude", "adulto"];
@@ -1083,7 +1083,6 @@ function processarPrompt() {
 
   var apiFuncionou = false;
   
-  // Modificado para 60000ms (1 minuto) e alterado para a mensagem desejada em caso de falha/timeout
   var timeoutFallback = setTimeout(function() {
     if(!apiFuncionou) {
        apiFuncionou = true;
