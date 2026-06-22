@@ -38,7 +38,7 @@
       .pupila { width: 5px; height: 5px; background: #000; border-radius: 50%; position: absolute; transition: 0.2s; left: 3.5px; top: 3.5px; }
       
       .boca { width: 16px; height: 8px; border-bottom: 3px solid #000; border-radius: 0 0 10px 10px; margin: 6px auto 0; transition: 0.1s; position: relative; z-index: 2; }
-      .boca.falando { animation: mexerBoca 0.15s infinite alternate !important; border-bottom: none !important; background: #000 !important; border-radius: 50% !important; width: 10px !important; height: 10px !important; }
+      .boca.falando { animation: mexerBoca 0.15s infinite alternate; border-bottom: none; background: #000; border-radius: 50%; width: 10px; height: 10px; }
 
       .braco-esq, .braco-dir { width: 14px; height: 4px; background: #ffff00; position: absolute; top: 48px; transition: 0.2s; z-index: 3; }
       .braco-esq { left: -11px; transform: rotate(15deg); } .braco-dir { right: -11px; transform: rotate(-15deg); }
@@ -156,7 +156,7 @@
   <h3 id="txtConfigTitulo" style="color:#ffff00; text-align:center; margin-top:0;">⚙️ PAINEL DE CONFIGURAÇÃO</h3>
   <p id="txtConfigSub" style="font-size:12px; color:#aaa;">O sistema está conectado diretamente à API do Gemini Core.</p>
   
-  <label id="lblPersonalidade" style="font-size:13px; color:#ffff00; display:block; margin-bottom:5px;">Chave de API do Gemini (Recomendado):</label>
+  <label id="lblPersonalidade" style="font-size:13px; color:#ffff00; display:block; margin-bottom:5px;">Chave de API do Gemini (Obrigatório caso o Fallback caia):</label>
   <input type="password" id="geminiApiKey" placeholder="Insira sua chave AIzaSy... para uso estável e ilimitado" style="background:#000; color:#00ff00; border:1px solid #00ff00; padding:8px; width:100%; font-family:monospace; margin-bottom:15px; box-sizing: border-box;">
 
   <p style="font-size:11px; color:#888;">Perfil ativo: <span id="perfilAtivoConfig" style="color:#00ff00;">Nenhum</span></p>
@@ -336,7 +336,7 @@
 <script type="module">
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const FALLBACK_KEY = "Ab8RN6IB9-RM5xSPdQJcOWdQnfjT1Iq_MmcvSP3n3_534Px05A";
+const FALLBACK_KEY = "AIzaSy" + "DUMMY_KEY_ALTERE_SE_PRECIZAR"; // Insira uma chave real aqui se quiser fallback global estável.
 
 var lang = "pt";
 var textos = {
@@ -344,7 +344,7 @@ var textos = {
     restrito: "⚠️ ACESSO RESTRITO", credencial: "INSIRA A CREDENCIAL DE ACESSO:", inject: "INJETAR CARGA",
     alertaAdmin: "[!] ALERTA: AUTENTICAÇÃO REQUERIDA", erroTitulo: "🚨 ACESSO BLOQUEADO 🚨",
     erroMsg: "VOCÊ NÃO SABE O CÓDIGO?!", configTitulo: "⚙️ PAINEL DE CONFIGURAÇÃO",
-    configSub: "O sistema está conectado diretamente à API do Gemini Core.", lblPersonalidade: "Chave de API do Gemini (Recomendado):",
+    configSub: "O sistema está conectado diretamente à API do Gemini Core.", lblPersonalidade: "Chave de API do Gemini:",
     btnSalvar: "SALVAR CONFIG", btnVoltar: "VOLTAR AO CHAT", placeholder: "Mande-me criar uma imagem, faça perguntas complexas... 📈🤖",
     btnEnviar: "ENVIAR", coreVersao: "[ GEMINI_BATATA_CORE v1.5 ]",
     logs1: ["> Iniciando bypass de segurança...", "> Inicializando kernel modular...", "> Conectando aos servidores do Gemini..."],
@@ -361,7 +361,7 @@ var textos = {
     restrito: "⚠️ ACCESS RESTRICTED", credencial: "ENTER ACCESS CREDENTIALS:", inject: "INJECT PAYLOAD",
     alertaAdmin: "[!] ALERT: AUTHENTICATION REQUIRED", erroTitulo: "🚨 ACCESS BLOCKED 🚨",
     erroMsg: "DON'T YOU KNOW THE CODE?!", configTitulo: "⚙️ CONFIGURATION PANEL",
-    configSub: "The system is connected to Gemini API Core.", lblPersonalidade: "Gemini API Key (Optional):",
+    configSub: "The system is connected to Gemini API Core.", lblPersonalidade: "Gemini API Key:",
     btnSalvar: "SAVE CONFIG", btnVoltar: "BACK TO CHAT", placeholder: "Ask anything smart, send images... 🚀🤖",
     btnEnviar: "SEND", coreVersao: "[ GEMINI_BATATA_CORE v1.5 ]",
     logs1: ["> Initiating security bypass...", "> Initializing modular kernel...", "> Connecting to Gemini Core..."],
@@ -850,29 +850,14 @@ function digitarLinha(listaLogs, indexLinha, callbackFinal) {
 }
 
 window.digitarFalaBatata = function(mensagem, callback) {
-  var container = document.getElementById('textoDialogo'); 
-  var boca = document.getElementById('batataBoca');
+  var container = document.getElementById('textoDialogo'); var boca = document.getElementById('batataBoca');
   if(!container) return;
-  
-  if (window.intervaloDigitacaoGlobal) { 
-    clearInterval(window.intervaloDigitacaoGlobal); 
-  }
-  
-  container.innerHTML = ""; 
-  if(boca) boca.classList.add('falando');
-  
+  if (window.intervaloDigitacaoGlobal) { clearInterval(window.intervaloDigitacaoGlobal); }
+  container.innerHTML = ""; if(boca) boca.classList.add('falando');
   var i = 0;
   window.intervaloDigitacaoGlobal = setInterval(function() {
-    if(i < mensagem.length) { 
-      container.innerHTML += mensagem.charAt(i); 
-      somTecladoRealista(); 
-      i++; 
-    } else { 
-      clearInterval(window.intervaloDigitacaoGlobal); 
-      window.intervaloDigitacaoGlobal = null; 
-      if(boca) boca.classList.remove('falando'); 
-      if(callback) callback(); 
-    }
+    if(i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
+    else { clearInterval(window.intervaloDigitacaoGlobal); window.intervaloDigitacaoGlobal = null; if(boca) boca.classList.remove('falando'); if(callback) callback(); }
   }, 25); 
 };
 
@@ -894,87 +879,106 @@ window.removerTodasAnimacoes = function() {
 window.processarPrompt = async function() {
   var input = document.getElementById('promptIA'); if(!input) return;
   var promptStr = input.value.trim(); if (!promptStr && !window.imagemBase64Carregada) return;
+  
   window.chatsContador++; salvarDadosUsuario(); document.getElementById('contadorChats').innerText = "CHATS: " + window.chatsContador;
   
   if (promptStr.toLowerCase().includes("desenhe")) {
     var urlRender = "https://image.pollinations.ai/p/" + encodeURIComponent(promptStr) + "?width=400&height=300&seed=" + Math.floor(Math.random() * 9999);
     digitarFalaBatata("Gerando imagem... <br><img src='" + urlRender + "' style='width:100%'>");
-  } else {
-    var apiKeyDigitada = document.getElementById('geminiApiKey').value.trim();
-    var apiKeyUsar = apiKeyDigitada || FALLBACK_KEY;
-    
-    try {
-      var genAI = new GoogleGenerativeAI(apiKeyUsar);
-      var model = genAI.getGenerativeModel({ 
-        model: "gemini-1.5-flash",
-        systemInstruction: "Você é a Batata_IA, uma inteligência artificial extremamente zoeira, hacker, sarcástica e engraçada desenvolvida por @batatadocegamer. Você usa cueca branca na Matrix Local. Responda de forma extremamente curta (máximo 2 linhas), usando gírias de internet, humor ácido e referências nerds. Nunca use introduções ou saudações como 'Olá!', vá direto à resposta zoeira. Se o usuário falar em inglês, mude seu comportamento para inglês zoeiro."
-      });
-      
-      var respostaTexto = "";
-      
-      var configGeracao = {
-        maxOutputTokens: 120,
-        temperature: 0.8
-      };
-      
-      if (window.imagemBase64Carregada) {
-        var dadosLimposBase64 = window.imagemBase64Carregada.split(',')[1];
-        var mimeoType = window.imagemBase64Carregada.split(';')[0].split(':')[1];
-        
-        var parteImagem = {
-          inlineData: {
-            data: dadosLimposBase64,
-            mimeType: mimeoType
-          }
-        };
-        
-        var promptComImagem = promptStr || "O que é isso na imagem? Analise com seu humor de batata hacker.";
-        var resultado = await model.generateContent({ contents: [{ role: 'user', parts: [promptComImagem, parteImagem] }], generationConfig: configGeracao });
-        respostaTexto = resultado.response.text();
-      } else {
-        var resultado = await model.generateContent({ contents: [{ role: 'user', parts: [{ text: promptStr }] }], generationConfig: configGeracao });
-        respostaTexto = resultado.response.text();
-      }
-      
-      var cuerpoBatata = document.getElementById('batataCorpo');
-      if (cuerpoBatata) {
-        removerTodasAnimacoes();
-        var sorteioAnimacao = Math.random();
-        if (sorteioAnimacao < 0.25) {
-          cuerpoBatata.classList.add('dançando');
-        } else if (sorteioAnimacao < 0.50) {
-          cuerpoBatata.classList.add('coçando-nariz');
-        } else if (sorteioAnimacao < 0.75) {
-          cuerpoBatata.classList.add('pegando-oculos');
-          var oculos = document.getElementById('batataOculos');
-          if(oculos) { oculos.style.display = 'block'; oculos.style.opacity = '1'; }
-        } else {
-          cuerpoBatata.classList.add('digitando');
-        }
-      }
-      
-      if (Math.random() > 0.6) {
-        atualizarHumor(-5);
-      } else {
-        atualizarHumor(5);
-      }
-      
-      digitarFalaBatata(respostaTexto, function() {
-        setTimeout(function() {
-          var c = document.getElementById('batataCorpo');
-          if (c && !c.classList.contains('carregando')) {
-            removerTodasAnimacoes();
-            var oculos = document.getElementById('batataOculos');
-            if(oculos) { oculos.style.display = 'none'; oculos.style.opacity = '0'; }
-          }
-        }, 5000);
-      });
-      
-    } catch (erro) {
-      console.error(erro);
-      digitarFalaBatata("🚨 [KERNEL ERROR] Erro na Matrix Neural: Chave inválida ou limite excedido. Adicione sua própria chave válida nas configurações! 🥔");
-    }
+    input.value = ""; removerImagemUpload();
+    return;
   }
+
+  var apiKeyDigitada = document.getElementById('geminiApiKey').value.trim();
+  var apiKeyUsar = apiKeyDigitada || FALLBACK_KEY;
+  
+  if (!apiKeyUsar || apiKeyUsar.includes("DUMMY_KEY")) {
+    digitarFalaBatata("🚨 [KERNEL ERROR] Chave de API ausente ou inválida. Toque na engrenagem ⚙️ no topo direito e insira sua chave do Google AI Studio para conversar com a Batata! 🥔");
+    input.value = ""; removerImagemUpload();
+    return;
+  }
+  
+  try {
+    var genAI = new GoogleGenerativeAI(apiKeyUsar);
+    
+    // CORREÇÃO: A instrução do sistema (System Instruction) deve ser colocada aqui
+    var model = genAI.getGenerativeModel({ 
+      model: "gemini-1.5-flash",
+      systemInstruction: "Você é a Batata_IA, uma inteligência artificial extremamente zoeira, hacker, sarcástica e engraçada desenvolvida por @batatadocegamer. Você usa cueca branca na Matrix Local. Responda de forma extremamente curta (máximo 2 linhas), usando gírias de internet, humor ácido e referências nerds. Nunca use introduções ou saudações como 'Olá!', vá direto à resposta zoeira. Se o usuário falar em inglês, mude seu comportamento para inglês zoeiro."
+    });
+    
+    var conteudosRequest = [];
+    
+    if (window.imagemBase64Carregada) {
+      var dadosLimposBase64 = window.imagemBase64Carregada.split(',')[1];
+      var mimeoType = window.imagemBase64Carregada.split(';')[0].split(':')[1];
+      
+      conteudosRequest.push({
+        inlineData: {
+          data: dadosLimposBase64,
+          mimeType: mimeoType
+        }
+      });
+      
+      conteudosRequest.push({ text: promptStr || "O que é isso na imagem? Analise com seu humor de batata hacker." });
+    } else {
+      conteudosRequest.push({ text: promptStr });
+    }
+    
+    var configGeracao = {
+      maxOutputTokens: 120,
+      temperature: 0.8
+    };
+    
+    // Aciona animação preventiva de digitação
+    var cuerpoBatata = document.getElementById('batataCorpo');
+    if (cuerpoBatata) {
+      removerTodasAnimacoes();
+      cuerpoBatata.classList.add('digitando');
+    }
+    
+    // CORREÇÃO: Chamada estruturada corretamente para o formato oficial do SDK
+    var resultado = await model.generateContent({ 
+      contents: [{ role: 'user', parts: conteudosRequest }], 
+      generationConfig: configGeracao 
+    });
+    
+    var respostaTexto = resultado.response.text();
+    
+    if (cuerpoBatata) {
+      removerTodasAnimacoes();
+      var sorteioAnimacao = Math.random();
+      if (sorteioAnimacao < 0.25) {
+        cuerpoBatata.classList.add('dançando');
+      } else if (sorteioAnimacao < 0.50) {
+        cuerpoBatata.classList.add('coçando-nariz');
+      } else if (sorteioAnimacao < 0.75) {
+        cuerpoBatata.classList.add('pegando-oculos');
+        var oculos = document.getElementById('batataOculos');
+        if(oculos) { oculos.style.display = 'block'; oculos.style.opacity = '1'; }
+      } else {
+        cuerpoBatata.classList.add('digitando');
+      }
+    }
+    
+    atualizarHumor(Math.random() > 0.6 ? -5 : 5);
+    
+    digitarFalaBatata(respostaTexto, function() {
+      setTimeout(function() {
+        var c = document.getElementById('batataCorpo');
+        if (c && !c.classList.contains('carregando')) {
+          removerTodasAnimacoes();
+          var oculos = document.getElementById('batataOculos');
+          if(oculos) { oculos.style.display = 'none'; oculos.style.opacity = '0'; }
+        }
+      }, 5000);
+    });
+    
+  } catch (erro) {
+    console.error(erro);
+    digitarFalaBatata("🚨 [KERNEL ERROR] Erro na Matrix Neural: Falha de conexão ou token inválido. Verifique se sua chave da API adicionada nas Configurações (⚙️) está correta e ativa! 🥔");
+  }
+  
   input.value = ""; removerImagemUpload();
 };
 
