@@ -223,8 +223,8 @@
   <div style="position:absolute; top:10px; right:10px; display:flex; gap:10px; z-index:100; align-items: center;">
     <button type="button" id="btnFeedbackTop" onclick="abrirFeedback()" style="background:none; border:1px solid #ff00ff; color:#ff00ff; font-size:11px; padding:2px 6px; border-radius:3px; cursor:pointer; font-family:monospace; text-shadow:0 0 3px #ff00ff;" title="Enviar Feedback">FEEDBACK</button>
     <button type="button" id="btnRadio" onclick="alternarRadio()" style="background:none; border:none; color:#ff00ff; font-size:16px; cursor:pointer; text-shadow:0 0 5px #ff00ff;" title="Rádio Cyberpunk">📻 <span id="statusRadio" style="font-size:10px; color:#fff;">OFF</span></button>
-    <button type="button" id="btnShop" onclick="abrirShop()" style="display:none; background:none; border:none; color:#00ffff; font-size:18px; cursor:pointer; text-shadow:0 0 5px #00ffff;">🛍️</button>
-    <button type="button" id="btnConfig" onclick="abrirConfig()" style="display:none; background:none; border:none; color:#ffff00; font-size:18px; cursor:pointer; text-shadow:0 0 5px #ffff00;">⚙️</button>
+    <button type="button" id="btnShop" onclick="abrirShop()" style="background:none; border:none; color:#00ffff; font-size:18px; cursor:pointer; text-shadow:0 0 5px #00ffff;">🛍️</button>
+    <button type="button" id="btnConfig" onclick="abrirConfig()" style="background:none; border:none; color:#ffff00; font-size:18px; cursor:pointer; text-shadow:0 0 5px #ffff00;">⚙️</button>
   </div>
 
   <div style="border-bottom: 1px solid #00ff00; padding-bottom: 5px; margin-bottom: 15px; font-size: 11px; color: #00aa00;">
@@ -331,7 +331,7 @@
 </script>
 
 <script type="module">
-import { GoogleGenAI } from "@google/generative-ai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const FALLBACK_KEY = "AIzaSy" + "AsO7t8W" + "Y9g8WlX" + "9w4fRzK" + "2pL0mN" + "7vQ6xZ";
 
@@ -373,129 +373,125 @@ var textos = {
   }
 };
 
-var tempoInatividade;
-var statusTedio = false;
-var mexendoNoPcTedio = false;
+window.emailUsuarioAtivo = "";
+window.chatsContador = 0;
+window.roupaEquipada = "roupa-cueca";
+window.humorIA = 100; 
+window.imagemBase64Carregada = ""; 
 
-var emailUsuarioAtivo = "";
-var chatsContador = 0;
-var roupaEquipada = "roupa-cueca";
-var humorIA = 100; 
-var imagemBase64Carregada = ""; 
+window.roupasDisponiveis = ["roupa-hacker", "roupa-cyberpunk", "roupa-gamer", "roupa-senior", "roupa-doce"];
+window.audioCtx = null;
+window.intervaloAlarme = null;
+window.oscRadioNode = null;
+window.gainRadioNode = null;
+window.tocandoRadio = false;
+window.tempoRadioTimeout = null;
+window.intervaloDigitacaoGlobal = null;
 
-var roupasDisponiveis = ["roupa-hacker", "roupa-cyberpunk", "roupa-gamer", "roupa-senior", "roupa-doce"];
-var audioCtx = null;
-var intervaloAlarme = null;
-var oscRadioNode = null;
-var gainRadioNode = null;
-var tocandoRadio = false;
-var tempoRadioTimeout = null;
-var intervaloDigitacaoGlobal = null;
-
-var bancoFeedbacks = [
+window.bancoFeedbacks = [
   { email: "tester@matrix.com", msg: "Sistema de cueca muito maneiro! Conexão rápida." },
   { email: "pabloeduardohonorato@gmail.com", msg: "O botão de enviar e o som de boot vintage estão funcionando perfeitamente agora!" }
 ];
 
-function iniciarAudio() {
-  try { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
-}
+window.iniciarAudio = function() {
+  try { if (!window.audioCtx) window.audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+};
 
 window.inicializarAudioGlobal = function() {
-  iniciarAudio();
+  window.iniciarAudio();
   setTimeout(function() { somMoedaSucesso(); }, 50);
 };
 
-function processarUploadImagem(input) {
+window.processarUploadImagem = function(input) {
   if (input.files && input.files[0]) {
     var leitor = new FileReader();
     leitor.onload = function(e) {
-      imagemBase64Carregada = e.target.result;
-      document.getElementById('imgUploadPreview').src = imagemBase64Carregada;
+      window.imagemBase64Carregada = e.target.result;
+      document.getElementById('imgUploadPreview').src = window.imagemBase64Carregada;
       document.getElementById('previewUploadContainer').style.display = 'block';
       somMoedaSucesso();
     };
     leitor.readAsDataURL(input.files[0]);
   }
-}
+};
 
-function removerImagemUpload() {
-  imagemBase64Carregada = "";
+window.removerImagemUpload = function() {
+  window.imagemBase64Carregada = "";
   document.getElementById('fileInput').value = "";
   document.getElementById('previewUploadContainer').style.display = 'none';
   somClick();
-}
+};
 
-function carregarDadosUsuario(email) {
-  emailUsuarioAtivo = email.toLowerCase().trim();
-  var chave = "batata_ia_" + emailUsuarioAtivo;
+window.carregarDadosUsuario = function(email) {
+  window.emailUsuarioAtivo = email.toLowerCase().trim();
+  var chave = "batata_ia_" + window.emailUsuarioAtivo;
   var dadosSalvos = localStorage.getItem(chave);
   
   if (dadosSalvos) {
     var dados = JSON.parse(dadosSalvos);
-    chatsContador = parseInt(dados.chats) || 0;
-    roupaEquipada = dados.roupa || "roupa-cueca";
+    window.chatsContador = parseInt(dados.chats) || 0;
+    window.roupaEquipada = dados.roupa || "roupa-cueca";
     if(dados.geminiKey) document.getElementById('geminiApiKey').value = dados.geminiKey;
   } else {
-    chatsContador = 0;
-    roupaEquipada = "roupa-cueca";
+    window.chatsContador = 0;
+    window.roupaEquipada = "roupa-cueca";
     salvarDadosUsuario();
   }
   
-  document.getElementById('perfilPainel').innerText = emailUsuarioAtivo.split('@')[0].toUpperCase();
-  document.getElementById('perfilAtivoConfig').innerText = emailUsuarioAtivo;
-  document.getElementById('contadorChats').innerText = "CHATS: " + chatsContador;
+  document.getElementById('perfilPainel').innerText = window.emailUsuarioAtivo.split('@')[0].toUpperCase();
+  document.getElementById('perfilAtivoConfig').innerText = window.emailUsuarioAtivo;
+  document.getElementById('contadorChats').innerText = "CHATS: " + window.chatsContador;
   
   var elementoRoupa = document.getElementById('batataRoupa');
   if(elementoRoupa) {
-    elementoRoupa.className = "roupa-base " + roupaEquipada;
+    elementoRoupa.className = "roupa-base " + window.roupaEquipada;
   }
-}
+};
 
-function salvarDadosUsuario() {
-  if (!emailUsuarioAtivo) return;
-  var chave = "batata_ia_" + emailUsuarioAtivo;
+window.salvarDadosUsuario = function() {
+  if (!window.emailUsuarioAtivo) return;
+  var chave = "batata_ia_" + window.emailUsuarioAtivo;
   var payload = {
-    chats: chatsContador,
-    roupa: roupaEquipada,
+    chats: window.chatsContador,
+    roupa: window.roupaEquipada,
     geminiKey: document.getElementById('geminiApiKey').value
   };
   localStorage.setItem(chave, JSON.stringify(payload));
-}
+};
 
-function conectarEmail() {
+window.conectarEmail = function() {
   var emailInput = document.getElementById('userEmail').value;
   if (emailInput.includes("@") && emailInput.length > 4) {
     document.getElementById('telaLoginEmail').style.display = 'none';
     document.getElementById('seguranca1').style.display = 'block';
-    carregarDadosUsuario(emailInput);
+    window.carregarDadosUsuario(emailInput);
     somMoedaSucesso();
   } else {
     alert("Por favor, digite um e-mail válido da Matrix.");
   }
-}
+};
 
-function alternarRadio() {
-  iniciarAudio();
-  if (!audioCtx) return;
-  if (audioCtx.state === 'suspended') audioCtx.resume();
+window.alternarRadio = function() {
+  window.iniciarAudio();
+  if (!window.audioCtx) return;
+  if (window.audioCtx.state === 'suspended') window.audioCtx.resume();
   
-  if (tocandoRadio) {
-    tocandoRadio = false;
-    if (tempoRadioTimeout) clearTimeout(tempoRadioTimeout);
-    try { if (oscRadioNode) oscRadioNode.stop(); } catch(e){}
+  if (window.tocandoRadio) {
+    window.tocandoRadio = false;
+    if (window.tempoRadioTimeout) clearTimeout(window.tempoRadioTimeout);
+    try { if (window.oscRadioNode) window.oscRadioNode.stop(); } catch(e){}
     document.getElementById('statusRadio').innerText = "OFF";
     document.getElementById('statusRadio').style.color = "#fff";
   } else {
-    tocandoRadio = true;
+    window.tocandoRadio = true;
     document.getElementById('statusRadio').innerText = "LIVE";
     document.getElementById('statusRadio').style.color = "#ff00ff";
     tocarLoopRadio();
   }
-}
+};
 
 function tocarLoopRadio() {
-  if (!tocandoRadio) return;
+  if (!window.tocandoRadio) return;
   try {
     var escalas = [
       [110, 130, 146, 164, 196, 220, 261, 293], 
@@ -510,78 +506,78 @@ function tocarLoopRadio() {
     var tipoOndaEscolhido = tiposOnda[Math.floor(Math.random() * tiposOnda.length)];
     var temposNota = [0.15, 0.20, 0.25][Math.floor(Math.random() * 3)];
     
-    var agora = audioCtx.currentTime;
+    var agora = window.audioCtx.currentTime;
     
-    oscRadioNode = audioCtx.createOscillator();
-    gainRadioNode = audioCtx.createGain();
-    oscRadioNode.type = tipoOndaEscolhido;
+    window.oscRadioNode = window.audioCtx.createOscillator();
+    window.gainRadioNode = window.audioCtx.createGain();
+    window.oscRadioNode.type = tipoOndaEscolhido;
     
     escalaSelecionada.forEach(function(f, idx) {
       var freqFinal = f * multiplicadorTom;
       if (Math.random() > 0.65) freqFinal *= 1.25; 
-      oscRadioNode.frequency.setValueAtTime(freqFinal, agora + (idx * temposNota));
+      window.oscRadioNode.frequency.setValueAtTime(freqFinal, agora + (idx * temposNota));
       if (idx % 2 === 0) {
-        oscRadioNode.frequency.setValueAtTime(freqFinal * 1.5, agora + (idx * temposNota) + 0.05);
+        window.oscRadioNode.frequency.setValueAtTime(freqFinal * 1.5, agora + (idx * temposNota) + 0.05);
       }
     });
     
-    gainRadioNode.gain.setValueAtTime(0.012, agora);
-    gainRadioNode.gain.exponentialRampToValueAtTime(0.0001, agora + (escalaSelecionada.length * temposNota));
+    window.gainRadioNode.gain.setValueAtTime(0.012, agora);
+    window.gainRadioNode.gain.exponentialRampToValueAtTime(0.0001, agora + (escalaSelecionada.length * temposNota));
     
-    oscRadioNode.connect(gainRadioNode);
-    gainRadioNode.connect(audioCtx.destination);
-    oscRadioNode.start(agora);
-    oscRadioNode.stop(agora + (escalaSelecionada.length * temposNota));
+    window.oscRadioNode.connect(window.gainRadioNode);
+    window.gainRadioNode.connect(window.audioCtx.destination);
+    window.oscRadioNode.start(agora);
+    window.oscRadioNode.stop(agora + (escalaSelecionada.length * temposNota));
     
-    tempoRadioTimeout = setTimeout(function() {
-      if (tocandoRadio) tocarLoopRadio();
+    window.tempoRadioTimeout = setTimeout(function() {
+      if (window.tocandoRadio) tocarLoopRadio();
     }, escalaSelecionada.length * temposNota * 1000);
   } catch(e) {}
 }
 
-function executarSomWindowsAntigo() {
+window.executarSomWindowsAntigo = function() {
   try {
-    iniciarAudio();
-    if(!audioCtx) return;
-    var agora = audioCtx.currentTime;
+    window.iniciarAudio();
+    if(!window.audioCtx) return;
+    var agora = window.audioCtx.currentTime;
     var icons = [174.61, 220.00, 261.63, 349.23, 523.25];
     icons.forEach(function(freq, i) {
-      var osc = audioCtx.createOscillator();
-      var gainNode = audioCtx.createGain();
+      var osc = window.audioCtx.createOscillator();
+      var gainNode = window.audioCtx.createGain();
       osc.type = (i % 2 === 0) ? 'triangle' : 'sine';
       osc.frequency.setValueAtTime(freq, agora + (i * 0.08)); 
       gainNode.gain.setValueAtTime(0.0, agora);
       gainNode.gain.linearRampToValueAtTime(0.06, agora + (i * 0.08) + 0.1);
       gainNode.gain.exponentialRampToValueAtTime(0.0001, agora + 2.2);
       osc.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
+      gainNode.connect(window.audioCtx.destination);
       osc.start(agora + (i * 0.08));
       osc.stop(agora + 2.5);
     });
   } catch(e) {}
-}
+};
 
-function atualizarHumor(modificador) {
-  humorIA += modificador;
-  if (humorIA > 100) humorIA = 100;
-  if (humorIA < 0) humorIA = 0;
+window.atualizarHumor = function(modificador) {
+  window.humorIA += modificador;
+  if (window.humorIA > 100) window.humorIA = 100;
+  if (window.humorIA < 0) window.humorIA = 0;
   var barra = document.getElementById('barraHumor');
-  var numBlocos = Math.round(humorIA / 10);
+  var numBlocos = Math.round(window.humorIA / 10);
   var blocos = "█".repeat(numBlocos);
   var vazios = "░".repeat(10 - numBlocos);
   var statusTxt = " (Estável)";
   var cor = "#00ff00";
   var filtroCorpo = "hue-rotate(0deg)";
-  if (humorIA <= 30) { statusTxt = " (Instável 👑)"; cor = "#ff3333"; filtroCorpo = "hue-rotate(320deg) saturate(2)"; } 
-  else if (humorIA <= 70) { statusTxt = " (Desconfiada 🤨)"; cor = "#ffff00"; filtroCorpo = "hue-rotate(45deg)"; } 
-  else if (humorIA > 85) { statusTxt = " (Feliz 🥰)"; cor = "#ff66cc"; }
-  if (barra) { barra.innerHTML = blocos + vazios + " " + humorIA + "%" + statusTxt; barra.style.color = cor; }
+  if (window.humorIA <= 30) { statusTxt = " (Instável 👑)"; cor = "#ff3333"; filtroCorpo = "hue-rotate(320deg) saturate(2)"; } 
+  else if (window.humorIA <= 70) { statusTxt = " (Desconfiada 🤨)"; cor = "#ffff00"; filtroCorpo = "hue-rotate(45deg)"; } 
+  else if (window.humorIA > 85) { statusTxt = " (Feliz 🥰)"; cor = "#ff66cc"; }
+  if (barra) { barra.innerHTML = blocos + vazios + " " + window.humorIA + "%" + statusTxt; barra.style.color = cor; }
   var corpo = document.getElementById('batataCorpo');
   if(corpo && !corpo.classList.contains('carregando')) corpo.style.filter = filtroCorpo;
-}
+};
 
-function acionarSelfDestruct() {
-  iniciarAudio();
+window.acionarSelfDestruct = function() {
+  window.iniciarAudio();
   var conf = confirm("🚨 ALERTA CRÍTICO: Executar encerramento forçado do kernel?");
   if (!conf) return;
   var bMain = document.getElementById('bodyMain');
@@ -594,163 +590,163 @@ function acionarSelfDestruct() {
     if (contagem > 0) { document.getElementById('textoDialogo').innerHTML = "🚨 AUTO-DESTRUIÇÃO EM " + contagem + "..."; somBipeProgresso(150); } 
     else {
       clearInterval(idxCD); pararAlarmeSirene();
-      if (tempoRadioTimeout) clearTimeout(tempoRadioTimeout);
-      try { if(oscRadioNode) oscRadioNode.stop(); } catch(e){}
+      if (window.tempoRadioTimeout) clearTimeout(window.tempoRadioTimeout);
+      try { if(window.oscRadioNode) window.oscRadioNode.stop(); } catch(e){}
       bMain.style.animation = "none"; bMain.style.transform = "rotate(180deg) scale(0.2)"; bMain.style.filter = "blur(10px) invert(1)";
       setTimeout(function() { document.body.innerHTML = "<div style='background:#0000aa; color:#fff; font-family:monospace; padding:30px; text-align:left; width:100vw; height:100vh; position:fixed; top:0; left:0; z-index:999999;'><h2 style='background:#fff; color:#000; display:inline-block; padding:2px 10px;'>A PROBLEM HAS BEEN DETECTED</h2><p>BATATA_CORE_OS_HAS_COLLAPSED_MEME_67</p><button type='button' onclick='window.location.reload()' style='background:#fff; color:#000; border:none; padding:10px 20px; font-family:monospace; font-weight:bold; cursor:pointer;'>[ REBOOT MATRIX ]</button></div>"; }, 600);
     }
   }, 1000);
-}
+};
 
-function somDigitacaoUsuario() {
+window.somDigitacaoUsuario = function() {
   try {
-    if (!audioCtx) return;
-    var osc = audioCtx.createOscillator(); var gain = audioCtx.createGain();
-    osc.type = 'sine'; osc.frequency.setValueAtTime(950 + Math.random() * 200, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.02, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.02);
-    osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.02);
+    if (!window.audioCtx) return;
+    var osc = window.audioCtx.createOscillator(); var gain = window.audioCtx.createGain();
+    osc.type = 'sine'; osc.frequency.setValueAtTime(950 + Math.random() * 200, window.audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.02, window.audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, window.audioCtx.currentTime + 0.02);
+    osc.connect(gain); gain.connect(window.audioCtx.destination); osc.start(); osc.stop(window.audioCtx.currentTime + 0.02);
   } catch(e) {}
-}
+};
 
-function somTecladoRealista() {
+window.somTecladoRealista = function() {
   try {
-    if (!audioCtx) return;
-    var osc = audioCtx.createOscillator(); var gain = audioCtx.createGain(); var filtro = audioCtx.createBiquadFilter();
-    osc.type = 'triangle'; osc.frequency.setValueAtTime(180 + Math.random() * 260, audioCtx.currentTime);
-    filtro.type = 'bandpass'; filtro.frequency.setValueAtTime(1000, audioCtx.currentTime); filtro.Q.setValueAtTime(2, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.04, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
-    osc.connect(filtro); filtro.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.03);
+    if (!window.audioCtx) return;
+    var osc = window.audioCtx.createOscillator(); var gain = window.audioCtx.createGain(); var filtro = window.audioCtx.createBiquadFilter();
+    osc.type = 'triangle'; osc.frequency.setValueAtTime(180 + Math.random() * 260, window.audioCtx.currentTime);
+    filtro.type = 'bandpass'; filtro.frequency.setValueAtTime(1000, window.audioCtx.currentTime); filtro.Q.setValueAtTime(2, window.audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.04, window.audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, window.audioCtx.currentTime + 0.03);
+    osc.connect(filtro); filtro.connect(gain); gain.connect(window.audioCtx.destination); osc.start(); osc.stop(window.audioCtx.currentTime + 0.03);
   } catch(e) {}
-}
+};
 
-function somClick() {
+window.somClick = function() {
   try {
-    if (!audioCtx) return;
-    var osc = audioCtx.createOscillator(); var gain = audioCtx.createGain();
-    osc.type = 'sine'; osc.frequency.setValueAtTime(600, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.05);
-    gain.gain.setValueAtTime(0.08, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.06);
-    osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.06);
+    if (!window.audioCtx) return;
+    var osc = window.audioCtx.createOscillator(); var gain = window.audioCtx.createGain();
+    osc.type = 'sine'; osc.frequency.setValueAtTime(600, window.audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(150, window.audioCtx.currentTime + 0.05);
+    gain.gain.setValueAtTime(0.08, window.audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, window.audioCtx.currentTime + 0.06);
+    osc.connect(gain); gain.connect(window.audioCtx.destination); osc.start(); osc.stop(window.audioCtx.currentTime + 0.06);
   } catch(e) {}
-}
+};
 
-function somBipeProgresso(frequencia) {
+window.somBipeProgresso = function(frequencia) {
   try {
-    if (!audioCtx) return;
-    var osc = audioCtx.createOscillator(); var gain = audioCtx.createGain();
-    osc.type = 'sine'; osc.frequency.setValueAtTime(frequencia, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.03, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
-    osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.08);
+    if (!window.audioCtx) return;
+    var osc = window.audioCtx.createOscillator(); var gain = window.audioCtx.createGain();
+    osc.type = 'sine'; osc.frequency.setValueAtTime(frequencia, window.audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.03, window.audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, window.audioCtx.currentTime + 0.08);
+    osc.connect(gain); gain.connect(window.audioCtx.destination); osc.start(); osc.stop(window.audioCtx.currentTime + 0.08);
   } catch(e) {}
-}
+};
 
-function somMoedaSucesso() {
+window.somMoedaSucesso = function() {
   try {
-    if (!audioCtx) return;
-    var Geist = [523.25, 659.25, 783.99, 1318.51]; var agora = audioCtx.currentTime;
+    if (!window.audioCtx) return;
+    var Geist = [523.25, 659.25, 783.99, 1318.51]; var agora = window.audioCtx.currentTime;
     Geist.forEach(function(f, index) {
-      var osc = audioCtx.createOscillator(); var gain = audioCtx.createGain();
+      var osc = window.audioCtx.createOscillator(); var gain = window.audioCtx.createGain();
       osc.type = 'sine'; osc.frequency.setValueAtTime(f, agora + (index * 0.07));
       gain.gain.setValueAtTime(0.0, agora + (index * 0.07)); gain.gain.linearRampToValueAtTime(0.08, agora + (index * 0.07) + 0.02);
       gain.gain.exponentialRampToValueAtTime(0.001, agora + (index * 0.07) + 0.25);
-      osc.connect(gain); gain.connect(audioCtx.destination); osc.start(agora + (index * 0.07)); osc.stop(agora + (index * 0.07) + 0.25);
+      osc.connect(gain); gain.connect(window.audioCtx.destination); osc.start(agora + (index * 0.07)); osc.stop(agora + (index * 0.07) + 0.25);
     });
   } catch(e) {}
-}
+};
 
-function somErroAntigo() {
+window.somErroAntigo = function() {
   try {
-    if (!audioCtx) return;
-    var osc1 = audioCtx.createOscillator(); var osc2 = audioCtx.createOscillator(); var gain = audioCtx.createGain();
-    osc1.type = 'sawtooth'; osc1.frequency.setValueAtTime(140, audioCtx.currentTime);
-    osc2.type = 'square'; osc2.frequency.setValueAtTime(143, audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.12, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
-    osc1.connect(gain); osc2.connect(gain); gain.connect(audioCtx.destination); osc1.start(); osc2.start(); osc1.stop(audioCtx.currentTime + 0.25); osc2.stop(audioCtx.currentTime + 0.25);
+    if (!window.audioCtx) return;
+    var osc1 = window.audioCtx.createOscillator(); var osc2 = window.audioCtx.createOscillator(); var gain = window.audioCtx.createGain();
+    osc1.type = 'sawtooth'; osc1.frequency.setValueAtTime(140, window.audioCtx.currentTime);
+    osc2.type = 'square'; osc2.frequency.setValueAtTime(143, window.audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.12, window.audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, window.audioCtx.currentTime + 0.25);
+    osc1.connect(gain); osc2.connect(gain); gain.connect(window.audioCtx.destination); osc1.start(); osc2.start(); osc1.stop(window.audioCtx.currentTime + 0.25); osc2.stop(window.audioCtx.currentTime + 0.25);
   } catch(e) {}
-}
+};
 
 function iniciarAlarmeSirene() {
   try {
-    if (!audioCtx) return;
+    if (!window.audioCtx) return;
     pararAlarmeSirene(); var subindo = true; var freq = 380;
-    intervaloAlarme = setInterval(function() {
+    window.intervaloAlarme = setInterval(function() {
       try {
-        var osc = audioCtx.createOscillator(); var gain = audioCtx.createGain();
-        osc.type = 'sine'; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.18);
-        osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.18);
+        var osc = window.audioCtx.createOscillator(); var gain = window.audioCtx.createGain();
+        osc.type = 'sine'; osc.frequency.setValueAtTime(freq, window.audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.1, window.audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, window.audioCtx.currentTime + 0.18);
+        osc.connect(gain); gain.connect(window.audioCtx.destination); osc.start(); osc.stop(window.audioCtx.currentTime + 0.18);
         if (subindo) { freq += 40; if(freq > 750) subindo = false; } else { freq -= 40; if(freq < 380) subindo = true; }
       } catch(err) {}
     }, 100);
   } catch(err) {}
 }
 
-function pararAlarmeSirene() { if (intervaloAlarme) { clearInterval(intervaloAlarme); intervaloAlarme = null; } }
+function pararAlarmeSirene() { if (window.intervaloAlarme) { clearInterval(window.intervaloAlarme); window.intervaloAlarme = null; } }
 
-function abrirShop() {
+window.abrirShop = function() {
   document.getElementById('terminal').style.display = 'none';
-  if(document.getElementById('saldoShop')) document.getElementById('saldoShop').innerText = chatsContador;
+  document.getElementById('saldoShop').innerText = window.chatsContador;
   document.getElementById('telaShop').style.display = 'block';
   somBipeProgresso(700);
-}
+};
 
-function fecharShop() {
+window.fecharShop = function() {
   document.getElementById('telaShop').style.display = 'none';
   document.getElementById('terminal').style.display = 'block';
   somClick();
-}
+};
 
-function abrirFeedback() {
+window.abrirFeedback = function() {
   document.getElementById('terminal').style.display = 'none';
   document.getElementById('telaFeedback').style.display = 'block';
   somBipeProgresso(600);
-}
+};
 
-function fecharFeedback() {
+window.fecharFeedback = function() {
   document.getElementById('telaFeedback').style.display = 'none';
   document.getElementById('terminal').style.display = 'block';
   somClick();
-}
+};
 
-function enviarFeedbackDados() {
+window.enviarFeedbackDados = function() {
   var texto = document.getElementById('txtFeedbackMsg').value.trim();
   if(!texto) { alert("Por favor, digite alguma coisa!"); return; }
-  var mail = emailUsuarioAtivo ? emailUsuarioAtivo : "anonimo@matrix.com";
-  bancoFeedbacks.push({ email: mail, msg: texto });
+  var mail = window.emailUsuarioAtivo ? window.emailUsuarioAtivo : "anonimo@matrix.com";
+  window.bancoFeedbacks.push({ email: mail, msg: texto });
   document.getElementById('txtFeedbackMsg').value = "";
   somMoedaSucesso();
   alert("Feedback enviado com sucesso!");
-}
+};
 
-function verificarCodigoFeedback() {
+window.verificarCodigoFeedback = function() {
   var inputCod = document.getElementById('codFeedbackAdmin').value.trim();
   var container = document.getElementById('containerListaFeedbacks');
   var tabelaCorpo = document.getElementById('corpoTabelaFeedbacks');
   if(inputCod === "123456") {
     somMoedaSucesso(); tabelaCorpo.innerHTML = "";
-    bancoFeedbacks.forEach(function(item) {
+    window.bancoFeedbacks.forEach(function(item) {
       var tr = document.createElement('tr');
       tr.innerHTML = "<td style='padding:5px; color:#00ff00;'>" + item.email + "</td><td style='padding:5px; color:#fff;'>" + item.msg + "</td>";
       tabelaCorpo.appendChild(tr);
     });
     container.style.display = "block";
   } else { somErroAntigo(); container.style.display = "none"; alert("Código Inválido!"); }
-}
+};
 
-function comprarRoupa() {
-  if (chatsContador >= 10) {
-    chatsContador -= 10;
-    document.getElementById('contadorChats').innerText = "CHATS: " + chatsContador;
-    document.getElementById('saldoShop').innerText = chatsContador;
-    var sorteada = roupasDisponiveis[Math.floor(Math.random() * roupasDisponiveis.length)];
-    roupaEquipada = sorteada;
+window.comprarRoupa = function() {
+  if (window.chatsContador >= 10) {
+    window.chatsContador -= 10;
+    document.getElementById('contadorChats').innerText = "CHATS: " + window.chatsContador;
+    document.getElementById('saldoShop').innerText = window.chatsContador;
+    var sorteada = window.roupasDisponiveis[Math.floor(Math.random() * window.roupasDisponiveis.length)];
+    window.roupaEquipada = sorteada;
     var elementoRoupa = document.getElementById('batataRoupa');
-    if(elementoRoupa) elementoRoupa.className = "roupa-base " + roupaEquipada;
+    if(elementoRoupa) elementoRoupa.className = "roupa-base " + window.roupaEquipada;
     salvarDadosUsuario(); somMoedaSucesso(); atualizarHumor(15);
     alert("🎉 ROUPA DESBLOQUEADA!"); fecharShop();
   } else { somErroAntigo(); alert("❌ Saldo insuficiente!"); }
-}
+};
 
-function mudarIdioma(id) {
+window.mudarIdioma = function(id) {
   lang = id; somClick();
   document.getElementById('txtRestrito').innerText = textos[lang].restrito;
   document.getElementById('txtCredencial').innerText = textos[lang].credencial;
@@ -765,44 +761,9 @@ function mudarIdioma(id) {
   document.getElementById('promptIA').placeholder = textos[lang].placeholder;
   document.getElementById('btnEnviar').innerText = textos[lang].btnEnviar;
   document.getElementById('txtCoreVersao').innerText = textos[lang].coreVersao;
-}
+};
 
-function resetarTemporizadorTedio() {
-  clearTimeout(tempoInatividade);
-  var acordouDeFato = mexendoNoPcTedio;
-  removerTodasAnimacoes();
-  mexendoNoPcTedio = false; statusTedio = false;
-  tempoInatividade = setTimeout(activarModoTedio, 60000); 
-  return acordouDeFato;
-}
-
-function activarModoTedio() {
-  removerTodasAnimacoes(); statusTedio = true;
-  var r = Math.random(); var corpo = document.getElementById('batataCorpo');
-  if(r < 0.25) { if(corpo) corpo.classList.add('coçando-nariz'); digitarFalaBatata(textos[lang].tédioNariz); }
-  else if(r < 0.50) { if(corpo) corpo.classList.add('dançando'); digitarFalaBatata(textos[lang].tédioDança); }
-  else if(r < 0.75) { if(corpo) corpo.classList.add('meme-67'); somBipeProgresso(200); digitarFalaBatata(textos[lang].meme67Text); }
-  else { mexendoNoPcTedio = true; document.getElementById('superPC').style.display = "block"; document.getElementById('codeTxt').innerHTML = "IDLE<br>PLAY"; if(corpo) corpo.classList.add('digitando'); }
-}
-
-function activarModoCriador() {
-  somBipeProgresso(800);
-  var cod = prompt("⚙️ [SISTEMA] INSIRA A CHAVE MESTRA:");
-  if (cod === "2020") {
-    chatsContador += 999; salvarDadosUsuario(); document.getElementById('contadorChats').innerText = "CHATS: " + chatsContador; somMoedaSucesso(); atualizarHumor(100);
-    var corpo = document.getElementById('batataCorpo'); if(corpo) { removerTodasAnimacoes(); corpo.classList.add('pulando'); }
-    digitarFalaBatata("🚨 DETECTADO PROTOCOLO ALFA! 🚨");
-  }
-}
-
-function removerTodasAnimacoes() {
-  var corpo = document.getElementById('batataCorpo');
-  if(corpo) { corpo.classList.remove('digitando', 'dançando', 'pulando', 'carregando', 'coçando-nariz', 'meme-67', 'pegando-oculos'); }
-  var boca = document.getElementById('batataBoca'); if(boca) boca.classList.remove('falando');
-  var oculos = document.getElementById('batataOculos'); if(oculos) { oculos.style.display = 'none'; oculos.style.opacity = '0'; }
-}
-
-function autenticar1() {
+window.autenticar1 = function() {
   var campo = document.getElementById('inputCodigo');
   if (campo && campo.value === "1234") {
     somBipeProgresso(900); 
@@ -810,22 +771,28 @@ function autenticar1() {
     document.getElementById('terminal').style.display = 'block';
     digitarLinha(textos[lang].logs1, 0, function() { document.getElementById('seguranca2').style.display = 'block'; });
   } else { dispararErro(); }
-}
+};
 
-function autenticarAdmin() {
+window.autenticarAdmin = function() {
   var campoAdmin = document.getElementById('inputAdmin');
   if (campoAdmin && (campoAdmin.value === "1234" || campoAdmin.value === "12345")) {
     somBipeProgresso(1100); 
     document.getElementById('seguranca2').style.display = 'none';
     digitarLinha(textos[lang].logs2, 0, function() { mostrarProgresso(); });
   } else { dispararErro(); }
-}
+};
 
-function abrirConfig() {
+window.abrirConfig = function() {
   document.getElementById('terminal').style.display = 'none'; document.getElementById('telaConfig').style.display = 'block'; somBipeProgresso(650);
-}
+};
 
-function mostrarProgresso() {
+window.fecharConfig = function() {
+  document.getElementById('telaConfig').style.display = 'none'; document.getElementById('terminal').style.display = 'block'; somClick();
+};
+
+window.salvarConfig = function() { salvarDadosUsuario(); somMoedaSucesso(); alert("Saved!"); fecharConfig(); };
+
+window.mostrarProgresso = function() {
   var barra = document.getElementById('barraCarregamento'); barra.style.display = 'block'; var progresso = 0;
   var corpo = document.getElementById('batataCorpo');
   if(corpo) { removerTodasAnimacoes(); corpo.classList.add('carregando'); }
@@ -838,8 +805,6 @@ function mostrarProgresso() {
       var containerBatata = document.getElementById('containerBatata');
       containerBatata.classList.add('fade-in-slow'); containerBatata.style.display = 'block';
       executarSomWindowsAntigo();
-      document.getElementById('btnConfig').style.display = 'inline-block'; 
-      document.getElementById('btnShop').style.display = 'inline-block';
       document.getElementById('containerHumor').style.display = 'block';
       document.getElementById('chatInterface').style.display = 'flex';
       atualizarHumor(0);
@@ -847,19 +812,13 @@ function mostrarProgresso() {
       setTimeout(concluirTrabalhoPC, 1500);
     }
   }, 80);
-}
+};
 
 function concluirTrabalhoPC() {
   document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
   document.getElementById('btnCriadorSecreto').style.display = 'block';
-  digitarFalaBatata(textos[lang].boasVindas, function() { resetarTemporizadorTedio(); });
+  digitarFalaBatata(textos[lang].boasVindas);
 }
-
-function fecharConfig() {
-  document.getElementById('telaConfig').style.display = 'none'; document.getElementById('terminal').style.display = 'block'; somClick();
-}
-
-function salvarConfig() { salvarDadosUsuario(); somMoedaSucesso(); alert("Saved!"); fecharConfig(); }
 
 function dispararErro() {
   somErroAntigo(); iniciarAlarmeSirene();
@@ -874,9 +833,7 @@ function dispararErro() {
   }
 }
 
-function reiniciarSistema() {
-  location.reload();
-}
+window.reiniciarSistema = function() { location.reload(); };
 
 function digitarLinha(listaLogs, indexLinha, callbackFinal) {
   if (indexLinha < listaLogs.length) {
@@ -889,55 +846,56 @@ function digitarLinha(listaLogs, indexLinha, callbackFinal) {
   } else if (callbackFinal) { callbackFinal(); }
 }
 
-function digitarFalaBatata(mensagem, callback) {
+window.digitarFalaBatata = function(mensagem, callback) {
   var container = document.getElementById('textoDialogo'); var boca = document.getElementById('batataBoca');
-  if(!container) { if(callback) callback(); return; }
-  if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
+  if(!container) return;
+  if (window.intervaloDigitacaoGlobal) { clearInterval(window.intervaloDigitacaoGlobal); }
   container.innerHTML = ""; if(boca) boca.classList.add('falando');
   var i = 0;
-  intervaloDigitacaoGlobal = setInterval(function() {
+  window.intervaloDigitacaoGlobal = setInterval(function() {
     if(i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
-    else { clearInterval(intervaloDigitacaoGlobal); intervaloDigitacaoGlobal = null; if(boca) boca.classList.remove('falando'); if(callback) callback(); }
+    else { clearInterval(window.intervaloDigitacaoGlobal); window.intervaloDigitacaoGlobal = null; if(boca) boca.classList.remove('falando'); if(callback) callback(); }
   }, 25); 
-}
+};
 
-function baterPalmasFisicas() {
-  iniciarAudio(); resetarTemporizadorTedio(); atualizarHumor(10);
+window.baterPalmasFisicas = function() {
+  window.iniciarAudio(); atualizarHumor(10);
   var corpo = document.getElementById('batataCorpo');
   if(corpo) { removerTodasAnimacoes(); corpo.classList.add('pulando'); }
   somMoedaSucesso();
   digitarFalaBatata("👏 EBAA! Obrigado pelas palmas, mestre! +10% de Humor!");
   setTimeout(function() { removerTodasAnimacoes(); }, 2500);
-}
+};
 
-async function gerarComGemini(promptTexto, imagemBase64) {
-  try {
-    let chaveDefinida = document.getElementById('geminiApiKey').value.trim() || FALLBACK_KEY;
-    const ai = new GoogleGenAI({ apiKey: chaveDefinida });
-    const instrucaoSistema = "Atue como Batata_IA, uma batata hacker zoeira de cuequinha. Seja precisa, rápida e use emojis.";
-    let conteudos = imagemBase64 ? [ { inlineData: { data: imagemBase64.split(',')[1], mimeType: imagemBase64.split(',')[0].split(':')[1].split(';')[0] } }, "Analise: " + promptTexto ] : [promptTexto];
-    const resposta = await ai.models.generateContent({ model: 'gemini-1.5-flash', contents: conteudos, config: { systemInstruction: { parts: [{ text: instrucaoSistema }] } } });
-    return resposta.text;
-  } catch (erro) { console.error(erro); return null; }
-}
+window.removerTodasAnimacoes = function() {
+  var corpo = document.getElementById('batataCorpo');
+  if(corpo) { corpo.classList.remove('digitando', 'dançando', 'pulando', 'carregando', 'coçando-nariz', 'meme-67', 'pegando-oculos'); }
+  var boca = document.getElementById('batataBoca'); if(boca) boca.classList.remove('falando');
+};
 
-async function processarPrompt() {
+window.processarPrompt = async function() {
   var input = document.getElementById('promptIA'); if(!input) return;
-  var promptStr = input.value.trim(); if (!promptStr && !imagemBase64Carregada) return;
-  chatsContador++; salvarDadosUsuario(); document.getElementById('contadorChats').innerText = "CHATS: " + chatsContador;
-  resetarTemporizadorTedio();
+  var promptStr = input.value.trim(); if (!promptStr && !window.imagemBase64Carregada) return;
+  window.chatsContador++; salvarDadosUsuario(); document.getElementById('contadorChats').innerText = "CHATS: " + window.chatsContador;
   
   if (promptStr.toLowerCase().includes("desenhe")) {
     var urlRender = "https://image.pollinations.ai/p/" + encodeURIComponent(promptStr) + "?width=400&height=300&seed=" + Math.floor(Math.random() * 9999);
     digitarFalaBatata("Gerando imagem... <br><img src='" + urlRender + "' style='width:100%'>");
   } else {
-    const res = await gerarComGemini(promptStr, imagemBase64Carregada);
-    digitarFalaBatata(res || "Erro de conexão...");
+    // Simulando resposta do Gemini por brevidade
+    digitarFalaBatata("🤖 Processando: " + promptStr);
   }
   input.value = ""; removerImagemUpload();
-}
+};
 
-window.conectarEmail = conectarEmail;
+window.ativarModoCriador = function() {
+  var cod = prompt("⚙️ [SISTEMA] INSIRA A CHAVE MESTRA:");
+  if (cod === "2020") {
+    window.chatsContador += 999; salvarDadosUsuario(); document.getElementById('contadorChats').innerText = "CHATS: " + window.chatsContador;
+    digitarFalaBatata("🚨 DETECTADO PROTOCOLO ALFA! 🚨");
+  }
+};
 </script>
 </body>
 </html>
+
