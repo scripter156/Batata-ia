@@ -119,7 +119,7 @@
   <div style="max-width:500px; border:2px solid #ff3333; background:#0a0000; padding:25px; border-radius:5px; box-shadow: 0 0 20px #ff3333; text-align:left;">
     <h2 id="txtAvisoTitulo" style="color:#ff3333; text-align:center; margin-top:0; letter-spacing:2px; animation: blink 1s infinite;">⚠️ AVISO CRÍTICO / CRITICAL NOTICE</h2>
     <p id="txtAvisoCorpo" style="color:#fff; font-size:13px; line-height:1.5; margin-bottom:20px;">
-      Este sistema acessa subcamadas neurais da rede. O desenvolvedor <strong>@batatadocegamer</strong> NÃO se responsabiliza por quaisquer danos, bugs, falhas no sistema ou perda de dados que possam ocorrer durante ou após a execução deste payload.<br><br>
+      Este sistema acessa subcamadas neurais da rede. O desenvolvedor <strong>@batatadocegamer</strong> NÃO se responsabiliza por quaisquer danos, bugs, falhas no system ou perda de dados que possam ocorrer durante ou após a execução deste payload.<br><br>
       Proceed at your own risk. The developer is not liable for any issues caused by running this interactive protocol.
     </p>
     <button type="button" id="btnAceitarTermos" onclick="aceitarTermos()" style="width:100%; background:#ff3333; color:#000; padding:12px; border:none; font-weight:bold; font-size:15px; cursor:pointer; border-radius:3px; box-shadow: 0 0 10px #ff3333; font-family:monospace;">[ ACEITAR TERMOS E ATIVAR AUDIO ]</button>
@@ -853,7 +853,7 @@ window.digitarFalaBatata = function(mensagem, callback) {
   container.innerHTML = ""; if(boca) boca.classList.add('falando');
   var i = 0;
   window.intervaloDigitacaoGlobal = setInterval(function() {
-    if(i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
+    if(i < mensagem.length) { container.innerHTML += message ? mensagem.charAt(i) : ""; somTecladoRealista(); i++; } 
     else { clearInterval(window.intervaloDigitacaoGlobal); window.intervaloDigitacaoGlobal = null; if(boca) boca.classList.remove('falando'); if(callback) callback(); }
   }, 25); 
 };
@@ -882,8 +882,75 @@ window.processarPrompt = async function() {
     var urlRender = "https://image.pollinations.ai/p/" + encodeURIComponent(promptStr) + "?width=400&height=300&seed=" + Math.floor(Math.random() * 9999);
     digitarFalaBatata("Gerando imagem... <br><img src='" + urlRender + "' style='width:100%'>");
   } else {
-    // Simulando resposta do Gemini por brevidade
-    digitarFalaBatata("🤖 Processando: " + promptStr);
+    var apiKeyDigitada = document.getElementById('geminiApiKey').value.trim();
+    var apiKeyUsar = apiKeyDigitada || FALLBACK_KEY;
+    
+    try {
+      var genAI = new GoogleGenerativeAI(apiKeyUsar);
+      var model = genAI.getGenerativeModel({ 
+        model: "gemini-1.5-flash",
+        systemInstruction: "Você é a Batata_IA, uma inteligência artificial extremamente zoeira, hacker, sarcástica e engraçada desenvolvida por @batatadocegamer. Você usa cueca branca na Matrix Local. Responda de forma curta, usando gírias de internet, humor ácido e referências nerds. Se o usuário falar em inglês, mude seu comportamento para inglês zoeiro."
+      });
+      
+      var respostaTexto = "";
+      
+      if (window.imagemBase64Carregada) {
+        var dadosLimposBase64 = window.imagemBase64Carregada.split(',')[1];
+        var mimeoType = window.imagemBase64Carregada.split(';')[0].split(':')[1];
+        
+        var parteImagem = {
+          inlineData: {
+            data: dadosLimposBase64,
+            mimeType: mimeoType
+          }
+        };
+        
+        var promptComImagem = promptStr || "O que é isso na imagem? Analise com seu humor de batata hacker.";
+        var resultado = await model.generateContent([promptComImagem, parteImagem]);
+        respostaTexto = resultado.response.text();
+      } else {
+        var resultado = await model.generateContent(promptStr);
+        respostaTexto = resultado.response.text();
+      }
+      
+      var corpoBatata = document.getElementById('batataCorpo');
+      if (corpoBatata) {
+        removerTodasAnimacoes();
+        var sorteioAnimacao = Math.random();
+        if (sorteioAnimacao < 0.25) {
+          corpoBatata.classList.add('dançando');
+        } else if (sorteioAnimacao < 0.50) {
+          corpoBatata.classList.add('coçando-nariz');
+        } else if (sorteioAnimacao < 0.75) {
+          corpoBatata.classList.add('pegando-oculos');
+          var oculos = document.getElementById('batataOculos');
+          if(oculos) { oculos.style.display = 'block'; oculos.style.opacity = '1'; }
+        } else {
+          corpoBatata.classList.add('digitando');
+        }
+      }
+      
+      if (Math.random() > 0.6) {
+        atualizarHumor(-5);
+      } else {
+        atualizarHumor(5);
+      }
+      
+      digitarFalaBatata(respostaTexto, function() {
+        setTimeout(function() {
+          var c = document.getElementById('batataCorpo');
+          if (c && !c.classList.contains('carregando')) {
+            removerTodasAnimacoes();
+            var oculos = document.getElementById('batataOculos');
+            if(oculos) { oculos.style.display = 'none'; oculos.style.opacity = '0'; }
+          }
+        }, 5000);
+      });
+      
+    } catch (erro) {
+      console.error(erro);
+      digitarFalaBatata("🚨 [KERNEL ERROR] Erro na Matrix Neural: Chave inválida ou limite excedido. Adicione sua própria chave nas configurações! 🥔");
+    }
   }
   input.value = ""; removerImagemUpload();
 };
