@@ -38,7 +38,7 @@
       .pupila { width: 5px; height: 5px; background: #000; border-radius: 50%; position: absolute; transition: 0.2s; left: 3.5px; top: 3.5px; }
       
       .boca { width: 16px; height: 8px; border-bottom: 3px solid #000; border-radius: 0 0 10px 10px; margin: 6px auto 0; transition: 0.1s; position: relative; z-index: 2; }
-      .boca.falando { animation: mexerBoca 0.15s infinite alternate; border-bottom: none; background: #000; border-radius: 50%; width: 10px; height: 10px; }
+      .boca.falando { animation: mexerBoca 0.15s infinite alternate !important; border-bottom: none !important; background: #000 !important; border-radius: 50% !important; width: 10px !important; height: 10px !important; }
 
       .braco-esq, .braco-dir { width: 14px; height: 4px; background: #ffff00; position: absolute; top: 48px; transition: 0.2s; z-index: 3; }
       .braco-esq { left: -11px; transform: rotate(15deg); } .braco-dir { right: -11px; transform: rotate(-15deg); }
@@ -850,14 +850,29 @@ function digitarLinha(listaLogs, indexLinha, callbackFinal) {
 }
 
 window.digitarFalaBatata = function(mensagem, callback) {
-  var container = document.getElementById('textoDialogo'); var boca = document.getElementById('batataBoca');
+  var container = document.getElementById('textoDialogo'); 
+  var boca = document.getElementById('batataBoca');
   if(!container) return;
-  if (window.intervaloDigitacaoGlobal) { clearInterval(window.intervaloDigitacaoGlobal); }
-  container.innerHTML = ""; if(boca) boca.classList.add('falando');
+  
+  if (window.intervaloDigitacaoGlobal) { 
+    clearInterval(window.intervaloDigitacaoGlobal); 
+  }
+  
+  container.innerHTML = ""; 
+  if(boca) boca.classList.add('falando');
+  
   var i = 0;
   window.intervaloDigitacaoGlobal = setInterval(function() {
-    if(i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
-    else { clearInterval(window.intervaloDigitacaoGlobal); window.intervaloDigitacaoGlobal = null; if(boca) boca.classList.remove('falando'); if(callback) callback(); }
+    if(i < mensagem.length) { 
+      container.innerHTML += mensagem.charAt(i); 
+      somTecladoRealista(); 
+      i++; 
+    } else { 
+      clearInterval(window.intervaloDigitacaoGlobal); 
+      window.intervaloDigitacaoGlobal = null; 
+      if(boca) boca.classList.remove('falando'); 
+      if(callback) callback(); 
+    }
   }, 25); 
 };
 
