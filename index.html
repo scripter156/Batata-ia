@@ -153,8 +153,8 @@
   <h3 id="txtConfigTitulo" style="color:#ffff00; text-align:center; margin-top:0;">⚙️ PAINEL DE CONFIGURAÇÃO</h3>
   <p id="txtConfigSub" style="font-size:12px; color:#aaa;">O sistema está conectado diretamente à API do Gemini Core.</p>
   
-  <label id="lblPersonalidade" style="font-size:13px; color:#ffff00; display:block; margin-bottom:5px;">Chave de API do Gemini (Opcional):</label>
-  <input type="password" id="geminiApiKey" placeholder="Deixe em branco para usar a chave padrão" style="background:#000; color:#00ff00; border:1px solid #00ff00; padding:8px; width:100%; font-family:monospace; margin-bottom:15px; box-sizing: border-box;">
+  <label id="lblPersonalidade" style="font-size:13px; color:#ffff00; display:block; margin-bottom:5px;">Chave de API do Gemini (Recomendado):</label>
+  <input type="password" id="geminiApiKey" placeholder="Insira sua chave AIzaSy... para uso estável e ilimitado" style="background:#000; color:#00ff00; border:1px solid #00ff00; padding:8px; width:100%; font-family:monospace; margin-bottom:15px; box-sizing: border-box;">
 
   <p style="font-size:11px; color:#888;">Perfil ativo: <span id="perfilAtivoConfig" style="color:#00ff00;">Nenhum</span></p>
   
@@ -191,7 +191,7 @@
   <h3 style="color:#ff00ff; text-align:center; margin-top:0; letter-spacing:1px;">💬 ENVIAR FEEDBACK SISTEMA</h3>
   <p style="font-size:12px; color:#ff88ff; margin-bottom:12px;">Deixe sua mensagem para os desenvolvedores ou insira o código de admin de feedbacks abaixo.</p>
   
-  <textarea id="txtFeedbackMsg" placeholder="Escreva aqui sua opinião, críticas ou bugs encontrados..." style="width:100%; height:80px; background:#000; color:#ff00ff; border:1px solid #ff00ff; padding:8px; font-family:monospace; box-sizing:border-box; outline:none; resize:none; margin-bottom:10px Papai..."></textarea>
+  <textarea id="txtFeedbackMsg" placeholder="Escreva aqui sua opinião, críticas ou bugs encontrados..." style="width:100%; height:80px; background:#000; color:#ff00ff; border:1px solid #ff00ff; padding:8px; font-family:monospace; box-sizing:border-box; outline:none; resize:none; margin-bottom:10px;"></textarea>
   
   <div style="display:flex; gap:10px; margin-bottom:15px;">
     <input type="text" id="codFeedbackAdmin" placeholder="Código Admin (Se tiver)" style="flex:1; background:#000; color:#ffff00; border:1px solid #ffff00; padding:8px; font-family:monospace; font-size:12px; text-align:center; outline:none;">
@@ -321,7 +321,7 @@
 <script type="module">
 import { GoogleGenAI } from "@google/generative-ai";
 
-// Token público substituto para garantir que o chat NUNCA caia
+// Chave pública restaurada (pode sofrer rate-limit temporário de 15 RPM se abusada)
 const FALLBACK_KEY = "AIzaSy" + "AsO7t8W" + "Y9g8WlX" + "9w4fRzK" + "2pL0mN" + "7vQ6xZ";
 
 var lang = "pt";
@@ -330,7 +330,7 @@ var textos = {
     restrito: "⚠️ ACESSO RESTRITO", credencial: "INSIRA A CREDENCIAL DE ACESSO:", inject: "INJETAR CARGA",
     alertaAdmin: "[!] ALERTA: AUTENTICAÇÃO REQUERIDA", erroTitulo: "🚨 ACESSO BLOQUEADO 🚨",
     erroMsg: "VOCÊ NÃO SABE O CÓDIGO?!", configTitulo: "⚙️ PAINEL DE CONFIGURAÇÃO",
-    configSub: "O sistema está conectado diretamente à API do Gemini Core.", lblPersonalidade: "Chave de API do Gemini (Opcional):",
+    configSub: "O sistema está conectado diretamente à API do Gemini Core.", lblPersonalidade: "Chave de API do Gemini (Recomendado):",
     btnSalvar: "SALVAR CONFIG", btnVoltar: "VOLTAR AO CHAT", placeholder: "Mande-me criar uma imagem, faça perguntas complexas... 📈🤖",
     btnEnviar: "ENVIAR", coreVersao: "[ GEMINI_BATATA_CORE v1.5 ]",
     logs1: ["> Iniciando bypass de segurança...", "> Inicializando kernel modular...", "> Conectando aos servidores do Gemini..."],
@@ -538,9 +538,9 @@ function executarSomWindowsAntigo() {
     if(!audioCtx) return;
     var agora = audioCtx.currentTime;
     
-    var notas = [174.61, 220.00, 261.63, 349.23, 523.25];
+    var icons = [174.61, 220.00, 261.63, 349.23, 523.25];
     
-    notas.forEach(function(freq, i) {
+    icons.forEach(function(freq, i) {
       var osc = audioCtx.createOscillator();
       var gainNode = audioCtx.createGain();
       
@@ -1009,7 +1009,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = message.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -1033,7 +1033,7 @@ function digitarFalaBatata(mensagem, callback) {
   }, 25); 
 }
 
-// NOVA FUNÇÃO: Integração estável com o Google Gemini oficial
+// INTEGRAÇÃO ROBUSTA COM GOOGLE GEMINI CORE
 async function gerarComGemini(promptTexto, imagemBase64) {
   try {
     let chaveDefinida = document.getElementById('geminiApiKey').value.trim();
@@ -1131,7 +1131,6 @@ async function processarPrompt() {
     input.value = ""; return;
   }
 
-  // Tratamento de desenho mantido com Pollinations para fins visuais rápidos
   if ((pLower.includes("desenhe") || pLower.includes("crie uma imagem") || pLower.includes("draw") || pLower.includes("image")) && !imagemBase64Carregada) {
     var termoBusca = promptStr.replace(/(desenhe|crie uma imagem|draw|image)/gi, "").trim();
     if(!termoBusca) termoBusca = "funny hacker potato inside a database matrix matrix";
@@ -1149,7 +1148,6 @@ async function processarPrompt() {
     input.value = ""; return;
   }
 
-  // Executa chamada oficial e nativa com o Gemini (nunca fica travado em loops infinitos)
   const resultadoGemini = await gerarComGemini(promptStr, imagemBase64Carregada);
   
   document.getElementById('superPC').style.display = "none"; 
@@ -1160,7 +1158,7 @@ async function processarPrompt() {
      digitarFalaBatata(prefixoOpa + resultadoGemini);
   } else {
      somErroAntigo();
-     digitarFalaBatata("Algo deu errado com os servidores centrais da Matrix. Tente de novo, meu mestre!");
+     digitarFalaBatata("Limite da Matrix atingido ou chave offline! Se persistir, aguarde 1 minuto ou mude sua chave de API nas configurações (⚙️).");
   }
   
   input.value = "";
