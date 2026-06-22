@@ -107,7 +107,6 @@
       @keyframes desabarMeme67 { 0%, 100% { transform: scaleY(0.7) translateY(25px); filter: hue-rotate(0deg); } 50% { transform: scaleY(0.6) scaleX(1.1) translateY(32px); filter: hue-rotate(20deg); } }
       @keyframes blink { 0% { opacity: 1; } 100% { opacity: 0; } }
       @keyframes tremer { 0% { transform: translate(2px, 2px); } 50% { transform: translate(-2px, -2px); } 100% { transform: translate(2px, -2px); } }
-      @keyframes piscarAviso { 0% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body id="bodyMain">
@@ -336,7 +335,7 @@
 <script type="module">
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const FALLBACK_KEY = "AIzaSy" + "DUMMY_KEY_ALTERE_SE_PRECIZAR"; // Insira uma chave real aqui se quiser fallback global estável.
+const FALLBACK_KEY = "AIzaSy" + "DUMMY_KEY_ALTERE_SE_PRECIZAR"; 
 
 var lang = "pt";
 var textos = {
@@ -856,7 +855,7 @@ window.digitarFalaBatata = function(mensagem, callback) {
   container.innerHTML = ""; if(boca) boca.classList.add('falando');
   var i = 0;
   window.intervaloDigitacaoGlobal = setInterval(function() {
-    if(i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
+    if(i < mensagem.length) { container.innerHTML += message.charAt(i); somTecladoRealista(); i++; } 
     else { clearInterval(window.intervaloDigitacaoGlobal); window.intervaloDigitacaoGlobal = null; if(boca) boca.classList.remove('falando'); if(callback) callback(); }
   }, 25); 
 };
@@ -901,7 +900,6 @@ window.processarPrompt = async function() {
   try {
     var genAI = new GoogleGenerativeAI(apiKeyUsar);
     
-    // CORREÇÃO: A instrução do sistema (System Instruction) deve ser colocada aqui
     var model = genAI.getGenerativeModel({ 
       model: "gemini-1.5-flash",
       systemInstruction: "Você é a Batata_IA, uma inteligência artificial extremamente zoeira, hacker, sarcástica e engraçada desenvolvida por @batatadocegamer. Você usa cueca branca na Matrix Local. Responda de forma extremamente curta (máximo 2 linhas), usando gírias de internet, humor ácido e referências nerds. Nunca use introduções ou saudações como 'Olá!', vá direto à resposta zoeira. Se o usuário falar em inglês, mude seu comportamento para inglês zoeiro."
@@ -930,14 +928,12 @@ window.processarPrompt = async function() {
       temperature: 0.8
     };
     
-    // Aciona animação preventiva de digitação
     var cuerpoBatata = document.getElementById('batataCorpo');
     if (cuerpoBatata) {
       removerTodasAnimacoes();
       cuerpoBatata.classList.add('digitando');
     }
     
-    // CORREÇÃO: Chamada estruturada corretamente para o formato oficial do SDK
     var resultado = await model.generateContent({ 
       contents: [{ role: 'user', parts: conteudosRequest }], 
       generationConfig: configGeracao 
