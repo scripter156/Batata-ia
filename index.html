@@ -856,7 +856,7 @@ window.digitarFalaBatata = function(mensagem, callback) {
   container.innerHTML = ""; if(boca) boca.classList.add('falando');
   var i = 0;
   window.intervaloDigitacaoGlobal = setInterval(function() {
-    if(i < mensagem.length) { container.innerHTML += message.charAt(i); somTecladoRealista(); i++; } 
+    if(i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
     else { clearInterval(window.intervaloDigitacaoGlobal); window.intervaloDigitacaoGlobal = null; if(boca) boca.classList.remove('falando'); if(callback) callback(); }
   }, 25); 
 };
@@ -897,7 +897,6 @@ window.processarPrompt = async function() {
       
       var respostaTexto = "";
       
-      // CONFIGURAÇÃO ADICIONAL PARA CORTAR RESPOSTAS INFINITAS
       var configGeracao = {
         maxOutputTokens: 120,
         temperature: 0.8
