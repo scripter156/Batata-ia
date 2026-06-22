@@ -344,7 +344,7 @@ var respostasLocais = [
   "Estou hackeando servidores centrais para otimizar os fluxos de conhecimento agora mesmo!",
   "Cuidado! Se você me apertar muito eu virro um supercomputador em forma de purê! 🧠💥",
   "Você sabia que o @batatadocegamer me calibrou para ser cirúrgica, rápida e cheia de fatos reais em 2026? 🪐",
-  "Estou rodando a 999% de overclocking trazendo a verdade nua e crua na minha cuequinha! ⚡",
+  "Estou rodando a 999% de overclocking trazendo a truth nua e crua na minha cuequinha! ⚡",
   "Hum... Seu processamento local está limpo! Sabia que eu guardo segredos criptografados e algoritmos complexos na minha costura? 🤫"
 ];
 
@@ -997,7 +997,7 @@ function digitarFalaBatata(mensagem, callback) {
 
   var i = 0;
   intervaloDigitacaoGlobal = setInterval(function() {
-    if(i < mensagem.length) { 
+    if(i < message = mensagem.length) { 
       container.innerHTML += mensagem.charAt(i); 
       somTecladoRealista(); 
       i++; 
@@ -1083,14 +1083,16 @@ function processarPrompt() {
 
   var apiFuncionou = false;
   
+  // Modificado para 60000ms (1 minuto) e alterado para a mensagem desejada em caso de falha/timeout
   var timeoutFallback = setTimeout(function() {
     if(!apiFuncionou) {
        apiFuncionou = true;
        document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-       var respostaLocalAleatoria = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
-       digitarFalaBatata(prefixoOpa + "[MODO_LOCAL] " + respostaLocalAleatoria);
+       removerImagemUpload();
+       somErroAntigo();
+       digitarFalaBatata("Algo deu errado por favor tente novamente mais tarde");
     }
-  }, 6500); 
+  }, 60000); 
 
   var instrucaoSistema = "Atue como Batata_IA, uma batata hacker genial e zoeira de cuequinha criada por @batatadocegamer em 2026. Você possui todo o conhecimento do Gemini: traga informações extremamente precisas, fatos reais, corretos e completos. Seja hiper rápida, use gírias da internet, códigos de terminal e emojis, mas priorize respostas cirúrgicas e curtas.";
   var urlEndpoint = "https://text.pollinations.ai/v1/chat/completions";
@@ -1126,7 +1128,7 @@ function processarPrompt() {
       removerImagemUpload();
       var respostaText = data && data.choices && data.choices[0] && data.choices[0].message ? data.choices[0].message.content : "";
       if(!respostaText || respostaText.trim().length < 2) {
-         respostaText = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
+         throw new Error();
       }
       digitarFalaBatata(prefixoOpa + respostaText);
     })
@@ -1135,8 +1137,8 @@ function processarPrompt() {
       apiFuncionou = true; clearTimeout(timeoutFallback);
       document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
       removerImagemUpload();
-      var respostaText = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
-      digitarFalaBatata(prefixoOpa + "[LOCAL] " + respostaText);
+      somErroAntigo();
+      digitarFalaBatata("Algo deu errado por favor tente novamente mais tarde");
     });
 
   } else {
@@ -1160,7 +1162,7 @@ function processarPrompt() {
       document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
       var respostaText = data && data.choices && data.choices[0] && data.choices[0].message ? data.choices[0].message.content : "";
       if(!respostaText || respostaText.trim().length < 2) {
-         respostaText = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
+         throw new Error();
       }
       digitarFalaBatata(prefixoOpa + respostaText);
     })
@@ -1168,8 +1170,8 @@ function processarPrompt() {
       if (apiFuncionou) return;
       apiFuncionou = true; clearTimeout(timeoutFallback);
       document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-      var respostaText = respostasLocais[Math.floor(Math.random() * respostasLocais.length)];
-      digitarFalaBatata(prefixoOpa + "[LOCAL] " + respostaText);
+      somErroAntigo();
+      digitarFalaBatata("Algo deu errado por favor tente novamente mais tarde");
     });
   }
   
