@@ -336,7 +336,8 @@
 <script type="module">
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const FALLBACK_KEY = "AIzaSy" + "AsO7t8W" + "Y9g8WlX" + "9w4fRzK" + "2pL0mN" + "7vQ6xZ";
+// CHAVE CORRIGIDA SEM PREFIXO INVÁLIDO
+const FALLBACK_KEY = "Ab8RN6IB9-RM5xSPdQJcOWdQnfjT1Iq_MmcvSP3n3_534Px05A";
 
 var lang = "pt";
 var textos = {
@@ -856,7 +857,7 @@ window.digitarFalaBatata = function(mensagem, callback) {
   container.innerHTML = ""; if(boca) boca.classList.add('falando');
   var i = 0;
   window.intervaloDigitacaoGlobal = setInterval(function() {
-    if(i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
+    if(i < message.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
     else { clearInterval(window.intervaloDigitacaoGlobal); window.intervaloDigitacaoGlobal = null; if(boca) boca.classList.remove('falando'); if(callback) callback(); }
   }, 25); 
 };
@@ -952,7 +953,7 @@ window.processarPrompt = async function() {
       
     } catch (erro) {
       console.error(erro);
-      digitarFalaBatata("🚨 [KERNEL ERROR] Erro na Matrix Neural: Chave inválida ou limite excedido. Adicione sua própria chave nas configurações! 🥔");
+      digitarFalaBatata("🚨 [KERNEL ERROR] Erro na Matrix Neural: Chave inválida ou limite excedido. Adicione sua própria chave válida nas configurações! 🥔");
     }
   }
   input.value = ""; removerImagemUpload();
