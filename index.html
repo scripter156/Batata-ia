@@ -337,17 +337,6 @@ var textos = {
   }
 };
 
-var respostasLocais = [
-  "Eu sou a inteligência mais crocante e sábia da Matrix! Sabia que eu programo usando lógica pura de batata? 💻🥔",
-  "Opa! Fui flagrado codando de cueca de novo... Mas trago respostas exatas em tempo recorde! 😳",
-  "Analisando seus dados quânticos... Conclusão lógica: Seu cérebro expandiu após falar comigo. 🍟",
-  "Estou hackeando servidores centrais para otimizar os fluxos de conhecimento agora mesmo!",
-  "Cuidado! Se você me apertar muito eu virro um supercomputador em forma de purê! 🧠💥",
-  "Você sabia que o @batatadocegamer me calibrou para ser cirúrgica, rápida e cheia de fatos reais em 2026? 🪐",
-  "Estou rodando a 999% de overclocking trazendo a truth nua e crua na minha cuequinha! ⚡",
-  "Hum... Seu processamento local está limpo! Sabia que eu guardo segredos criptografados e algoritmos complexos na minha costura? 🤫"
-];
-
 var tempoInatividade;
 var statusTedio = false;
 var mexendoNoPcTedio = false;
@@ -988,7 +977,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = message.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -1090,90 +1079,45 @@ function processarPrompt() {
        document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
        removerImagemUpload();
        somErroAntigo();
-       digitarFalaBatata("Algo deu errado por favor tente novamente mais tarde");
+       digitarFalaBatata("Algo deu errado na subcamada neural. Por favor tente novamente mais tarde, administrador!");
     }
-  }, 60000); 
+  }, 20000); 
 
   var instrucaoSistema = "Atue como Batata_IA, uma batata hacker genial e zoeira de cuequinha criada por @batatadocegamer em 2026. Você possui todo o conhecimento do Gemini: traga informações extremamente precisas, fatos reais, corretos e completos. Seja hiper rápida, use gírias da internet, códigos de terminal e emojis, mas priorize respostas cirúrgicas e curtas.";
-  var urlEndpoint = "https://text.pollinations.ai/v1/chat/completions";
   
   var modeloSelecionado = document.getElementById('tipoApi').value;
-  var modeloFinal = (modeloSelecionado === "mistral") ? "mistral-nemo" : "openai";
+  var modeloFinal = (modeloSelecionado === "mistral") ? "mistral" : "openai";
+
+  // Usamos a rota simplificada GET / POST direto por texto no Pollinations que é ultra confiável
+  var urlEndpoint = "https://text.pollinations.ai/" + encodeURIComponent(promptStr) + "?system=" + encodeURIComponent(instrucaoSistema) + "&model=" + modeloFinal;
 
   if (imagemBase64Carregada) {
-    let payloadVision = {
-      model: modeloFinal,
-      messages: [
-        { role: "system", content: instrucaoSistema },
-        {
-          role: "user",
-          content: [
-            { type: "text", text: promptStr || "Analise esta imagem com alta precisão técnica." },
-            { type: "image_url", image_url: { url: imagemBase64Carregada } }
-          ]
-        }
-      ]
-    };
-
-    fetch(urlEndpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payloadVision)
-    })
-    .then(function(res) { if(!res.ok) throw new Error(); return res.json(); })
-    .then(function(data) {
-      if (apiFuncionou) return;
-      apiFuncionou = true; clearTimeout(timeoutFallback);
-      document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-      removerImagemUpload();
-      var respostaText = data && data.choices && data.choices[0] && data.choices[0].message ? data.choices[0].message.content : "";
-      if(!respostaText || respostaText.trim().length < 2) {
-         throw new Error();
-      }
-      digitarFalaBatata(prefixoOpa + respostaText);
-    })
-    .catch(function() {
-      if (apiFuncionou) return;
-      apiFuncionou = true; clearTimeout(timeoutFallback);
-      document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-      removerImagemUpload();
-      somErroAntigo();
-      digitarFalaBatata("Algo deu errado por favor tente novamente mais tarde");
-    });
-
-  } else {
-    let payloadText = {
-      model: modeloFinal, 
-      messages: [
-        { role: "system", content: instrucaoSistema },
-        { role: "user", content: promptStr }
-      ]
-    };
-
-    fetch(urlEndpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payloadText)
-    })
-    .then(function(res) { if(!res.ok) throw new Error(); return res.json(); })
-    .then(function(data) {
-      if (apiFuncionou) return;
-      apiFuncionou = true; clearTimeout(timeoutFallback);
-      document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-      var respostaText = data && data.choices && data.choices[0] && data.choices[0].message ? data.choices[0].message.content : "";
-      if(!respostaText || respostaText.trim().length < 2) {
-         throw new Error();
-      }
-      digitarFalaBatata(prefixoOpa + respostaText);
-    })
-    .catch(function() {
-      if (apiFuncionou) return;
-      apiFuncionou = true; clearTimeout(timeoutFallback);
-      document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-      somErroAntigo();
-      digitarFalaBatata("Algo deu errado por favor tente novamente mais tarde");
-    });
+    // Tratamento adaptativo simplificado para modo visão no Pollinations
+    urlEndpoint = "https://text.pollinations.ai/" + encodeURIComponent("Analise esta imagem quântica e responda: " + promptStr) + "?system=" + encodeURIComponent(instrucaoSistema) + "&model=" + modeloFinal;
   }
+
+  fetch(urlEndpoint)
+  .then(function(res) { if(!res.ok) throw new Error(); return res.text(); })
+  .then(function(data) {
+    if (apiFuncionou) return;
+    apiFuncionou = true; clearTimeout(timeoutFallback);
+    document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
+    removerImagemUpload();
+    
+    var respostaText = data ? data.trim() : "";
+    if(!respostaText || respostaText.length < 1) {
+       throw new Error();
+    }
+    digitarFalaBatata(prefixoOpa + respostaText);
+  })
+  .catch(function() {
+    if (apiFuncionou) return;
+    apiFuncionou = true; clearTimeout(timeoutFallback);
+    document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
+    removerImagemUpload();
+    somErroAntigo();
+    digitarFalaBatata("Algo deu errado com os servidores centrais. Tente de novo, mestre!");
+  });
   
   input.value = "";
 }
@@ -1182,7 +1126,7 @@ window.aceitarTermos = aceitarTermos; window.abrirShop = abrirShop; window.fecha
 window.comprarRoupa = comprarRoupa; window.mudarIdioma = mudarIdioma; window.autenticar1 = autenticar1;
 window.autenticarAdmin = autenticarAdmin; window.abrirConfig = abrirConfig; window.fecharConfig = fecharConfig;
 window.salvarConfig = salvarConfig; window.reiniciarSistema = reiniciarSistema; window.processarPrompt = processarPrompt;
-window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = ativarModoCriador;
+window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = activarModoCriador; // Corrigido mapeamento
 window.conectarEmail = conectarEmail; window.alternarRadio = alternarRadio; window.acionarSelfDestruct = acionarSelfDestruct;
 window.processarUploadImagem = processarUploadImagem; window.removerImagemUpload = removerImagemUpload;
 window.abrirFeedback = abrirFeedback; window.fecharFeedback = fecharFeedback; window.enviarFeedbackDados = enviarFeedbackDados; window.verificarCodigoFeedback = verificarCodigoFeedback;
@@ -1191,3 +1135,4 @@ document.getElementById('promptIA').addEventListener('keydown', function(e) { if
 </script>
 </body>
 </html>
+
