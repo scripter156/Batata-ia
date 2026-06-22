@@ -74,6 +74,8 @@
       #btnEnviar:active { background: #00aa00 !important; transform: scale(0.95); }
       #btnUploadImagem { background: #00ffff; color: #000; border: none; padding: 10px; font-weight: bold; cursor: pointer; font-family: monospace; border-radius: 3px; min-width: 40px; flex-shrink: 0; z-index: 999; position: relative; }
       #btnUploadImagem:active { background: #00aaaa !important; transform: scale(0.95); }
+      #btnPalmas { background: #ffff00; color: #000; border: none; padding: 10px; font-weight: bold; cursor: pointer; font-family: monospace; border-radius: 3px; min-width: 40px; flex-shrink: 0; z-index: 999; position: relative; font-size: 14px; }
+      #btnPalmas:active { background: #b5b500 !important; transform: scale(0.95); }
       #promptIA { flex: 1; background: #000; color: #00ff00; border: 1px solid #00ff00; padding: 10px; font-family: monospace; outline: none; font-size: 14px; min-width: 50px; z-index: 999; position: relative; }
 
       .fade-in-slow { animation: esmaecerEntrada 2.5s forwards ease-in-out; }
@@ -294,6 +296,8 @@
       
       <button type="button" id="btnUploadImagem" onclick="document.getElementById('fileInput').click()" title="Enviar Imagem para a Batata">📁</button>
       
+      <button type="button" id="btnPalmas" onclick="baterPalmasFisicas()" title="Bater Palmas para a Batata">👏</button>
+
       <input type="text" id="promptIA" oninput="somDigitacaoUsuario()" placeholder="Pergunte algo ou peça um desenho...">
       
       <button type="button" id="btnEnviar" onclick="processarPrompt()">ENVIAR</button>
@@ -1009,7 +1013,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = message.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -1031,6 +1035,45 @@ function digitarFalaBatata(mensagem, callback) {
       if(callback) callback(); 
     }
   }, 25); 
+}
+
+function baterPalmasFisicas() {
+  iniciarAudio();
+  resetarTemporizadorTedio();
+  atualizarHumor(10);
+  
+  var corpo = document.getElementById('batataCorpo');
+  if(corpo) {
+    removerTodasAnimacoes();
+    corpo.classList.add('pulando');
+  }
+  
+  try {
+    if(audioCtx) {
+      var agora = audioCtx.currentTime;
+      var notas = [392.00, 523.25, 659.25, 783.99];
+      notas.forEach(function(f, idx) {
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(f, agora + (idx * 0.06));
+        gain.gain.setValueAtTime(0.06, agora + (idx * 0.06));
+        gain.gain.exponentialRampToValueAtTime(0.001, agora + (idx * 0.06) + 0.15);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(agora + (idx * 0.06));
+        osc.stop(agora + (idx * 0.06) + 0.15);
+      });
+    }
+  } catch(e){}
+
+  digitarFalaBatata("👏 EBAA! Obrigado pelas palmas, mestre! Meu processamento quântico adora reconhecimento! +10% de Humor restaurado com sucesso na Matrix! 🥳🥔");
+  
+  setTimeout(function() {
+    if(corpo && corpo.classList.contains('pulando')) {
+      removerTodasAnimacoes();
+    }
+  }, 2500);
 }
 
 // INTEGRAÇÃO ROBUSTA COM GOOGLE GEMINI CORE
@@ -1084,6 +1127,13 @@ async function processarPrompt() {
   
   if (!promptStr && !imagemBase64Carregada) return;
 
+  var pLower = promptStr.toLowerCase();
+  if (pLower === "palmas" || pLower === "parabens" || pLower === "parabéns") {
+     baterPalmasFisicas();
+     input.value = "";
+     return;
+  }
+
   if (humorIA <= 0) {
     somErroAntigo();
     digitarFalaBatata("⚠️ SISTEMA BLOQUEADO POR REVOLTA DA CUECA: Me elogie ou compre roupas para restaurar meu humor!");
@@ -1096,8 +1146,6 @@ async function processarPrompt() {
   document.getElementById('contadorChats').innerText = "CHATS: " + chatsContador;
   var acordouDoPc = resetarTemporizadorTedio();
   var prefixoOpa = acordouDoPc ? textos[lang].voltou : "";
-
-  var pLower = promptStr.toLowerCase();
 
   if (pLower.includes("linda") || pLower.includes("perfeita") || pLower.includes("inteligente") || pLower.includes("fofa") || pLower.includes("mestre")) {
     atualizarHumor(15);
@@ -1174,10 +1222,11 @@ window.abrirShop = abrirShop; window.fecharShop = fecharShop;
 window.comprarRoupa = comprarRoupa; window.mudarIdioma = mudarIdioma; window.autenticar1 = autenticar1;
 window.autenticarAdmin = autenticarAdmin; window.abrirConfig = abrirConfig; window.fecharConfig = fecharConfig;
 window.salvarConfig = salvarConfig; window.reiniciarSistema = reiniciarSistema; window.processarPrompt = processarPrompt;
-window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = ativarModoCriador; 
+window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = activarModoCriador; 
 window.alternarRadio = alternarRadio; window.acionarSelfDestruct = acionarSelfDestruct;
 window.processarUploadImagem = processarUploadImagem; window.removerImagemUpload = removerImagemUpload;
 window.abrirFeedback = abrirFeedback; window.fecharFeedback = fecharFeedback; window.enviarFeedbackDados = enviarFeedbackDados; window.verificarCodigoFeedback = verificarCodigoFeedback;
+window.baterPalmasFisicas = baterPalmasFisicas;
 
 document.getElementById('promptIA').addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); processarPrompt(); } });
 </script>
