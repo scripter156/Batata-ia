@@ -576,8 +576,8 @@ window.atualizarHumor = function(modificador) {
   else if (window.humorIA <= 70) { statusTxt = " (Desconfiada 🤨)"; cor = "#ffff00"; filtroCorpo = "hue-rotate(45deg)"; } 
   else if (window.humorIA > 85) { statusTxt = " (Feliz 🥰)"; cor = "#ff66cc"; }
   if (barra) { barra.innerHTML = blocos + vazios + " " + window.humorIA + "%" + statusTxt; barra.style.color = cor; }
-  var corpo = document.getElementById('batataCorpo');
-  if(corpo && !corpo.classList.contains('carregando')) corpo.style.filter = filtroCorpo;
+  var cuerpo = document.getElementById('batataCorpo');
+  if(cuerpo && !cuerpo.classList.contains('carregando')) cuerpo.style.filter = filtroCorpo;
 };
 
 window.acionarSelfDestruct = function() {
@@ -798,8 +798,8 @@ window.salvarConfig = function() { salvarDadosUsuario(); somMoedaSucesso(); aler
 
 window.mostrarProgresso = function() {
   var barra = document.getElementById('barraCarregamento'); barra.style.display = 'block'; var progresso = 0;
-  var corpo = document.getElementById('batataCorpo');
-  if(corpo) { removerTodasAnimacoes(); corpo.classList.add('carregando'); }
+  var cuerpo = document.getElementById('batataCorpo');
+  if(cuerpo) { removerTodasAnimacoes(); cuerpo.classList.add('carregando'); }
   var intervaloBarra = setInterval(function() {
     if(progresso <= 100) {
       var blocos = "█".repeat(progresso / 10); var vazios = "░".repeat(10 - (progresso / 10));
@@ -857,23 +857,23 @@ window.digitarFalaBatata = function(mensagem, callback) {
   container.innerHTML = ""; if(boca) boca.classList.add('falando');
   var i = 0;
   window.intervaloDigitacaoGlobal = setInterval(function() {
-    if(i < message.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
+    if(i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
     else { clearInterval(window.intervaloDigitacaoGlobal); window.intervaloDigitacaoGlobal = null; if(boca) boca.classList.remove('falando'); if(callback) callback(); }
   }, 25); 
 };
 
 window.baterPalmasFisicas = function() {
   window.iniciarAudio(); atualizarHumor(10);
-  var corpo = document.getElementById('batataCorpo');
-  if(corpo) { removerTodasAnimacoes(); corpo.classList.add('pulando'); }
+  var cuerpo = document.getElementById('batataCorpo');
+  if(cuerpo) { removerTodasAnimacoes(); cuerpo.classList.add('pulando'); }
   somMoedaSucesso();
   digitarFalaBatata("👏 EBAA! Obrigado pelas palmas, mestre! +10% de Humor!");
   setTimeout(function() { removerTodasAnimacoes(); }, 2500);
 };
 
 window.removerTodasAnimacoes = function() {
-  var corpo = document.getElementById('batataCorpo');
-  if(corpo) { corpo.classList.remove('digitando', 'dançando', 'pulando', 'carregando', 'coçando-nariz', 'meme-67', 'pegando-oculos'); }
+  var cuerpo = document.getElementById('batataCorpo');
+  if(cuerpo) { cuerpo.classList.remove('digitando', 'dançando', 'pulando', 'carregando', 'coçando-nariz', 'meme-67', 'pegando-oculos'); }
   var boca = document.getElementById('batataBoca'); if(boca) boca.classList.remove('falando');
 };
 
@@ -893,7 +893,7 @@ window.processarPrompt = async function() {
       var genAI = new GoogleGenerativeAI(apiKeyUsar);
       var model = genAI.getGenerativeModel({ 
         model: "gemini-1.5-flash",
-        systemInstruction: "Você é a Batata_IA, uma inteligência artificial extremamente zoeira, hacker, sarcástica e engraçada desenvolvida por @batatadocegamer. Você usa cueca branca na Matrix Local. Responda de forma curta, usando gírias de internet, humor ácido e referências nerds. Se o usuário falar em inglês, mude seu comportamento para inglês zoeiro."
+        systemInstruction: "Você é a Batata_IA, uma inteligência artificial extremamente zoeira, hacker, sarcástica e engraçada desenvolvida por @batatadocegamer. Você usa cueca branca na Matrix Local. Responda de forma corta, usando gírias de internet, humor ácido e referências nerds. Se o usuário falar em inglês, mude seu comportamento para inglês zoeiro."
       });
       
       var respostaTexto = "";
@@ -917,20 +917,20 @@ window.processarPrompt = async function() {
         respostaTexto = resultado.response.text();
       }
       
-      var corpoBatata = document.getElementById('batataCorpo');
-      if (corpoBatata) {
+      var cuerpoBatata = document.getElementById('batataCorpo');
+      if (cuerpoBatata) {
         removerTodasAnimacoes();
         var sorteioAnimacao = Math.random();
         if (sorteioAnimacao < 0.25) {
-          corpoBatata.classList.add('dançando');
+          cuerpoBatata.classList.add('dançando');
         } else if (sorteioAnimacao < 0.50) {
-          corpoBatata.classList.add('coçando-nariz');
+          cuerpoBatata.classList.add('coçando-nariz');
         } else if (sorteioAnimacao < 0.75) {
-          corpoBatata.classList.add('pegando-oculos');
+          cuerpoBatata.classList.add('pegando-oculos');
           var oculos = document.getElementById('batataOculos');
           if(oculos) { oculos.style.display = 'block'; oculos.style.opacity = '1'; }
         } else {
-          corpoBatata.classList.add('digitando');
+          cuerpoBatata.classList.add('digitando');
         }
       }
       
