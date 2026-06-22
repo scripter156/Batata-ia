@@ -701,7 +701,8 @@ function pararAlarmeSirene() { if (intervaloAlarme) { clearInterval(intervaloAla
 function aceitarTermos() {
   document.getElementById('telaAviso').style.display = 'none';
   document.getElementById('telaLoginEmail').style.display = 'block';
-  iniciarAudio(); somMoedaSucesso();
+  iniciarAudio(); 
+  setTimeout(function() { somMoedaSucesso(); }, 50);
 }
 
 function abrirShop() {
@@ -987,7 +988,7 @@ function digitarFalaBatata(mensagem, callback) {
   if (intervaloDigitacaoGlobal) { clearInterval(intervaloDigitacaoGlobal); }
   
   if (mensagem.includes("🚀_IMG_MODE_🚀")) {
-    container.innerHTML = mensagem.replace("🚀_IMG_MODE_🚀", ""); 
+    container.innerHTML = message.replace("🚀_IMG_MODE_🚀", ""); 
     if(boca) boca.classList.remove('falando');
     somBipeProgresso(750); if(callback) callback(); return;
   }
@@ -1181,7 +1182,7 @@ window.aceitarTermos = aceitarTermos; window.abrirShop = abrirShop; window.fecha
 window.comprarRoupa = comprarRoupa; window.mudarIdioma = mudarIdioma; window.autenticar1 = autenticar1;
 window.autenticarAdmin = autenticarAdmin; window.abrirConfig = abrirConfig; window.fecharConfig = fecharConfig;
 window.salvarConfig = salvarConfig; window.reiniciarSistema = reiniciarSistema; window.processarPrompt = processarPrompt;
-window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = activarModoCriador;
+window.somDigitacaoUsuario = somDigitacaoUsuario; window.ativarModoCriador = ativarModoCriador;
 window.conectarEmail = conectarEmail; window.alternarRadio = alternarRadio; window.acionarSelfDestruct = acionarSelfDestruct;
 window.processarUploadImagem = processarUploadImagem; window.removerImagemUpload = removerImagemUpload;
 window.abrirFeedback = abrirFeedback; window.fecharFeedback = fecharFeedback; window.enviarFeedbackDados = enviarFeedbackDados; window.verificarCodigoFeedback = verificarCodigoFeedback;
@@ -1190,4 +1191,3 @@ document.getElementById('promptIA').addEventListener('keydown', function(e) { if
 </script>
 </body>
 </html>
-
