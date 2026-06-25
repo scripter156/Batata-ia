@@ -1,991 +1,754 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Batata_IA - A Batata Hacker de Cuequinha</title>
-    <meta name="description" content="Converse com a Batata_IA, a inteligência artificial mais zoeira da Matrix. Crie imagens, faça perguntas e divirta-se no terminal hacker!">
-    <meta name="keywords" content="batata ia, batata hacker, jogo da batata, batatadocegamer, ia zoeira">
+    <title>BatataZap 🥔🍟</title>
     <style>
-      body { background:#000; color:#00ff00; font-family:'Courier New', monospace; padding:15px; text-align:center; text-shadow: 0 0 5px #00ff00; overflow-x: hidden; user-select: none; transition: transform 0.5s ease-in-out, filter 0.5s ease-in-out; }
-      .super-pc { width: 55px; height: 45px; background: #111; border: 2px solid #00ff00; border-radius: 4px; box-shadow: 0 0 8px #00ff00; display: inline-block; vertical-align: middle; }
-      .tela-pc { background: #000; width: 45px; height: 28px; margin: 3px auto; color: #00ff00; font-size: 8px; text-align: center; padding-top: 4px; overflow:hidden; }
-      .teclado-pc { width: 45px; height: 4px; background: #333; margin: 2px auto; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-      .batata-corpo { width: 65px; height: 85px; background: #e6a15c; border: 3px solid #ffff00; border-radius: 50% 50% 45% 45%; position: relative; display: inline-block; box-shadow: 0 0 15px #ffff00; animation: flutuar 2s infinite ease-in-out; vertical-align: middle; overflow: visible; transition: filter 0.3s; }
-      
-      .roupa-base { position: absolute; bottom: 0; left: 0; width: 100%; height: 32px; z-index: 1; transition: 0.3s; }
-      
-      .roupa-cueca { background: #ffffff; border-top: 2px solid #dddddd; height: 16px; width: 46px; left: 10px; border-radius: 2px 2px 8px 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); position: absolute; bottom: 0; }
-      .detalhe-cueca { width: 2px; height: 100%; background: #bbbbbb; margin: 0 auto; opacity: 0.5; }
+        body {
+            background-color: #f4f2ee;
+            background-image: linear-gradient(to bottom, #da8f31 127px, #e9e5de 127px);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-      .oculos-hacker { position: absolute; top: 32px; left: 8px; width: 48px; height: 10px; background: #000; border: 2px solid #00ff00; box-shadow: 0 0 8px #00ff00; z-index: 15; border-radius: 2px; display: none; opacity: 0; }
-      .oculos-hacker::before { content: ""; position: absolute; left: 20px; top: 0; width: 4px; height: 100%; background: #00ff00; }
+        .container {
+            background-color: white;
+            width: 400px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
+        }
 
-      .roupa-hacker { background: linear-gradient(to top, #111 70%, transparent); border-top: 2px solid #00ff00; border-radius: 0 0 45% 45%; }
-      .roupa-cyberpunk { background: linear-gradient(to top, #ff0055 60%, transparent); border-top: 2px solid #00ffff; border-radius: 0 0 45% 45%; }
-      .roupa-gamer { background: linear-gradient(to top, #6600ff 70%, transparent); border-top: 2px solid #ff00ff; border-radius: 0 0 45% 45%; }
-      .roupa-senior { background: linear-gradient(to top, #5c4033 80%, transparent); border-top: 2px solid #fff; border-radius: 0 0 45% 45%; }
-      .roupa-doce { background: linear-gradient(to top, #ff66cc 70%, transparent); border-top: 2px solid #ffff00; border-radius: 0 0 45% 45%; }
+        h2 {
+            color: #5c3a21;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-      .headset { position: absolute; width: 100%; top: 0; z-index:10; }
-      .arco { width: 62px; height: 30px; border: 4px solid #333; border-bottom: none; border-radius: 40px 40px 0 0; position: absolute; left: -2px; top: 8px; }
-      .fone-esq, .fone-dir { width: 8px; height: 16px; background: #111; border: 2px solid #00ff00; position: absolute; top: 34px; border-radius: 3px; }
-      .fone-esq { left: -5px; } .fone-dir { right: -5px; }
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-      .olhos { margin-top: 28px; display: flex; justify-content: space-around; padding: 0 12px; transition: 0.2s; position: relative; z-index: 2; }
-      .olho-esq, .olho-dir { width: 12px; height: 12px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: piscar 4s infinite linear; position: relative; }
-      .pupila { width: 5px; height: 5px; background: #000; border-radius: 50%; position: absolute; transition: 0.2s; left: 3.5px; top: 3.5px; }
-      
-      .boca { width: 16px; height: 8px; border-bottom: 3px solid #000; border-radius: 0 0 10px 10px; margin: 6px auto 0; transition: 0.1s; position: relative; z-index: 2; }
-      .boca.falando { animation: mexerBoca 0.15s infinite alternate; border-bottom: none; background: #000; border-radius: 50%; width: 10px; height: 10px; }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #7f6855;
+            font-size: 14px;
+            font-weight: 600;
+        }
 
-      .braco-esq, .braco-dir { width: 14px; height: 4px; background: #ffff00; position: absolute; top: 48px; transition: 0.2s; z-index: 3; }
-      .braco-esq { left: -11px; transform: rotate(15deg); } .braco-dir { right: -11px; transform: rotate(-15deg); }
-      
-      .batata-corpo.digitando .pupila { left: 2px; top: 3px; }
-      .batata-corpo.digitando .braco-esq { animation: digitarEsq 0.1s infinite alternate; left: -14px; top: 44px; width: 18px; transform-origin: right; }
-      .batata-corpo.digitando .braco-dir { animation: digitarDir 0.12s infinite alternate-reverse; right: -4px; top: 46px; width: 16px; transform-origin: left; z-index: 4; }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1d6cd;
+            border-radius: 8px;
+            outline: none;
+            font-size: 16px;
+            transition: 0.2s;
+        }
 
-      .batata-corpo.dançando { animation: dancaGiro 0.6s infinite linear !important; }
-      .batata-corpo.dançando .braco-esq { transform: rotate(120deg); top: 35px; }
-      .batata-corpo.dançando .braco-dir { transform: rotate(-120deg); top: 35px; }
+        input:focus {
+            border-color: #da8f31;
+        }
 
-      .batata-corpo.pulando { animation: puloRapido 0.4s infinite ease-out !important; }
-      
-      .batata-corpo.carregando { animation: spinCarregando 0.8s infinite linear !important; filter: hue-rotate(90deg); }
-      .batata-corpo.carregando .braco-esq { transform: rotate(-45deg); top: 40px; }
-      .batata-corpo.carregando .braco-dir { transform: rotate(45deg); top: 40px; }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #da8f31;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 10px;
+        }
 
-      .batata-corpo.pegando-oculos .braco-esq { transform: rotate(110deg); left: 10px; top: 28px; z-index: 20; height: 5px; width: 16px; }
-      .batata-corpo.pegando-oculos .pupila { top: -2px; }
+        button:hover {
+            background-color: #be751c;
+        }
 
-      .batata-corpo.coçando-nariz .braco-esq { transform: rotate(70deg); left: 10px; top: 38px; z-index: 5; }
+        .switch-form {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+            color: #7f6855;
+        }
 
-      .batata-corpo.meme-67 { animation: desabarMeme67 2s infinite ease-in-out !important; }
-      .batata-corpo.meme-67 .braco-esq { transform: rotate(80deg); left: -5px; }
-      .batata-corpo.meme-67 .braco-dir { transform: rotate(-80deg); right: -5px; }
-      .batata-corpo.meme-67 .pupila { top: -3px; }
+        .switch-form a {
+            color: #da8f31;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 5px;
+        }
 
-      .pe-esq, .pe-dir { width: 14px; height: 7px; background: #b57433; border: 2px solid #ffff00; position: absolute; bottom: -7px; border-radius: 4px 4px 0 0; }
-      .pe-esq { left: 12px; } .pe-dir { right: 12px; }
+        .hidden {
+            display: none !important;
+        }
 
-      .interface-botoes-container { display: flex; gap: 5px; align-items: center; width: 100%; }
-      #btnEnviar { background: #00ff00; color: #000; border: none; padding: 10px 15px; font-weight: bold; cursor: pointer; font-family: monospace; min-width: 80px; flex-shrink: 0; z-index: 999; position: relative; }
-      #btnEnviar:active { background: #00aa00 !important; transform: scale(0.95); }
-      #btnUploadImagem { background: #00ffff; color: #000; border: none; padding: 10px; font-weight: bold; cursor: pointer; font-family: monospace; border-radius: 3px; min-width: 40px; flex-shrink: 0; z-index: 999; position: relative; }
-      #btnUploadImagem:active { background: #00aaaa !important; transform: scale(0.95); }
-      #btnPalmas { background: #ffff00; color: #000; border: none; padding: 10px; font-weight: bold; cursor: pointer; font-family: monospace; border-radius: 3px; min-width: 40px; flex-shrink: 0; z-index: 999; position: relative; font-size: 14px; }
-      #btnPalmas:active { background: #b5b500 !important; transform: scale(0.95); }
-      #promptIA { flex: 1; background: #000; color: #00ff00; border: 1px solid #00ff00; padding: 10px; font-family: monospace; outline: none; font-size: 14px; min-width: 50px; z-index: 999; position: relative; }
+        .box-batata {
+            background-color: #fff9e6;
+            border: 3px dashed #ffcc00;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: inset 0 0 10px rgba(255, 204, 0, 0.2);
+            margin-top: 15px;
+        }
 
-      .fade-in-slow { animation: esmaecerEntrada 2.5s forwards ease-in-out; }
+        .box-batata label {
+            color: #d84b20;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
-      .aviso-sobrecarga {
-        margin-top: 10px;
-        font-size: 11px;
-        font-weight: bold;
-        color: #00ff00;
-        font-family: monospace;
-        letter-spacing: 0.5px;
-        text-shadow: 0 0 5px #00ff00;
-      }
+        .box-batata input {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            border: 2px solid #ffcc00;
+            background-color: #ffffff;
+            color: #d84b20;
+        }
 
-      @keyframes esmaecerEntrada {
-        0% { opacity: 0; filter: blur(5px) brightness(0.3); }
-        100% { opacity: 1; filter: blur(0px) brightness(1); }
-      }
+        .alert-security {
+            background-color: #ffebe6;
+            border-left: 5px solid #ff4d4d;
+            padding: 10px;
+            border-radius: 4px;
+            color: #cc0000;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
 
-      @keyframes mexerBoca { 0% { height: 3px; } 100% { height: 9px; } }
-      @keyframes digitarEsq { 0% { transform: rotate(25deg) translateX(0px); } 100% { transform: rotate(5deg) translateX(-2px); } }
-      @keyframes digitarDir { 0% { transform: rotate(-45deg) translateX(0px); } 100% { transform: rotate(-15deg) translateX(-3px); } }
-      @keyframes piscar { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
-      @keyframes flutuar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-      @keyframes dancaGiro { 0% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-4px) rotate(6deg); } 75% { transform: translateY(0) rotate(-6deg); } 100% { transform: translateY(0) rotate(0deg); } }
-      @keyframes puloRapido { 0%, 100% { transform: translateY(0) scaleY(1); } 50% { transform: translateY(-25px) scaleY(1.05); } }
-      @keyframes spinCarregando { 0% { transform: translateY(0) scale(1) rotate(0deg); box-shadow: 0 0 15px #00ff00; } 50% { transform: translateY(-10px) scale(1.05) rotate(180deg); box-shadow: 0 0 25px #00ffff; } 100% { transform: translateY(0) scale(1) rotate(360deg); box-shadow: 0 0 15px #00ff00; } }
-      @keyframes desabarMeme67 { 0%, 100% { transform: scaleY(0.7) translateY(25px); filter: hue-rotate(0deg); } 50% { transform: scaleY(0.6) scaleX(1.1) translateY(32px); filter: hue-rotate(20deg); } }
-      @keyframes blink { 0% { opacity: 1; } 100% { opacity: 0; } }
-      @keyframes tremer { 0% { transform: translate(2px, 2px); } 50% { transform: translate(-2px, -2px); } 100% { transform: translate(2px, -2px); } }
+        #app-screen {
+            width: 95vw;
+            max-width: 1200px;
+            height: 90vh;
+            background-color: #fdfbf7;
+            display: flex;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 350px;
+            background-color: #ffffff;
+            border-right: 1px solid #e9e5de;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            background-color: #f5ece1;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e9e5de;
+        }
+
+        .sidebar-header h3 {
+            color: #5c3a21;
+        }
+
+        .action-area {
+            padding: 15px;
+            background-color: #fff9f2;
+            border-bottom: 1px solid #e9e5de;
+        }
+
+        .action-area input {
+            padding: 8px;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .contact-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .contact-item {
+            padding: 15px;
+            border-bottom: 1px solid #f4f2ee;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .contact-item:hover {
+            background-color: #fff4e6;
+        }
+
+        .contact-item.active {
+            background-color: #ffe8cc;
+        }
+
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #fcf8f2;
+        }
+
+        .chat-blank {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #a39284;
+            font-size: 18px;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background-color: #f5ece1;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e9e5de;
+            color: #5c3a21;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #f4ecd8;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .msg {
+            padding: 10px 14px;
+            border-radius: 12px;
+            max-width: 60%;
+            width: fit-content;
+            word-wrap: break-word;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .msg .sender-phone {
+            font-size: 11px;
+            font-weight: bold;
+            color: #be751c;
+            margin-bottom: 3px;
+            display: block;
+        }
+
+        .msg.sent {
+            background-color: #fcdfa2;
+            margin-left: auto;
+            color: #4a3111;
+        }
+
+        .msg.sent .sender-phone {
+            color: #a46211;
+        }
+
+        .msg.received {
+            background-color: white;
+            margin-right: auto;
+            color: #333;
+        }
+
+        .file-link {
+            display: block;
+            color: #be751c;
+            font-weight: bold;
+            margin-top: 5px;
+            text-decoration: underline;
+        }
+
+        .chat-input-bar {
+            background-color: #f5ece1;
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input-bar input[type="text"] {
+            flex: 1;
+        }
+
+        .file-label {
+            background-color: #7f6855;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .btn-salvar-contato {
+            background-color: #ffcc00;
+            color: #5c3a21;
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 6px;
+            width: auto;
+            margin-bottom: 0;
+        }
+        .btn-salvar-contato:hover {
+            background-color: #e6b800;
+        }
     </style>
 </head>
-<body id="bodyMain">
+<body>
 
-<div style="position: fixed; bottom: 10px; right: 15px; font-size: 11px; color: #00ff00; opacity: 0.35; font-family: monospace; z-index: 999; text-shadow: none;">
-  @batatadocegamer
-</div>
+    <!-- 1. TELA DE CADASTRO -->
+    <div id="register-screen" class="container">
+        <h2>🥔 BatataZap - Criar Conta</h2>
+        <div class="alert-security">⚠️ ATENÇÃO: Nunca compartilhe seu Gmail e senha com ninguém!</div>
+        <div class="form-group"><label>Nome</label><input type="text" id="reg-name" placeholder="Seu nome"></div>
+        <div class="form-group"><label>Gmail</label><input type="email" id="reg-email" placeholder="nome@gmail.com"></div>
+        <div class="form-group"><label>Senha</label><input type="password" id="reg-password" placeholder="Sua senha"></div>
+        <div class="form-group"><label>Número de Telefone</label><input type="tel" id="reg-phone" placeholder="Ex: 11999999999"></div>
+        <button onclick="cadastrar()">Cadastrar e Entrar</button>
+        <div class="switch-form">Já tenho uma conta? <a href="#" onclick="alternarTela('login')">Entrar</a></div>
+    </div>
 
-<div id="telaAviso" style="display:flex; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#000; z-index:10000; justify-content:center; align-items:center; flex-direction:column; padding: 20px; box-sizing: border-box;">
-  <div style="max-width:500px; border:2px solid #ff3333; background:#0a0000; padding:25px; border-radius:5px; box-shadow: 0 0 20px #ff3333; text-align:left;">
-    <h2 id="txtAvisoTitulo" style="color:#ff3333; text-align:center; margin-top:0; letter-spacing:2px; animation: blink 1s infinite;">⚠️ AVISO CRÍTICO / CRITICAL NOTICE</h2>
-    <p id="txtAvisoCorpo" style="color:#fff; font-size:13px; line-height:1.5; margin-bottom:20px;">
-      Este sistema acessa subcamadas neurais da rede. O desenvolvedor <strong>@batatadocegamer</strong> NÃO se responsabiliza por quaisquer danos, bugs, falhas no system ou perda de dados que possam ocorrer durante ou após a execução deste payload.<br><br>
-      Proceed at your own risk. The developer is not liable for any issues caused by running this interactive protocol.
-    </p>
-    <button type="button" id="btnAceitarTermos" onclick="aceitarTermos()" style="width:100%; background:#ff3333; color:#000; padding:12px; border:none; font-weight:bold; font-size:15px; cursor:pointer; border-radius:3px; box-shadow: 0 0 10px #ff3333; font-family:monospace;">[ ACEITAR TERMOS E ATIVAR AUDIO ]</button>
-  </div>
-</div>
+    <!-- 2. TELA DE LOGIN -->
+    <div id="login-screen" class="container hidden">
+        <h2>🥔 BatataZap - Login</h2>
+        <div class="alert-security">⚠️ SEGURANÇA: Mantenha seus dados de acesso sempre em segredo.</div>
+        <div class="form-group"><label>Gmail</label><input type="email" id="login-email" placeholder="nome@gmail.com"></div>
+        <div class="form-group"><label>Número de Telefone</label><input type="tel" id="login-phone" placeholder="Ex: 11999999999"></div>
+        <div class="form-group"><label>Senha</label><input type="password" id="login-password" placeholder="Sua senha"></div>
+        <button onclick="login()">Entrar</button>
+        <div class="switch-form">
+            <a href="#" onclick="alternarTela('forgot')">Esqueci a Senha</a> |
+            <a href="#" onclick="alternarTela('register')">Cadastre-se</a>
+        </div>
+    </div>
 
-<div id="telaLoginEmail" style="display:none; max-width:450px; margin: 12vh auto 0 auto; background:#050505; border:2px solid #00ff00; padding:25px; border-radius:5px; box-shadow: 0 0 25px rgba(0,25,0,0.2);">
-  <h2 style="color:#00ff00; font-size:18px; margin-top:0; letter-spacing:1px;">💾 CLOUD STORAGE SYSTEM</h2>
-  <p style="font-size:12px; color:#00aa00; margin-bottom:20px;">Insira seu e-mail para recuperar ou salvar suas moedas e roupas na Matrix Local.</p>
-  <input type="email" id="userEmail" placeholder="seu-email@provedor.com" style="width:100%; background:#000; color:#00ff00; border:1px solid #00ff00; padding:10px; font-family:monospace; margin-bottom:15px; outline:none; text-align:center; box-sizing: border-box;">
-  <button type="button" id="btnConectarEmail" onclick="conectarEmail()" style="width:100%; background:#00ff00; color:#000; padding:12px; border:none; font-weight:bold; font-size:14px; cursor:pointer; font-family:monospace;">[ SYNC DATABASE PROFILE ]</button>
-</div>
-
-<div id="seguranca1" style="display:none; margin-top: 12vh;">
-  <div style="margin-bottom: 25px;">
-    <button type="button" onclick="mudarIdioma('pt')" style="background:#111; border:2px solid #00ff00; cursor:pointer; padding:5px 10px; font-size:20px; border-radius:5px; margin-right:10px; box-shadow:0 0 5px #00ff00;">🇧🇷 PT</button>
-    <button type="button" onclick="mudarIdioma('en')" style="background:#111; border:2px solid #00ff00; cursor:pointer; padding:5px 10px; font-size:20px; border-radius:5px; box-shadow:0 0 5px #00ff00;">🇺🇸 EN</button>
-  </div>
-
-  <h1 id="txtRestrito" style="letter-spacing: 3px; font-size: 24px;">⚠️ ACCESS RESTRICTED</h1>
-  <p id="txtCredencial" style="color:#00aa00;">INSIRA A CREDENCIAL DE ACESSO:</p>
-  <input type="password" id="inputCodigo" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="0000" style="background:#050505; color:#00ff00; border:2px solid #00ff00; padding:12px; text-align:center; font-size:24px; width:140px; outline:none; font-weight:bold; box-shadow: 0 0 10px #00ff00; border-radius:5px;"><br><br>
-  <button type="button" id="btnInject" onclick="autenticar1()" style="background:#00ff00; color:#000; border:none; padding:12px 25px; font-weight:bold; font-size:16px; cursor:pointer; box-shadow: 0 0 15px #00ff00; border-radius:5px;">INJECT PAYLOAD</button>
-</div>
-
-<div id="telaErro" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(15,0,0,0.98); z-index:9999; justify-content:center; align-items:center; flex-direction:column; color:#ff3333;">
-  <h1 id="txtErroTitulo" style="font-size:32px; animation: tremer 0.1s infinite; letter-spacing: 2px;">🚨 ACESSO BLOQUEADO 🚨</h1>
-  <div id="mensagensErro" style="width:100%; height:70%; position:relative;"></div>
-  <button type="button" onclick="reiniciarSistema()" style="margin-top:10px; background:#ff3333; color:#000; padding:12px 25px; border:none; font-weight:bold; font-size:16px; cursor:pointer; border-radius:5px; box-shadow: 0 0 15px #ff3333;">REBOOT SYSTEM</button>
-</div>
-
-<div id="telaConfig" style="display:none; max-width:500px; margin: 20px auto; background:#111; border:2px solid #ffff00; padding:20px; border-radius:5px; text-align:left; box-shadow: 0 0 20px rgba(255,255,0,0.2);">
-  <h3 id="txtConfigTitulo" style="color:#ffff00; text-align:center; margin-top:0;">⚙️ PAINEL DE CONFIGURAÇÃO</h3>
-  <p id="txtConfigSub" style="font-size:12px; color:#aaa;">O sistema está conectado diretamente à API do Gemini Core.</p>
-  
-  <label id="lblPersonalidade" style="font-size:13px; color:#ffff00; display:block; margin-bottom:5px;">Chave de API do Gemini (Obrigatório caso o Fallback caia):</label>
-  <input type="password" id="geminiApiKey" placeholder="Insira sua chave AIzaSy... para uso estável e ilimitado" style="background:#000; color:#00ff00; border:1px solid #00ff00; padding:8px; width:100%; font-family:monospace; margin-bottom:15px; box-sizing: border-box;">
-
-  <p style="font-size:11px; color:#888;">Perfil ativo: <span id="perfilAtivoConfig" style="color:#00ff00;">Nenhum</span></p>
-  
-  <div style="display:flex; gap:10px;">
-    <button type="button" id="btnSalvarConfig" onclick="salvarConfig()">SALVAR CONFIG</button>
-    <button type="button" id="btnVoltarConfig" onclick="fecharConfig()">VOLTAR AO CHAT</button>
-  </div>
-</div>
-
-<div id="telaShop" style="display:none; max-width:500px; margin: 20px auto; background:#0a0a1a; border:2px solid #00ffff; padding:20px; border-radius:5px; text-align:left; box-shadow: 0 0 20px rgba(0,25,25,0.3);">
-  <h3 style="color:#00ffff; text-align:center; margin-top:0; letter-spacing:1px;">🛍️ POTATO STORE / LOJINHA</h3>
-  <p style="font-size:13px; color:#fff; text-align:center; border-bottom:1px dashed #00ffff; padding-bottom:10px;">
-    Saldo Atual: <span id="saldoShop" style="color:#ffff00; font-weight:bold; font-size:16px;">0</span> Mensagens 🪙
-  </p>
-  
-  <div style="margin: 15px 0; font-size:12px; color:#aaa; background:#000; padding:10px; border:1px solid #333;">
-    <b style="color:#00ffff;">Camadas Disponíveis no Gacha:</b><br>
-    • Hacker Style (Neon Green) <br>
-    • Cyberpunk Outfit (Cyber Pink) <br>
-    • Gamer Pro Jacket (RGB Purple) <br>
-    • Dev Senior Cape (Coffee Brown) <br>
-    • Batata Doce Model (Kawaii Pink)
-  </div>
-
-  <button type="button" onclick="comprarRoupa()" style="width:100%; background:#ffff00; color:#000; border:none; padding:12px; font-weight:bold; cursor:pointer; font-family:monospace; font-size:14px; margin-bottom:10px; box-shadow: 0 0 10px rgba(255,255,0,0.3);">
-    🎲 SORTEAR ROUPA ALEATÓRIA (Custa 10 Chats)
-  </button>
-  <button type="button" onclick="fecharShop()" style="width:100%; background:#ff3333; color:#000; border:none; padding:10px; font-weight:bold; cursor:pointer; font-family:monospace; font-size:13px;">
-    VOLTAR AO TERMINAL
-  </button>
-</div>
-
-<div id="telaFeedback" style="display:none; max-width:500px; margin: 20px auto; background:#0d0d0d; border:2px solid #ff00ff; padding:20px; border-radius:5px; text-align:left; box-shadow: 0 0 20px rgba(255,0,255,0.2);">
-  <h3 style="color:#ff00ff; text-align:center; margin-top:0; letter-spacing:1px;">💬 ENVIAR FEEDBACK SISTEMA</h3>
-  <p style="font-size:12px; color:#ff88ff; margin-bottom:12px;">Deixe sua mensagem para os desenvolvedores ou insira o código de admin de feedbacks abaixo.</p>
-  
-  <textarea id="txtFeedbackMsg" placeholder="Escreva aqui sua opinião, críticas ou bugs encontrados..." style="width:100%; height:80px; background:#000; color:#ff00ff; border:1px solid #ff00ff; padding:8px; font-family:monospace; box-sizing:border-box; outline:none; resize:none; margin-bottom:10px;"></textarea>
-  
-  <div style="display:flex; gap:10px; margin-bottom:15px;">
-    <input type="text" id="codFeedbackAdmin" placeholder="Código Admin (Se tiver)" style="flex:1; background:#000; color:#ffff00; border:1px solid #ffff00; padding:8px; font-family:monospace; font-size:12px; text-align:center; outline:none;">
-    <button type="button" onclick="verificarCodigoFeedback()" style="background:#ffff00; color:#000; border:none; font-weight:bold; padding:0 15px; cursor:pointer; font-family:monospace; font-size:12px;">[ VER FEEDBACKS ]</button>
-  </div>
-
-  <div id="containerListaFeedbacks" style="display:none; max-height:150px; overflow-y:auto; background:#000; border:1px dashed #ff00ff; padding:8px; margin-bottom:15px; font-size:11px;">
-     <table style="width:100%; text-align:left; border-collapse:collapse; color:#fff;">
-       <thead>
-         <tr style="border-bottom:1px solid #ff00ff; color:#ff00ff;">
-           <th>E-mail</th>
-           <th>Mensagem</th>
-         </tr>
-       </thead>
-       <tbody id="corpoTabelaFeedbacks"></tbody>
-     </table>
-  </div>
-
-  <div style="display:flex; gap:10px;">
-    <button type="button" onclick="enviarFeedbackDados()" style="flex:1; background:#ff00ff; color:#000; border:none; padding:10px; font-weight:bold; cursor:pointer; font-family:monospace;">ENVIAR FEEDBACK</button>
-    <button type="button" onclick="fecharFeedback()" style="flex:1; background:#ff3333; color:#000; border:none; padding:10px; font-weight:bold; cursor:pointer; font-family:monospace;">VOLTAR</button>
-  </div>
-</div>
-
-<div id="terminal" style="display:none; text-align:left; max-width:500px; margin: 10px auto; background:#050505; border: 1px solid #00ff00; padding: 15px; border-radius: 5px; box-shadow: 0 0 20px rgba(0,25,0,0.2); min-height: 200px; box-sizing: border-box; position:relative; z-index: 10;">
-  
-  <div style="position:absolute; top:10px; right:10px; display:flex; gap:10px; z-index:100; align-items: center;">
-    <button type="button" id="btnFeedbackTop" onclick="abrirFeedback()" style="background:none; border:1px solid #ff00ff; color:#ff00ff; font-size:11px; padding:2px 6px; border-radius:3px; cursor:pointer; font-family:monospace; text-shadow:0 0 3px #ff00ff;" title="Enviar Feedback">FEEDBACK</button>
-    <button type="button" id="btnRadio" onclick="alternarRadio()" style="background:none; border:none; color:#ff00ff; font-size:16px; cursor:pointer; text-shadow:0 0 5px #ff00ff;" title="Rádio Cyberpunk">📻 <span id="statusRadio" style="font-size:10px; color:#fff;">OFF</span></button>
-    <button type="button" id="btnShop" onclick="abrirShop()" style="background:none; border:none; color:#00ffff; font-size:18px; cursor:pointer; text-shadow:0 0 5px #00ffff;">🛍️</button>
-    <button type="button" id="btnConfig" onclick="abrirConfig()" style="background:none; border:none; color:#ffff00; font-size:18px; cursor:pointer; text-shadow:0 0 5px #ffff00;">⚙️</button>
-  </div>
-
-  <div style="border-bottom: 1px solid #00ff00; padding-bottom: 5px; margin-bottom: 15px; font-size: 11px; color: #00aa00;">
-    ROOT@BATATA_CORE_OS:~# <span style="color:#00ffff;" id="perfilPainel">GUEST</span>
-    <span style="float:right; color:#ffff00; margin-left: 10px;" id="contadorChats">CHATS: 0</span>
-  </div>
-
-  <div id="containerHumor" style="display:none; font-size:11px; color:#ffaa00; margin-bottom:10px; border:1px dashed #333; padding:5px; background:#0c0c0c;">
-    🧠 HUMOR DA IA: <span id="barraHumor" style="color:#00ff00; font-weight:bold;">██████████ 100% (Estável)</span>
-  </div>
-
-  <div id="log" style="font-size: 13px; line-height: 1.4;"></div>
-  <div id="barraCarregamento" style="display:none; margin-top:15px; font-weight:bold; font-size:13px;"></div>
-  
-  <div id="seguranca2" style="display:none; margin-top:20px; border-top: 1px dashed #00ff00; padding-top:15px;">
-    <p id="txtAlertaAdmin" style="color: #ff3333; font-weight:bold; animation: blink 1s infinite; font-size:13px;">[!] ALERTA: AUTENTICAÇÃO REQUERIDA</p>
-    <label id="labelAdminCode">COD_ADMIN: </label>
-    <input type="password" id="inputAdmin" inputmode="numeric" pattern="[0-9]*" maxlength="5" style="background:#000; color:#00ff00; border:1px solid #00ff00; width:90px; text-align:center; padding:5px; outline:none; font-size:16px;">
-    <button type="button" id="btnAutenticarAdmin" onclick="autenticarAdmin()" style="background:#00ff00; color:#000; border:none; padding:6px 12px; font-weight:bold; cursor:pointer; font-size:13px; margin-left:5px;">OK</button>
-  </div>
-
-  <div id="containerBatata" style="display:none; margin-top:35px; text-align:center;">
-    
-    <div class="cena-trabalho" style="display: flex; justify-content: center; align-items: center; gap: 10px; min-height: 110px; position:relative; z-index: 1;">
-      <div id="superPC" class="super-pc">
-        <div class="tela-pc"><code id="codeTxt">CODI<br>NG..</code></div>
-        <div class="teclado-pc"></div>
-      </div>
-
-      <div id="batataCorpo" class="batata-corpo digitando">
-        <button type="button" id="btnCriadorSecreto" onclick="ativarModoCriador()" style="display:none; position:absolute; top:0; left:50%; transform:translateX(-50%); width:30px; height:15px; background:transparent; border:none; cursor:pointer; z-index:100; outline:none;"></button>
-
-        <div id="batataRoupa" class="roupa-base roupa-cueca">
-          <div class="detalhe-cueca"></div>
+    <!-- 3. TELA DE RECUPERAÇÃO DE SENHA -->
+    <div id="forgot-screen" class="container hidden">
+        <h2>🍟 Recuperar Senha</h2>
+        <div class="alert-security">⚠️ Proteja sua conta! Não envie códigos ou senhas para terceiros.</div>
+        
+        <div id="step-1">
+            <div class="form-group"><label>Gmail Cadastrado</label><input type="email" id="forgot-email" placeholder="nome@gmail.com"></div>
+            <div class="form-group"><label>Número de Telefone</label><input type="tel" id="forgot-phone" placeholder="Ex: 11999999999"></div>
+            <button onclick="enviarCodigoVerificacao()">Gerar Código Batata</button>
         </div>
         
-        <div id="batataOculos" class="oculos-hacker"></div>
-
-        <div class="headset">
-          <div class="arco"></div>
-          <div class="fone-esq"></div>
-          <div class="fone-dir"></div>
+        <div id="step-2" class="hidden">
+            <div class="box-batata">
+                <label>🍟 Digite o Batata-Código de 4 dígitos:</label>
+                <input type="text" id="verification-code-input" maxlength="4" placeholder="0000">
+            </div>
+            <button style="margin-top:15px;" onclick="verificarCodigo()">Validar Código</button>
         </div>
-        <div class="olhos">
-          <div id="olhoEsq" class="olho-esq"><div class="pupila"></div></div>
-          <div id="olhoDir" class="olho-dir"><div class="pupila"></div></div>
+
+        <div id="step-3" class="hidden">
+            <div class="form-group"><label>Nova Senha</label><input type="password" id="new-password-input" placeholder="Digite a nova senha"></div>
+            <button onclick="atualizarSenha()">Atualizar Senha</button>
         </div>
-        <div id="batataBoca" class="boca"></div>
-        <div class="braco-esq"></div>
-        <div class="braco-dir"></div>
-        <div class="pe-esq"></div>
-        <div class="pe-dir"></div>
-      </div>
+        <div class="switch-form"><a href="#" onclick="alternarTela('login')">Voltar para o Login</a></div>
     </div>
 
-    <div style="margin-top:15px; background:#111; border:2px solid #ffff00; border-radius:5px; padding:12px; color:#fff; font-size:14px; text-shadow:none; text-align:left; box-shadow: 0 0 15px rgba(255,255,0,0.3); max-height:220px; overflow-y:auto; position: relative; z-index: 5;">
-      <span id="txtCoreVersao" style="color:#ffff00; font-weight:bold; display:block; margin-bottom:5px; text-align:center;">[ GEMINI_BATATA_CORE v1.5 ]</span>
-      <span id="textoDialogo"></span>
+    <!-- 4. TELA PRINCIPAL APP -->
+    <div id="app-screen" class="hidden">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3 id="my-profile-name">Meu Perfil</h3>
+                <button style="width:auto; padding: 5px;" onclick="alert('Nome: '+usuarioLogado.nome+'\nTelefone: '+usuarioLogado.fone)">⚙️ Info</button>
+            </div>
+            <div class="action-area">
+                <label>Adicionar pelo Número:</label>
+                <input type="tel" id="search-phone" placeholder="Número do amigo...">
+                <button onclick="adicionarContato()">Adicionar Batata-Amigo</button>
+            </div>
+            <div class="contact-list" id="contacts-container"></div>
+        </div>
+
+        <div class="chat-area">
+            <div id="chat-blank-state" class="chat-blank">
+                <span style="font-size: 50px;">🍟</span>
+                <p>Selecione uma batata para conversar!</p>
+            </div>
+            <div id="chat-active-state" class="chat-area hidden">
+                <div class="chat-header">
+                    <div>
+                        <h3 id="chat-with-name">Nome</h3>
+                        <span id="chat-with-details" style="font-size:12px;"></span>
+                    </div>
+                    <!-- Botão de Salvar Contato Dinâmico -->
+                    <button id="btn-salvar-anonimo" class="btn-salvar-contato hidden" onclick="salvarContatoAnonimo()">💾 Salvar Batata</button>
+                </div>
+                <div class="chat-messages" id="messages-container"></div>
+                <div class="chat-input-bar">
+                    <label class="file-label">📁<input type="file" id="file-input" style="display: none;" onchange="enviarArquivo(this)"></label>
+                    <input type="text" id="message-text-input" placeholder="Digite uma mensagem...">
+                    <button style="width:auto; padding:12px 20px;" onclick="enviarMensagemTexto()">Enviar</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="previewUploadContainer" style="display:none; margin-bottom: 10px; background:#1a0000; border:1px solid #ff3333; padding:5px; border-radius:3px; text-align:left; position: relative; z-index: 5;">
-      <span style="font-size:11px; color:#ff3333; font-weight:bold;">🖼️ IMAGEM CARREGADA:</span>
-      <button type="button" onclick="removerImagemUpload()" style="float:right; background:none; border:none; color:#ff3333; cursor:pointer; font-weight:bold; padding:0 5px;">[X]</button>
-      <img id="imgUploadPreview" src="" style="max-height:50px; display:block; margin-top:5px; border:1px solid #ff3333;">
-    </div>
-
-    <div id="chatInterface" style="display:none; margin-top:15px; width: 100%; position: relative; z-index: 9999;">
-      <div class="interface-botoes-container">
-        <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="processarUploadImagem(this)">
-        
-        <button type="button" id="btnUploadImagem" onclick="document.getElementById('fileInput').click()" title="Enviar Imagem para a Batata">📁</button>
-        
-        <button type="button" id="btnPalmas" onclick="baterPalmasFisicas()" title="Bater Palmas para a Batata">👏</button>
-
-        <input type="text" id="promptIA" oninput="somDigitacaoUsuario()" placeholder="Pergunte algo ou peça um desenho...">
-        
-        <button type="button" id="btnEnviar" onclick="processarPrompt()">ENVIAR</button>
-      </div>
-    </div>
-
-    <div class="aviso-sobrecarga">
-      ⚡ Sistema Conectado Diretamente ao Engine Quântico Google Gemini Core
-    </div>
-
-    <div style="margin-top: 15px; text-align: right; opacity: 0.15; transition: opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.15">
-      <span onclick="acionarSelfDestruct()" style="font-size: 9px; color: #ff3333; cursor: pointer; font-family: monospace; border: 1px dashed #ff3333; padding: 2px 4px;">[ SYS_KERNEL_KILL ]</span>
-    </div>
-  </div>
-
-</div>
-
-<script>
-  function aceitarTermos() {
-    document.getElementById('telaAviso').style.display = 'none';
-    document.getElementById('telaLoginEmail').style.display = 'block';
-    if (window.inicializarAudioGlobal) { window.inicializarAudioGlobal(); }
-  }
-</script>
-
-<script type="importmap">
-  {
-    "imports": {
-      "@google/generative-ai": "https://esm.run/@google/generative-ai"
-    }
-  }
-</script>
-
-<script type="module">
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-const FALLBACK_KEY = "AIzaSy" + "DUMMY_KEY_ALTERE_SE_PRECIZAR"; 
-
-var lang = "pt";
-var textos = {
-  pt: {
-    restrito: "⚠️ ACESSO RESTRITO", credencial: "INSIRA A CREDENCIAL DE ACESSO:", inject: "INJETAR CARGA",
-    alertaAdmin: "[!] ALERTA: AUTENTICAÇÃO REQUERIDA", erroTitulo: "🚨 ACESSO BLOQUEADO 🚨",
-    erroMsg: "VOCÊ NÃO SABE O CÓDIGO?!", configTitulo: "⚙️ PAINEL DE CONFIGURAÇÃO",
-    configSub: "O sistema está conectado diretamente à API do Gemini Core.", lblPersonalidade: "Chave de API do Gemini:",
-    btnSalvar: "SALVAR CONFIG", btnVoltar: "VOLTAR AO CHAT", placeholder: "Mande-me criar uma imagem, faça perguntas complexas... 📈🤖",
-    btnEnviar: "ENVIAR", coreVersao: "[ GEMINI_BATATA_CORE v1.5 ]",
-    logs1: ["> Iniciando bypass de segurança...", "> Inicializando kernel modular...", "> Conectando aos servidores do Gemini..."],
-    logs2: ["🔓 PROTOCOLO DE CONEXÃO VALIDADO.", "> Abrindo portal visual de interação..."],
-    sync: "Sincronizando com dados locais...",
-    boasVindas: "Olá Administrator! 😳 Venha conversar comigo pelo terminal inferior! Seu progresso está salvo na nuvem local! Sou alimentada pelo Gemini Core, ultra rápida e nunca caio! Peça imagens ou mude meu visual! 🎨🛍️🥔",
-    proc: "Acessando banco de dados neural quântico do Gemini... 🧠⚙️",
-    recusado: "⚠️ SOLICITAÇÃO RECUSADA: Conteúdo adulto detectado. Mantenha o system limpo!",
-    voltou: "Opa voltou que bom! 🥳 ", tédioNariz: "*Limpando o nariz de cueca por falta de comandos... 👃🥔*",
-    tédioDança: "*Mandando aquela dancinha constrangedora só de cueca... 💃🎶*",
-    meme67Text: "*Batata ativou o Modo Meme 67: Excesso de preguiça acumulada no processador principal... 😴💤*"
-  },
-  en: {
-    restrito: "⚠️ ACCESS RESTRICTED", credencial: "ENTER ACCESS CREDENTIALS:", inject: "INJECT PAYLOAD",
-    alertaAdmin: "[!] ALERT: AUTHENTICATION REQUIRED", erroTitulo: "🚨 ACCESS BLOCKED 🚨",
-    erroMsg: "DON'T YOU KNOW THE CODE?!", configTitulo: "⚙️ CONFIGURATION PANEL",
-    configSub: "The system is connected to Gemini API Core.", lblPersonalidade: "Gemini API Key:",
-    btnSalvar: "SAVE CONFIG", btnVoltar: "BACK TO CHAT", placeholder: "Ask anything smart, send images... 🚀🤖",
-    btnEnviar: "SEND", coreVersao: "[ GEMINI_BATATA_CORE v1.5 ]",
-    logs1: ["> Initiating security bypass...", "> Initializing modular kernel...", "> Connecting to Gemini Core..."],
-    logs2: ["🔓 CONNECTION PROTOCOL VALIDATED.", "> Opening interaction visual portal..."],
-    sync: "Synchronizing with the holographic supercomputer...",
-    boasVindas: "Hello Admin! 😳 Chat with me on the terminal below! Fast, hyper-accurate, and precise! Backed by Gemini! Your progress is saved in our local cloud! Ask for drawings or buy items! 🎨🛍️🥔",
-    proc: "Accessing neural database... 🧠⚙️",
-    recusado: "⚠️ REQUEST DENIED: Adult content detected. Keep the system clean!",
-    voltou: "Oh, you're back! Great! 🥳 ", tédioNariz: "*Picking its nose in underwear due to lack of commands... 👃🥔*",
-    tédioDança: "*Dancing awkwardly in underpants to pass time... 💃🎶*",
-    meme67Text: "*Potato activated Meme 67: Overwhelming laziness slowing down the mainframe... 😴💤*"
-  }
-};
-
-window.emailUsuarioAtivo = "";
-window.chatsContador = 0;
-window.roupaEquipada = "roupa-cueca";
-window.humorIA = 100; 
-window.imagemBase64Carregada = ""; 
-
-window.roupasDisponiveis = ["roupa-hacker", "roupa-cyberpunk", "roupa-gamer", "roupa-senior", "roupa-doce"];
-window.audioCtx = null;
-window.intervaloAlarme = null;
-window.oscRadioNode = null;
-window.gainRadioNode = null;
-window.tocandoRadio = false;
-window.tempoRadioTimeout = null;
-window.intervaloDigitacaoGlobal = null;
-
-window.bancoFeedbacks = [
-  { email: "tester@matrix.com", msg: "Sistema de cueca muito maneiro! Conexão rápida." },
-  { email: "pabloeduardohonorato@gmail.com", msg: "O botão de enviar e o som de boot vintage estão funcionando perfeitamente agora!" }
-];
-
-window.iniciarAudio = function() {
-  try { if (!window.audioCtx) window.audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
-};
-
-window.inicializarAudioGlobal = function() {
-  window.iniciarAudio();
-  setTimeout(function() { somMoedaSucesso(); }, 50);
-};
-
-window.processarUploadImagem = function(input) {
-  if (input.files && input.files[0]) {
-    var leitor = new FileReader();
-    leitor.onload = function(e) {
-      window.imagemBase64Carregada = e.target.result;
-      document.getElementById('imgUploadPreview').src = window.imagemBase64Carregada;
-      document.getElementById('previewUploadContainer').style.display = 'block';
-      somMoedaSucesso();
-    };
-    leitor.readAsDataURL(input.files[0]);
-  }
-};
-
-window.removerImagemUpload = function() {
-  window.imagemBase64Carregada = "";
-  document.getElementById('fileInput').value = "";
-  document.getElementById('previewUploadContainer').style.display = 'none';
-  somClick();
-};
-
-window.carregarDadosUsuario = function(email) {
-  window.emailUsuarioAtivo = email.toLowerCase().trim();
-  var chave = "batata_ia_" + window.emailUsuarioAtivo;
-  var dadosSalvos = localStorage.getItem(chave);
-  
-  if (dadosSalvos) {
-    var dados = JSON.parse(dadosSalvos);
-    window.chatsContador = parseInt(dados.chats) || 0;
-    window.roupaEquipada = dados.roupa || "roupa-cueca";
-    if(dados.geminiKey) document.getElementById('geminiApiKey').value = dados.geminiKey;
-  } else {
-    window.chatsContador = 0;
-    window.roupaEquipada = "roupa-cueca";
-    salvarDadosUsuario();
-  }
-  
-  document.getElementById('perfilPainel').innerText = window.emailUsuarioAtivo.split('@')[0].toUpperCase();
-  document.getElementById('perfilAtivoConfig').innerText = window.emailUsuarioAtivo;
-  document.getElementById('contadorChats').innerText = "CHATS: " + window.chatsContador;
-  
-  var elementoRoupa = document.getElementById('batataRoupa');
-  if(elementoRoupa) {
-    elementoRoupa.className = "roupa-base " + window.roupaEquipada;
-  }
-};
-
-window.salvarDadosUsuario = function() {
-  if (!window.emailUsuarioAtivo) return;
-  var chave = "batata_ia_" + window.emailUsuarioAtivo;
-  var payload = {
-    chats: window.chatsContador,
-    roupa: window.roupaEquipada,
-    geminiKey: document.getElementById('geminiApiKey').value
-  };
-  localStorage.setItem(chave, JSON.stringify(payload));
-};
-
-window.conectarEmail = function() {
-  var emailInput = document.getElementById('userEmail').value;
-  if (emailInput.includes("@") && emailInput.length > 4) {
-    document.getElementById('telaLoginEmail').style.display = 'none';
-    document.getElementById('seguranca1').style.display = 'block';
-    window.carregarDadosUsuario(emailInput);
-    somMoedaSucesso();
-  } else {
-    alert("Por favor, digite um e-mail válido da Matrix.");
-  }
-};
-
-window.alternarRadio = function() {
-  window.iniciarAudio();
-  if (!window.audioCtx) return;
-  if (window.audioCtx.state === 'suspended') window.audioCtx.resume();
-  
-  if (window.tocandoRadio) {
-    window.tocandoRadio = false;
-    if (window.tempoRadioTimeout) clearTimeout(window.tempoRadioTimeout);
-    try { if (window.oscRadioNode) window.oscRadioNode.stop(); } catch(e){}
-    document.getElementById('statusRadio').innerText = "OFF";
-    document.getElementById('statusRadio').style.color = "#fff";
-  } else {
-    window.tocandoRadio = true;
-    document.getElementById('statusRadio').innerText = "LIVE";
-    document.getElementById('statusRadio').style.color = "#ff00ff";
-    tocarLoopRadio();
-  }
-};
-
-function tocarLoopRadio() {
-  if (!window.tocandoRadio) return;
-  try {
-    var escalas = [
-      [110, 130, 146, 164, 196, 220, 261, 293], 
-      [146, 164, 174, 196, 220, 246, 293, 329], 
-      [110, 164, 220, 329, 440, 329, 220, 164], 
-      [130, 155, 174, 185, 196, 233, 261, 311]  
-    ];
-
-    var escalaSelecionada = escalas[Math.floor(Math.random() * escalas.length)];
-    var multiplicadorTom = [0.5, 1, 1.5, 2][Math.floor(Math.random() * 4)]; 
-    var tiposOnda = ['square', 'sawtooth', 'triangle'];
-    var tipoOndaEscolhido = tiposOnda[Math.floor(Math.random() * tiposOnda.length)];
-    var temposNota = [0.15, 0.20, 0.25][Math.floor(Math.random() * 3)];
-    
-    var agora = window.audioCtx.currentTime;
-    
-    window.oscRadioNode = window.audioCtx.createOscillator();
-    window.gainRadioNode = window.audioCtx.createGain();
-    window.oscRadioNode.type = tipoOndaEscolhido;
-    
-    escalaSelecionada.forEach(function(f, idx) {
-      var freqFinal = f * multiplicadorTom;
-      if (Math.random() > 0.65) freqFinal *= 1.25; 
-      window.oscRadioNode.frequency.setValueAtTime(freqFinal, agora + (idx * temposNota));
-      if (idx % 2 === 0) {
-        window.oscRadioNode.frequency.setValueAtTime(freqFinal * 1.5, agora + (idx * temposNota) + 0.05);
-      }
-    });
-    
-    window.gainRadioNode.gain.setValueAtTime(0.012, agora);
-    window.gainRadioNode.gain.exponentialRampToValueAtTime(0.0001, agora + (escalaSelecionada.length * temposNota));
-    
-    window.oscRadioNode.connect(window.gainRadioNode);
-    window.gainRadioNode.connect(window.audioCtx.destination);
-    window.oscRadioNode.start(agora);
-    window.oscRadioNode.stop(agora + (escalaSelecionada.length * temposNota));
-    
-    window.tempoRadioTimeout = setTimeout(function() {
-      if (window.tocandoRadio) tocarLoopRadio();
-    }, escalaSelecionada.length * temposNota * 1000);
-  } catch(e) {}
-}
-
-window.executarSomWindowsAntigo = function() {
-  try {
-    window.iniciarAudio();
-    if(!window.audioCtx) return;
-    var agora = window.audioCtx.currentTime;
-    var icons = [174.61, 220.00, 261.63, 349.23, 523.25];
-    icons.forEach(function(freq, i) {
-      var osc = window.audioCtx.createOscillator();
-      var gainNode = window.audioCtx.createGain();
-      osc.type = (i % 2 === 0) ? 'triangle' : 'sine';
-      osc.frequency.setValueAtTime(freq, agora + (i * 0.08)); 
-      gainNode.gain.setValueAtTime(0.0, agora);
-      gainNode.gain.linearRampToValueAtTime(0.06, agora + (i * 0.08) + 0.1);
-      gainNode.gain.exponentialRampToValueAtTime(0.0001, agora + 2.2);
-      osc.connect(gainNode);
-      gainNode.connect(window.audioCtx.destination);
-      osc.start(agora + (i * 0.08));
-      osc.stop(agora + 2.5);
-    });
-  } catch(e) {}
-};
-
-window.atualizarHumor = function(modificador) {
-  window.humorIA += modificador;
-  if (window.humorIA > 100) window.humorIA = 100;
-  if (window.humorIA < 0) window.humorIA = 0;
-  var barra = document.getElementById('barraHumor');
-  var numBlocos = Math.round(window.humorIA / 10);
-  var blocos = "█".repeat(numBlocos);
-  var vazios = "░".repeat(10 - numBlocos);
-  var statusTxt = " (Estável)";
-  var cor = "#00ff00";
-  var filtroCorpo = "hue-rotate(0deg)";
-  if (window.humorIA <= 30) { statusTxt = " (Instável 👑)"; cor = "#ff3333"; filtroCorpo = "hue-rotate(320deg) saturate(2)"; } 
-  else if (window.humorIA <= 70) { statusTxt = " (Desconfiada 🤨)"; cor = "#ffff00"; filtroCorpo = "hue-rotate(45deg)"; } 
-  else if (window.humorIA > 85) { statusTxt = " (Feliz 🥰)"; cor = "#ff66cc"; }
-  if (barra) { barra.innerHTML = blocos + vazios + " " + window.humorIA + "%" + statusTxt; barra.style.color = cor; }
-  var cuerpo = document.getElementById('batataCorpo');
-  if(cuerpo && !cuerpo.classList.contains('carregando')) cuerpo.style.filter = filtroCorpo;
-};
-
-window.acionarSelfDestruct = function() {
-  window.iniciarAudio();
-  var conf = confirm("🚨 ALERTA CRÍTICO: Executar encerramento forçado do kernel?");
-  if (!conf) return;
-  var bMain = document.getElementById('bodyMain');
-  bMain.style.animation = "tremer 0.1s infinite";
-  iniciarAlarmeSirene();
-  var contagem = 5;
-  document.getElementById('textoDialogo').innerHTML = "🚨 AUTO-DESTRUIÇÃO EM " + contagem + "...";
-  var idxCD = setInterval(function() {
-    contagem--;
-    if (contagem > 0) { document.getElementById('textoDialogo').innerHTML = "🚨 AUTO-DESTRUIÇÃO EM " + contagem + "..."; somBipeProgresso(150); } 
-    else {
-      clearInterval(idxCD); pararAlarmeSirene();
-      if (window.tempoRadioTimeout) clearTimeout(window.tempoRadioTimeout);
-      try { if(window.oscRadioNode) window.oscRadioNode.stop(); } catch(e){}
-      bMain.style.animation = "none"; bMain.style.transform = "rotate(180deg) scale(0.2)"; bMain.style.filter = "blur(10px) invert(1)";
-      setTimeout(function() { document.body.innerHTML = "<div style='background:#0000aa; color:#fff; font-family:monospace; padding:30px; text-align:left; width:100vw; height:100vh; position:fixed; top:0; left:0; z-index:999999;'><h2 style='background:#fff; color:#000; display:inline-block; padding:2px 10px;'>A PROBLEM HAS BEEN DETECTED</h2><p>BATATA_CORE_OS_HAS_COLLAPSED_MEME_67</p><button type='button' onclick='window.location.reload()' style='background:#fff; color:#000; border:none; padding:10px 20px; font-family:monospace; font-weight:bold; cursor:pointer;'>[ REBOOT MATRIX ]</button></div>"; }, 600);
-    }
-  }, 1000);
-};
-
-window.somDigitacaoUsuario = function() {
-  try {
-    if (!window.audioCtx) return;
-    var osc = window.audioCtx.createOscillator(); var gain = window.audioCtx.createGain();
-    osc.type = 'sine'; osc.frequency.setValueAtTime(950 + Math.random() * 200, window.audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.02, window.audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, window.audioCtx.currentTime + 0.02);
-    osc.connect(gain); gain.connect(window.audioCtx.destination); osc.start(); osc.stop(window.audioCtx.currentTime + 0.02);
-  } catch(e) {}
-};
-
-window.somTecladoRealista = function() {
-  try {
-    if (!window.audioCtx) return;
-    var osc = window.audioCtx.createOscillator(); var gain = window.audioCtx.createGain(); var filtro = window.audioCtx.createBiquadFilter();
-    osc.type = 'triangle'; osc.frequency.setValueAtTime(180 + Math.random() * 260, window.audioCtx.currentTime);
-    filtro.type = 'bandpass'; filtro.frequency.setValueAtTime(1000, window.audioCtx.currentTime); filtro.Q.setValueAtTime(2, window.audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.04, window.audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, window.audioCtx.currentTime + 0.03);
-    osc.connect(filtro); filtro.connect(gain); gain.connect(window.audioCtx.destination); osc.start(); osc.stop(window.audioCtx.currentTime + 0.03);
-  } catch(e) {}
-};
-
-window.somClick = function() {
-  try {
-    if (!window.audioCtx) return;
-    var osc = window.audioCtx.createOscillator(); var gain = window.audioCtx.createGain();
-    osc.type = 'sine'; osc.frequency.setValueAtTime(600, window.audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(150, window.audioCtx.currentTime + 0.05);
-    gain.gain.setValueAtTime(0.08, window.audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, window.audioCtx.currentTime + 0.06);
-    osc.connect(gain); gain.connect(window.audioCtx.destination); osc.start(); osc.stop(window.audioCtx.currentTime + 0.06);
-  } catch(e) {}
-};
-
-window.somBipeProgresso = function(frequencia) {
-  try {
-    if (!window.audioCtx) return;
-    var osc = window.audioCtx.createOscillator(); var gain = window.audioCtx.createGain();
-    osc.type = 'sine'; osc.frequency.setValueAtTime(frequencia, window.audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.03, window.audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, window.audioCtx.currentTime + 0.08);
-    osc.connect(gain); gain.connect(window.audioCtx.destination); osc.start(); osc.stop(window.audioCtx.currentTime + 0.08);
-  } catch(e) {}
-};
-
-window.somMoedaSucesso = function() {
-  try {
-    if (!window.audioCtx) return;
-    var Geist = [523.25, 659.25, 783.99, 1318.51]; var agora = window.audioCtx.currentTime;
-    Geist.forEach(function(f, index) {
-      var osc = window.audioCtx.createOscillator(); var gain = window.audioCtx.createGain();
-      osc.type = 'sine'; osc.frequency.setValueAtTime(f, agora + (index * 0.07));
-      gain.gain.setValueAtTime(0.0, agora + (index * 0.07)); gain.gain.linearRampToValueAtTime(0.08, agora + (index * 0.07) + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.001, agora + (index * 0.07) + 0.25);
-      osc.connect(gain); gain.connect(window.audioCtx.destination); osc.start(agora + (index * 0.07)); osc.stop(agora + (index * 0.07) + 0.25);
-    });
-  } catch(e) {}
-};
-
-window.somErroAntigo = function() {
-  try {
-    if (!window.audioCtx) return;
-    var osc1 = window.audioCtx.createOscillator(); var osc2 = window.audioCtx.createOscillator(); var gain = window.audioCtx.createGain();
-    osc1.type = 'sawtooth'; osc1.frequency.setValueAtTime(140, window.audioCtx.currentTime);
-    osc2.type = 'square'; osc2.frequency.setValueAtTime(143, window.audioCtx.currentTime);
-    gain.gain.setValueAtTime(0.12, window.audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, window.audioCtx.currentTime + 0.25);
-    osc1.connect(gain); osc2.connect(gain); gain.connect(window.audioCtx.destination); osc1.start(); osc2.start(); osc1.stop(window.audioCtx.currentTime + 0.25); osc2.stop(window.audioCtx.currentTime + 0.25);
-  } catch(e) {}
-};
-
-function iniciarAlarmeSirene() {
-  try {
-    if (!window.audioCtx) return;
-    pararAlarmeSirene(); var subindo = true; var freq = 380;
-    window.intervaloAlarme = setInterval(function() {
-      try {
-        var osc = window.audioCtx.createOscillator(); var gain = window.audioCtx.createGain();
-        osc.type = 'sine'; osc.frequency.setValueAtTime(freq, window.audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.1, window.audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, window.audioCtx.currentTime + 0.18);
-        osc.connect(gain); gain.connect(window.audioCtx.destination); osc.start(); osc.stop(window.audioCtx.currentTime + 0.18);
-        if (subindo) { freq += 40; if(freq > 750) subindo = false; } else { freq -= 40; if(freq < 380) subindo = true; }
-      } catch(err) {}
-    }, 100);
-  } catch(err) {}
-}
-
-function pararAlarmeSirene() { if (window.intervaloAlarme) { clearInterval(window.intervaloAlarme); window.intervaloAlarme = null; } }
-
-window.abrirShop = function() {
-  document.getElementById('terminal').style.display = 'none';
-  document.getElementById('saldoShop').innerText = window.chatsContador;
-  document.getElementById('telaShop').style.display = 'block';
-  somBipeProgresso(700);
-};
-
-window.fecharShop = function() {
-  document.getElementById('telaShop').style.display = 'none';
-  document.getElementById('terminal').style.display = 'block';
-  somClick();
-};
-
-window.abrirFeedback = function() {
-  document.getElementById('terminal').style.display = 'none';
-  document.getElementById('telaFeedback').style.display = 'block';
-  somBipeProgresso(600);
-};
-
-window.fecharFeedback = function() {
-  document.getElementById('telaFeedback').style.display = 'none';
-  document.getElementById('terminal').style.display = 'block';
-  somClick();
-};
-
-window.enviarFeedbackDados = function() {
-  var texto = document.getElementById('txtFeedbackMsg').value.trim();
-  if(!texto) { alert("Por favor, digite alguma coisa!"); return; }
-  var mail = window.emailUsuarioAtivo ? window.emailUsuarioAtivo : "anonimo@matrix.com";
-  window.bancoFeedbacks.push({ email: mail, msg: texto });
-  document.getElementById('txtFeedbackMsg').value = "";
-  somMoedaSucesso();
-  alert("Feedback enviado com sucesso!");
-};
-
-window.verificarCodigoFeedback = function() {
-  var inputCod = document.getElementById('codFeedbackAdmin').value.trim();
-  var container = document.getElementById('containerListaFeedbacks');
-  var tabelaCorpo = document.getElementById('corpoTabelaFeedbacks');
-  if(inputCod === "123456") {
-    somMoedaSucesso(); tabelaCorpo.innerHTML = "";
-    window.bancoFeedbacks.forEach(function(item) {
-      var tr = document.createElement('tr');
-      tr.innerHTML = "<td style='padding:5px; color:#00ff00;'>" + item.email + "</td><td style='padding:5px; color:#fff;'>" + item.msg + "</td>";
-      tabelaCorpo.appendChild(tr);
-    });
-    container.style.display = "block";
-  } else { somErroAntigo(); container.style.display = "none"; alert("Código Inválido!"); }
-};
-
-window.comprarRoupa = function() {
-  if (window.chatsContador >= 10) {
-    window.chatsContador -= 10;
-    document.getElementById('contadorChats').innerText = "CHATS: " + window.chatsContador;
-    document.getElementById('saldoShop').innerText = window.chatsContador;
-    var sorteada = window.roupasDisponiveis[Math.floor(Math.random() * window.roupasDisponiveis.length)];
-    window.roupaEquipada = sorteada;
-    var elementoRoupa = document.getElementById('batataRoupa');
-    if(elementoRoupa) elementoRoupa.className = "roupa-base " + window.roupaEquipada;
-    salvarDadosUsuario(); somMoedaSucesso(); atualizarHumor(15);
-    alert("🎉 ROUPA DESBLOQUEADA!"); fecharShop();
-  } else { somErroAntigo(); alert("❌ Saldo insuficiente!"); }
-};
-
-window.mudarIdioma = function(id) {
-  lang = id; somClick();
-  document.getElementById('txtRestrito').innerText = textos[lang].restrito;
-  document.getElementById('txtCredencial').innerText = textos[lang].credencial;
-  document.getElementById('btnInject').innerText = textos[lang].inject;
-  document.getElementById('txtAlertaAdmin').innerText = textos[lang].alertaAdmin;
-  document.getElementById('txtErroTitulo').innerText = textos[lang].erroTitulo;
-  document.getElementById('txtConfigTitulo').innerText = textos[lang].configTitulo;
-  document.getElementById('txtConfigSub').innerText = textos[lang].configSub;
-  document.getElementById('lblPersonalidade').innerText = textos[lang].lblPersonalidade;
-  document.getElementById('btnSalvarConfig').innerText = textos[lang].btnSalvar;
-  document.getElementById('btnVoltarConfig').innerText = textos[lang].btnVoltar;
-  document.getElementById('promptIA').placeholder = textos[lang].placeholder;
-  document.getElementById('btnEnviar').innerText = textos[lang].btnEnviar;
-  document.getElementById('txtCoreVersao').innerText = textos[lang].coreVersao;
-};
-
-window.autenticar1 = function() {
-  var campo = document.getElementById('inputCodigo');
-  if (campo && campo.value === "1234") {
-    somBipeProgresso(900); 
-    document.getElementById('seguranca1').style.display = 'none';
-    document.getElementById('terminal').style.display = 'block';
-    digitarLinha(textos[lang].logs1, 0, function() { document.getElementById('seguranca2').style.display = 'block'; });
-  } else { dispararErro(); }
-};
-
-window.autenticarAdmin = function() {
-  var campoAdmin = document.getElementById('inputAdmin');
-  if (campoAdmin && (campoAdmin.value === "1234" || campoAdmin.value === "12345")) {
-    somBipeProgresso(1100); 
-    document.getElementById('seguranca2').style.display = 'none';
-    digitarLinha(textos[lang].logs2, 0, function() { mostrarProgresso(); });
-  } else { dispararErro(); }
-};
-
-window.abrirConfig = function() {
-  document.getElementById('terminal').style.display = 'none'; document.getElementById('telaConfig').style.display = 'block'; somBipeProgresso(650);
-};
-
-window.fecharConfig = function() {
-  document.getElementById('telaConfig').style.display = 'none'; document.getElementById('terminal').style.display = 'block'; somClick();
-};
-
-window.salvarConfig = function() { salvarDadosUsuario(); somMoedaSucesso(); alert("Saved!"); fecharConfig(); };
-
-window.mostrarProgresso = function() {
-  var barra = document.getElementById('barraCarregamento'); barra.style.display = 'block'; var progresso = 0;
-  var cuerpo = document.getElementById('batataCorpo');
-  if(cuerpo) { removerTodasAnimacoes(); cuerpo.classList.add('carregando'); }
-  var intervaloBarra = setInterval(function() {
-    if(progresso <= 100) {
-      var blocos = "█".repeat(progresso / 10); var vazios = "░".repeat(10 - (progresso / 10));
-      barra.innerHTML = "SINCRO_AI: [" + blocos + vazios + "] " + progresso + "%"; somBipeProgresso(250 + (progresso * 5)); progresso += 10;
-    } else {
-      clearInterval(intervaloBarra); 
-      var containerBatata = document.getElementById('containerBatata');
-      containerBatata.classList.add('fade-in-slow'); containerBatata.style.display = 'block';
-      executarSomWindowsAntigo();
-      document.getElementById('containerHumor').style.display = 'block';
-      document.getElementById('chatInterface').style.display = 'flex';
-      atualizarHumor(0);
-      document.getElementById('textoDialogo').innerHTML = textos[lang].sync;
-      setTimeout(concluirTrabalhoPC, 1500);
-    }
-  }, 80);
-};
-
-function concluirTrabalhoPC() {
-  document.getElementById('superPC').style.display = "none"; removerTodasAnimacoes();
-  document.getElementById('btnCriadorSecreto').style.display = 'block';
-  digitarFalaBatata(textos[lang].boasVindas);
-}
-
-function dispararErro() {
-  somErroAntigo(); iniciarAlarmeSirene();
-  document.getElementById('seguranca1').style.display = 'none'; document.getElementById('terminal').style.display = 'none';
-  var tela = document.getElementById('telaErro'); var container = document.getElementById('mensagensErro');
-  container.innerHTML = ""; tela.style.display = "flex";
-  for (var i = 0; i < 15; i++) {
-    var msg = document.createElement('div'); msg.innerHTML = textos[lang].erroMsg;
-    msg.style.position = "absolute"; msg.style.top = (Math.random() * 80) + "%";
-    msg.style.left = (Math.random() * 50) + "%"; msg.style.animation = "blink 0.2s infinite alternate";
-    container.appendChild(msg);
-  }
-}
-
-window.reiniciarSistema = function() { location.reload(); };
-
-function digitarLinha(listaLogs, indexLinha, callbackFinal) {
-  if (indexLinha < listaLogs.length) {
-    var divLog = document.getElementById('log'); var paragrafo = document.createElement('p'); paragrafo.style.margin = "4px 0";
-    divLog.appendChild(paragrafo); var texto = listaLogs[indexLinha]; var indexLetra = 0;
-    var intervaloLetra = setInterval(function() {
-      if (indexLetra < texto.length) { paragrafo.innerHTML += texto.charAt(indexLetra); somTecladoRealista(); indexLetra++; } 
-      else { clearInterval(intervaloLetra); setTimeout(function() { digitarLinha(listaLogs, indexLinha + 1, callbackFinal); }, 150); }
-    }, 15);
-  } else if (callbackFinal) { callbackFinal(); }
-}
-
-window.digitarFalaBatata = function(mensagem, callback) {
-  var container = document.getElementById('textoDialogo'); var boca = document.getElementById('batataBoca');
-  if(!container) return;
-  if (window.intervaloDigitacaoGlobal) { clearInterval(window.intervaloDigitacaoGlobal); }
-  container.innerHTML = ""; if(boca) boca.classList.add('falando');
-  var i = 0;
-  window.intervaloDigitacaoGlobal = setInterval(function() {
-    if(i < mensagem.length) { container.innerHTML += mensagem.charAt(i); somTecladoRealista(); i++; } 
-    else { clearInterval(window.intervaloDigitacaoGlobal); window.intervaloDigitacaoGlobal = null; if(boca) boca.classList.remove('falando'); if(callback) callback(); }
-  }, 25); 
-};
-
-window.baterPalmasFisicas = function() {
-  window.iniciarAudio(); atualizarHumor(10);
-  var cuerpo = document.getElementById('batataCorpo');
-  if(cuerpo) { removerTodasAnimacoes(); cuerpo.classList.add('pulando'); }
-  somMoedaSucesso();
-  digitarFalaBatata("👏 EBAA! Obrigado pelas palmas, mestre! +10% de Humor!");
-  setTimeout(function() { removerTodasAnimacoes(); }, 2500);
-};
-
-window.removerTodasAnimacoes = function() {
-  var cuerpo = document.getElementById('batataCorpo');
-  if(cuerpo) { cuerpo.classList.remove('digitando', 'dançando', 'pulando', 'carregando', 'coçando-nariz', 'meme-67', 'pegando-oculos'); }
-  var boca = document.getElementById('batataBoca'); if(boca) boca.classList.remove('falando');
-};
-
-window.processarPrompt = async function() {
-  var input = document.getElementById('promptIA'); if(!input) return;
-  var promptStr = input.value.trim(); if (!promptStr && !window.imagemBase64Carregada) return;
-  
-  window.chatsContador++; salvarDadosUsuario(); document.getElementById('contadorChats').innerText = "CHATS: " + window.chatsContador;
-  
-  if (promptStr.toLowerCase().includes("desenhe")) {
-    var urlRender = "https://image.pollinations.ai/p/" + encodeURIComponent(promptStr) + "?width=400&height=300&seed=" + Math.floor(Math.random() * 9999);
-    digitarFalaBatata("Gerando imagem... <br><img src='" + urlRender + "' style='width:100%'>");
-    input.value = ""; removerImagemUpload();
-    return;
-  }
-
-  var apiKeyDigitada = document.getElementById('geminiApiKey').value.trim();
-  var apiKeyUsar = apiKeyDigitada || FALLBACK_KEY;
-  
-  if (!apiKeyUsar || apiKeyUsar.includes("DUMMY_KEY")) {
-    digitarFalaBatata("🚨 [KERNEL ERROR] Chave de API ausente ou inválida. Toque na engrenagem ⚙️ no topo direito e insira sua chave do Google AI Studio para conversar com a Batata! 🥔");
-    input.value = ""; removerImagemUpload();
-    return;
-  }
-  
-  try {
-    var genAI = new GoogleGenerativeAI(apiKeyUsar);
-    
-    var model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash",
-      systemInstruction: "Você é a Batata_IA, uma inteligência artificial extremamente zoeira, hacker, sarcástica e engraçada desenvolvida por @batatadocegamer. Você usa cueca branca na Matrix Local. Responda de forma extremamente curta (máximo 2 linhas), usando gírias de internet, humor ácido e referências nerds. Nunca use introduções ou saudações como 'Olá!', vá direto à resposta zoeira. Se o usuário falar em inglês, mude seu comportamento para inglês zoeiro."
-    });
-    
-    var conteudosRequest = [];
-    
-    if (window.imagemBase64Carregada) {
-      var dadosLimposBase64 = window.imagemBase64Carregada.split(',')[1];
-      var mimeoType = window.imagemBase64Carregada.split(';')[0].split(':')[1];
-      
-      conteudosRequest.push({
-        inlineData: {
-          data: dadosLimposBase64,
-          mimeType: mimeoType
+    <script>
+        function obterUsuariosBD() {
+            try { return JSON.parse(localStorage.getItem('bz_usuarios')) || {}; } 
+            catch(e) { return {}; }
         }
-      });
-      
-      conteudosRequest.push({ text: promptStr || "O que é isso na imagem? Analise com seu humor de batata hacker." });
-    } else {
-      conteudosRequest.push({ text: promptStr });
-    }
-    
-    var configGeracao = {
-      maxOutputTokens: 120,
-      temperature: 0.8
-    };
-    
-    var cuerpoBatata = document.getElementById('batataCorpo');
-    if (cuerpoBatata) {
-      removerTodasAnimacoes();
-      cuerpoBatata.classList.add('digitando');
-    }
-    
-    var resultado = await model.generateContent({ 
-      contents: [{ role: 'user', parts: conteudosRequest }], 
-      generationConfig: configGeracao 
-    });
-    
-    var respostaTexto = resultado.response.text();
-    
-    if (cuerpoBatata) {
-      removerTodasAnimacoes();
-      var sorteioAnimacao = Math.random();
-      if (sorteioAnimacao < 0.25) {
-        cuerpoBatata.classList.add('dançando');
-      } else if (sorteioAnimacao < 0.50) {
-        cuerpoBatata.classList.add('coçando-nariz');
-      } else if (sorteioAnimacao < 0.75) {
-        cuerpoBatata.classList.add('pegando-oculos');
-        var oculos = document.getElementById('batataOculos');
-        if(oculos) { oculos.style.display = 'block'; oculos.style.opacity = '1'; }
-      } else {
-        cuerpoBatata.classList.add('digitando');
-      }
-    }
-    
-    atualizarHumor(Math.random() > 0.6 ? -5 : 5);
-    
-    digitarFalaBatata(respostaTexto, function() {
-      setTimeout(function() {
-        var c = document.getElementById('batataCorpo');
-        if (c && !c.classList.contains('carregando')) {
-          removerTodasAnimacoes();
-          var oculos = document.getElementById('batataOculos');
-          if(oculos) { oculos.style.display = 'none'; oculos.style.opacity = '0'; }
+        function salvarUsuariosBD(db) {
+            localStorage.setItem('bz_usuarios', JSON.stringify(db));
         }
-      }, 5000);
-    });
-    
-  } catch (erro) {
-    console.error(erro);
-    digitarFalaBatata("🚨 [KERNEL ERROR] Erro na Matrix Neural: Falha de conexão ou token inválido. Verifique se sua chave da API adicionada nas Configurações (⚙️) está correta e ativa! 🥔");
-  }
-  
-  input.value = ""; removerImagemUpload();
-};
+        function obterMensagensBD() {
+            try { return JSON.parse(localStorage.getItem('bz_messages')) || []; } 
+            catch(e) { return []; }
+        }
+        function salvarMensagensBD(msgs) {
+            localStorage.setItem('bz_messages', JSON.stringify(msgs));
+        }
 
-window.ativarModoCriador = function() {
-  var cod = prompt("⚙️ [SISTEMA] INSIRA A CHAVE MESTRA:");
-  if (cod === "2020") {
-    window.chatsContador += 999; salvarDadosUsuario(); document.getElementById('contadorChats').innerText = "CHATS: " + window.chatsContador;
-    digitarFalaBatata("🚨 DETECTADO PROTOCOLO ALFA! 🚨");
-  }
-};
-</script>
+        let usuarioLogado = null;
+        let contatoAtivoNum = null;
+        let codigoGerado = null;
+        let telefoneRecuperacao = null;
+        let totalMensagensAntigas = 0;
+
+        function alternarTela(tela) {
+            document.getElementById('register-screen').classList.add('hidden');
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('forgot-screen').classList.add('hidden');
+            
+            if (tela === 'login') document.getElementById('login-screen').classList.remove('hidden');
+            if (tela === 'register') document.getElementById('register-screen').classList.remove('hidden');
+            if (tela === 'forgot') {
+                document.getElementById('forgot-screen').classList.remove('hidden');
+                document.getElementById('step-1').classList.remove('hidden');
+                document.getElementById('step-2').classList.add('hidden');
+                document.getElementById('step-3').classList.add('hidden');
+            }
+        }
+
+        function cadastrar() {
+            const nome = document.getElementById('reg-name').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const senha = document.getElementById('reg-password').value;
+            const fone = document.getElementById('reg-phone').value.trim();
+
+            if(!nome || !email || !senha || !fone) return alert("Por favor, preencha todos os campos!");
+
+            let db = obterUsuariosBD();
+            if(db[fone]) return alert("Esse número já possui conta!");
+
+            db[fone] = { nome, email, senha, fone, contatos: [], nomesCustomizados: {} };
+            salvarUsuariosBD(db);
+
+            alert("Conta criada!");
+            fazerLoginEfetivo(db[fone]);
+        }
+
+        function login() {
+            const email = document.getElementById('login-email').value.trim();
+            const fone = document.getElementById('login-phone').value.trim();
+            const senha = document.getElementById('login-password').value;
+
+            if(!email || !fone || !senha) return alert("Preencha todos os campos!");
+
+            let db = obterUsuariosBD();
+            let conta = db[fone];
+
+            if(conta && conta.email === email && conta.senha === senha) {
+                if(!conta.nomesCustomizados) conta.nomesCustomizados = {};
+                fazerLoginEfetivo(conta);
+            } else {
+                alert("Dados incorretos! Verifique os dados digitados.");
+            }
+        }
+
+        function enviarCodigoVerificacao() {
+            const email = document.getElementById('forgot-email').value.trim();
+            const fone = document.getElementById('forgot-phone').value.trim();
+
+            let db = obterUsuariosBD();
+            let conta = db[fone];
+
+            if(conta && conta.email === email) {
+                telefoneRecuperacao = fone;
+                codigoGerado = Math.floor(1000 + Math.random() * 9000); 
+                
+                alert(`🍟 [CÓDIGO GERADO]\n\nSeu código de recuperação é: ${codigoGerado}`);
+                
+                document.getElementById('step-1').classList.add('hidden');
+                document.getElementById('step-2').classList.remove('hidden');
+            } else {
+                alert("Nenhuma conta encontrada com esses dados!");
+            }
+        }
+
+        function verificarCodigo() {
+            const codigoDigitado = document.getElementById('verification-code-input').value.trim();
+            if(codigoDigitado === String(codigoGerado)) {
+                alert("Código confirmado!");
+                document.getElementById('step-2').classList.add('hidden');
+                document.getElementById('step-3').classList.remove('hidden');
+            } else {
+                alert("Código incorreto!");
+            }
+        }
+
+        function atualizarSenha() {
+            const novaSenha = document.getElementById('new-password-input').value;
+            if(!novaSenha) return alert("Digite a nova senha!");
+
+            let db = obterUsuariosBD();
+            if(db[telefoneRecuperacao]) {
+                db[telefoneRecuperacao].senha = novaSenha;
+                salvarUsuariosBD(db);
+                alert("Senha updated! Faça login.");
+                alternarTela('login');
+            }
+        }
+
+        function fazerLoginEfetivo(usuario) {
+            usuarioLogado = usuario;
+            document.getElementById('register-screen').classList.add('hidden');
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('app-screen').classList.remove('hidden');
+            document.body.style.backgroundImage = "none";
+
+            document.getElementById('my-profile-name').innerText = "🥔 " + usuarioLogado.nome;
+            atualizarListaContatos();
+            
+            setInterval(renderizarMensagens, 1000);
+            setInterval(atualizarListaContatosPeriodico, 2000); // Mantém a lista lateral atualizada se novos chats entrarem
+        }
+
+        function adicionarContato() {
+            const numAlvo = document.getElementById('search-phone').value.trim();
+            if(!numAlvo) return;
+            if(numAlvo === usuarioLogado.fone) return alert("Você não pode se adicionar!");
+
+            let db = obterUsuariosBD();
+            let amigo = db[numAlvo];
+
+            if(!amigo) return alert("Número não cadastrado!");
+
+            if(!usuarioLogado.contatos) usuarioLogado.contatos = [];
+            if(usuarioLogado.contatos.includes(numAlvo)) return alert("Já é seu contato!");
+
+            usuarioLogado.contatos.push(numAlvo);
+            db[usuarioLogado.fone].contatos = usuarioLogado.contatos;
+            salvarUsuariosBD(db);
+
+            document.getElementById('search-phone').value = "";
+            alert("Contato detectado!");
+            atualizarListaContatos();
+        }
+
+        // Lógica de proteção e anonimato para exibição de nomes
+        function obterNomeExibicao(foneAlvo, dadosAmigo) {
+            if(!usuarioLogado.contatos) usuarioLogado.contatos = [];
+            
+            // Se o usuário já salvou essa pessoa na lista dele
+            if(usuarioLogado.contatos.includes(foneAlvo)) {
+                if(usuarioLogado.nomesCustomizados && usuarioLogado.nomesCustomizados[foneAlvo]) {
+                    return usuarioLogado.nomesCustomizados[foneAlvo];
+                }
+                return dadosAmigo ? dadosAmigo.nome : "Batata Amiga";
+            }
+            // Se não salvou, aparece como Anônimo
+            return "Anônimo (" + foneAlvo + ")";
+        }
+
+        function atualizarListaContatosPeriodico() {
+            // Varre o banco de mensagens para ver se alguém enviou mensagem sem estar na lista de contatos
+            let todasMsgs = obterMensagensBD();
+            let db = obterUsuariosBD();
+            let alterou = false;
+
+            todasMsgs.forEach(m => {
+                if(m.para === usuarioLogado.fone && !usuarioLogado.contatos.includes(m.de)) {
+                    usuarioLogado.contatos.push(m.de);
+                    alterou = true;
+                }
+            });
+
+            if(alterou) {
+                db[usuarioLogado.fone].contatos = usuarioLogado.contatos;
+                salvarUsuariosBD(db);
+                atualizarListaContatos();
+            }
+        }
+
+        function atualizarListaContatos() {
+            const container = document.getElementById('contacts-container');
+            if(!container) return;
+            
+            // Preserva o scroll original
+            const scrollPos = container.scrollTop;
+            container.innerHTML = "";
+            let db = obterUsuariosBD();
+            let meusContatos = usuarioLogado.contatos || [];
+
+            meusContatos.forEach(foneNum => {
+                let dadosAmigo = db[foneNum];
+                
+                let item = document.createElement('div');
+                item.className = "contact-item" + (contatoAtivoNum === foneNum ? " active" : "");
+                item.onclick = function() { abrirConversa(foneNum); };
+                
+                let nomeExibicao = obterNomeExibicao(foneNum, dadosAmigo);
+
+                item.innerHTML = '<div style="font-weight:bold;">🥔 '+nomeExibicao+'</div><div style="font-size:12px;color:#7f6855">Tel: '+foneNum+'</div>';
+                container.appendChild(item);
+            });
+            container.scrollTop = scrollPos;
+        }
+
+        function abrirConversa(foneNum) {
+            contatoAtivoNum = foneNum;
+            let db = obterUsuariosBD();
+            let amigo = db[foneNum];
+
+            document.getElementById('chat-blank-state').classList.add('hidden');
+            document.getElementById('chat-active-state').classList.remove('hidden');
+            
+            let nomeExibicao = obterNomeExibicao(foneNum, amigo);
+            document.getElementById('chat-with-name').innerText = nomeExibicao;
+            document.getElementById('chat-with-details').innerText = "Tel: " + foneNum;
+            
+            // Controla a visibilidade do botão Salvar caso seja Anônimo
+            const btnSalvar = document.getElementById('btn-salvar-anonimo');
+            if(!usuarioLogado.nomesCustomizados || !usuarioLogado.nomesCustomizados[foneNum]) {
+                btnSalvar.classList.remove('hidden');
+            } else {
+                btnSalvar.classList.add('hidden');
+            }
+
+            totalMensagensAntigas = 0; 
+            atualizarListaContatos();
+            renderizarMensagens();
+        }
+
+        // Função do botão de salvar com aviso de segurança
+        function salvarContatoAnonimo() {
+            alert("⚠️ ATENÇÃO: Só salve pessoas confiáveis!");
+            
+            let novoNome = prompt("Digite o nome para salvar este Batata-Amigo:");
+            if(!novoNome || !novoNome.trim()) return;
+
+            if(!usuarioLogado.nomesCustomizados) usuarioLogado.nomesCustomizados = {};
+            usuarioLogado.nomesCustomizados[contatoAtivoNum] = novoNome.trim();
+            
+            // Se por algum motivo não estava no array de contatos, adiciona agora
+            if(!usuarioLogado.contatos.includes(contatoAtivoNum)) {
+                usuarioLogado.contatos.push(contatoAtivoNum);
+            }
+
+            let db = obterUsuariosBD();
+            db[usuarioLogado.fone].nomesCustomizados = usuarioLogado.nomesCustomizados;
+            db[usuarioLogado.fone].contatos = usuarioLogado.contatos;
+            salvarUsuariosBD(db);
+
+            alert("Contato salvo com sucesso!");
+            
+            // Atualiza a tela imediatamente
+            document.getElementById('chat-with-name').innerText = novoNome.trim();
+            document.getElementById('btn-salvar-anonimo').classList.add('hidden');
+            atualizarListaContatos();
+            
+            totalMensagensAntigas = 0; 
+            renderizarMensagens();
+        }
+
+        function renderizarMensagens() {
+            if(!contatoAtivoNum) return;
+            const container = document.getElementById('messages-container');
+            let todasMsgs = obterMensagensBD();
+            let db = obterUsuariosBD();
+
+            let msgsFiltradas = todasMsgs.filter(m => 
+                (m.de === usuarioLogado.fone && m.para === contatoAtivoNum) ||
+                (m.de === contatoAtivoNum && m.para === usuarioLogado.fone)
+            );
+
+            if(totalMensagensAntigas === msgsFiltradas.length) return;
+            totalMensagensAntigas = msgsFiltradas.length;
+
+            container.innerHTML = "";
+            msgsFiltradas.forEach(m => {
+                let div = document.createElement('div');
+                div.className = "msg " + (m.de === usuarioLogado.fone ? "sent" : "received");
+                
+                let spanFone = document.createElement('span');
+                spanFone.className = "sender-phone";
+                
+                // Exibe o nome customizado se houver ou mantém o número
+                if(m.de === usuarioLogado.fone) {
+                    spanFone.innerText = usuarioLogado.nome + " (" + m.de + ")";
+                } else {
+                    let nomeIdentificador = usuarioLogado.nomesCustomizados && usuarioLogado.nomesCustomizados[m.de] 
+                        ? usuarioLogado.nomesCustomizados[m.de] 
+                        : "Anônimo";
+                    spanFone.innerText = nomeIdentificador + " (" + m.de + ")";
+                }
+                
+                div.appendChild(spanFone);
+
+                if(m.tipo === 'texto') {
+                    let textoNode = document.createTextNode(m.conteudo);
+                    div.appendChild(textoNode);
+                } else {
+                    let fileContainer = document.createElement('span');
+                    fileContainer.innerHTML = '📁 <strong>Arquivo:</strong><br><a class="file-link" href="'+m.conteudo+'" download="'+m.nomeArquivo+'">'+m.nomeArquivo+'</a>';
+                    div.appendChild(fileContainer);
+                }
+                container.appendChild(div);
+            });
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function enviarMensagemTexto() {
+            const input = document.getElementById('message-text-input');
+            const texto = input.value.trim();
+            if(!texto || !contatoAtivoNum) return;
+
+            let todasMsgs = obterMensagensBD();
+            todasMsgs.push({ de: usuarioLogado.fone, para: contatoAtivoNum, tipo: 'texto', conteudo: texto });
+            salvarMensagensBD(todasMsgs);
+            input.value = "";
+            renderizarMensagens();
+            input.focus();
+        }
+
+        function enviarArquivo(inputElement) {
+            const arquivo = inputElement.files[0];
+            if(!arquivo || !contatoAtivoNum) return;
+
+            const leitor = new FileReader();
+            leitor.onload = function(e) {
+                let todasMsgs = obterMensagensBD();
+                todasMsgs.push({ de: usuarioLogado.fone, para: contatoAtivoNum, tipo: 'arquivo', conteudo: e.target.result, nomeArquivo: arquivo.name });
+                salvarMensagensBD(todasMsgs);
+                renderizarMensagens();
+            };
+            leitor.readAsDataURL(arquivo);
+            inputElement.value = "";
+        }
+    </script>
 </body>
 </html>
-
